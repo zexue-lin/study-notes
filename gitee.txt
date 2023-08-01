@@ -1,0 +1,143 @@
+----------建立本地文件夹与 gitee 仓库连接并上传文件--------- 
+
+1.去 gitee 建立仓库
+
+2.本地目录创建一个文件夹(本地仓库)，右键打开 Git Bash Here
+
+3.git init 命令初始化仓库
+
+4.git remote add origin '仓库的 HTTPS 地址' (与 Gitee 上的远程仓库建立连接)
+
+5.git add . 上传文件到暂存区
+
+6.git commit -m '说明文字' 上传到本地仓库
+！！！说明文字务必写清楚！！！
+
+7.git push -u origin "master" 把本地仓库的内容推送远程仓库里 master 分支(到此完成)
+
+8.下一次再提交内容还是要重复步骤 5~7，但是 7.可以直接用 git push
+
+rm -rf .git 删除文件夹中的.git 文件
+
+！！！！！！！！！！！
+Gitee Pages 服务 会自动匹配 index.html 页面
+所以第一个页面必须为 index.html
+！！！！！！！！！！！
+
+
+-----------------更新代码----------------
+上到仓库 
+
+【上传之前可以拉一下，git pull (防止直接提交时发生冲突)，，一般没事】
+
+git add .
+git commit -m 说明文字描述
+git push
+
+
+-----------------拉取代码----------------
+拉取代码
+sudo git pull
+
+如果拉取时出现冲突
+git fetch --all
+git reset --hard origin/master
+git pull
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+git config --global user.name "用户名"
+git config --global user.email "邮箱"
+
+dir window 查看目录
+
+ls Linux 查看目录
+
+第一次初始化
+
+mkdir 文件夹名 创建一个名称为 demo 的文件夹
+
+cd 路径 打开目录或者进入目录
+
+cls 清除 window 终端的记录
+
+git init 初始化 git 仓库
+
+git add . 把工作区里所有的文件添加暂存区里
+
+git add README.md 指定某个文件添加暂存区
+
+git status 查看本地仓库的状态
+
+git rm --cached README.md 把某个文件移出暂存区
+
+git commit -m 提交并且注释关于本次提交的信息
+
+git remote add origin 远程仓库地址 添加远程仓库
+
+git push -u origin "master" 把本地仓库的内容推送远程仓库里 master 分支
+
+已有仓库
+
+git add index.html demo.html 存到暂存区
+
+git restore --staged 把暂存区的某一个文件还原回工作区
+
+git status 查看仓库状态
+
+git commit -m 提交到本地仓库 '这一次提交的信息'.
+
+git push 提交到远程仓库内
+
+git pull 拉取最新的代码 防止后面直接提交时发生冲突
+
+git clone 克隆远程仓库的项目 (需要仓库地址)
+
+git revert commitID 撤回指定的一次提交
+
+更新代码
+
+
+git log 查看记录
+
+git restore --staged file 把暂存区里的某一个文件还原工作区
+
+git revert HEAD 撤销最新的一次提交
+
+git revert commitID 撤销指定的提交
+
+---------------------------分支操作--------------------------
+列出所有的分支
+git branch 或者 git branch -r
+
+基于当前分支创建新分支
+git branch demo
+
+切换分支
+git checkout demo
+
+在 demo 分支下创建文件，并添加 add 和 commit 提交
+
+在回到 master 分支上来，进行合并
+
+----------------rebase 合并 会保证一条完整的时间线
+切换到 master 分支 把 demo 合并到 master 分支上
+git checkout master
+
+合并
+git rebase 合并的分支名称
+git rebase demo
+
+----------------merge 合并 不会保持完整的时间线，并且会多一次提交的记录
+创建一条新的分支 test  
+git branch test
+
+新增一些文件
+
+先切换到要合并的分支上
+git checkout master
+
+他合并的时候， 会多一次提交记录
+git merge test
+
