@@ -39,13 +39,26 @@ git push
 拉取代码
 sudo git pull
 
-如果拉取时出现冲突
+！！！！！！！！！！！如果拉取时出现冲突！！！！！！！！！！！
 git fetch --all
 git reset --hard origin/master
 git pull
 
 -----------------git查看远程仓库名称----------------
 git remote -v
+
+添加一个仓库
+               仓库名称      仓库地址
+git remote add remote_name git@git.coding.net:KeithNull/keithnull.github.io.git
+
+若需进行push操作，则需要指定目标仓库，git push <repo> <branch>，对这两个远程仓库分别操作
+git push remote_name master
+
+pull操作也需要指定从哪个远程仓库拉取，git pull <repo> <branch>，从这两个仓库中选择其一：
+git pull origin master
+
+删除某个仓库
+git remote rm origin
 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
