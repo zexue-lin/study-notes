@@ -14,3 +14,5 @@
 3. `php artisan make:controller ResourceController --resource`包含了index、create、store、show、edit、update、destroy 等方法。
 4. `php artisan make:controller ApiController --api`快速生成不包含 create 和 edit 方法的用于开发接口的资源控制器。
 
+## .env环境变量文件
+![img_3.png](img_3.png)

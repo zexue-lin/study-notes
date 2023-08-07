@@ -24,7 +24,6 @@ Gitee Pages 服务 会自动匹配 index.html 页面
 所以第一个页面必须为 index.html
 ！！！！！！！！！！！
 
-
 -----------------更新代码----------------
 上到仓库 
 
@@ -33,6 +32,9 @@ Gitee Pages 服务 会自动匹配 index.html 页面
 git add .
 git commit -m 说明文字描述
 git push
+
+// 推到github仓库(study-notes)这个仓库
+git push github master
 
 
 -----------------拉取代码----------------
