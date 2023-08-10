@@ -27,10 +27,10 @@ DB_DATABASE=my_dbname    // 数据库名
 DB_USERNAME=homestead    // 用户名
 DB_PASSWORD=secret       // 密码
 ```
-6.保存后，运行<br>
+6.保存后，数据库迁移命令<br>
 `php artisan migrate`<br>
 
-如果有seeder的话，进行数据库迁移，，运行<br>
+如果有seeder的话，，是 Laravel 框架中用来填充数据库数据的命令，运行<br>
 `php artisan db:seed`<br>
 
 ### 因为上传到git的时候会把vendor和.env两个忽略 所以上面2  3 步骤就是在本地创建这两个<br>
