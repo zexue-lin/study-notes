@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>ip地址查看</title>
+    <script type="text/javascript" src="./jquery-2.1.4.min.js"></script>
+  </head>
+  <body>
+    <button id="btn">页面加载完成直接查询ip，详情见控制台</button>
+    <br />
+    <br />
+    <!-- <div id="where">您的ip所属地是:</div> -->
+    <div id="box"></div>
+  </body>
+  <!-- 在这里写JavaScript代码，因为JavaScript是由上到下执行的 -->
+  <script>
+    var city_list = [
+      '广州',
+      '深圳',
+      '佛山',
+      '东莞',
+      '惠州',
+      '珠海',
+      '中山',
+      '清远',
+      '韶关',
+      '汕头',
+      '汕尾',
+      '潮州',
+      '揭阳',
+      '梅州',
+      '河源',
+      '湛江',
+      '肇庆',
+      '江门',
+      '阳江',
+      '云浮',
+      '茂名',
+    ]
+    var city_tg = [
+      'gzjs',
+      'szjs',
+      'fsjs',
+      'dgjs',
+      'hzjs',
+      'zhjs',
+      'zsjs',
+      'qyjs',
+      'sgjs',
+      'stjs',
+      'swjs',
+      'czjs',
+      'jyjs',
+      'mzjs',
+      'hyjs',
+      'zjjs',
+      'zqjs',
+      'jmjs',
+      'yjjs',
+      'yfjs',
+      'mmjs',
+    ]
+
+    var city = ''
+    var city_code = ''
+
+    // 发起 AJAX 请求
+    $.ajax({
+      url: 'https://api.vore.top/api/IPdata',
+      type: 'GET',
+      success: function (data) {
+        console.log(data)
+        // 在成功回调中处理返回的数据
+        for (var i = 0; i < city_list.length; i++) {
+          if (data.ipdata.info2.indexOf(city_list[i]) != -1) {
+            city = data.ipdata.info2
+            city_code = city_tg[i]
+
+            console.log(city) //--城市名称+城市代码
+            console.log(city_code)
+          }
+        }
+      },
+      error: function (xhr, status, error) {
+        console.error(status + ': ' + error)
+        // 处理错误情况
+      },
+    })
+  </script>
+</html>

@@ -1,0 +1,2865 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>发布文章</title>
+    <link href="css/frame.css" rel="stylesheet" type="text/css" />
+    <script src="js/jquery-1.7.1.min.js" language="javascript" type="text/javascript"></script>
+    <script src="js/frame.js" language="javascript" type="text/javascript"></script>
+    <script language="javascript" type="text/javascript" src="js/leftmenu.js"></script>
+    <script language="javascript" src="../include/js/dedeajax2.js"></script>
+    <script type="text/javascript" src="js/calendar/calendar.js"></script>
+    <script language='javascript' src="js/main.js"></script>
+	<script src="../include/js/jquery-1.7.1.min.js"></script>
+    <!-- <script language="javascript" src="../include/js/jquery/jquery.js"></script> -->
+    <script language="javascript" src="../include/js/jquery/ui.core.js"></script>
+    <script language="javascript" src="../include/js/jquery/ui.draggable.js"></script>
+    <script lang='javascript' src='js/tb-box.js'></script>
+	
+	<script src="/include/ckeditor4/ckeditor.js"></script>
+
+
+      <!--公告相关css&js-start-->
+      <link href="../css/article_common.css" rel="stylesheet" type="text/css" />
+      <script lang='javascript' src='../js/article_common.js'></script>
+      <!--公告相关css&js-END-->
+
+
+
+    <link rel="stylesheet" href="css/news.css">
+	<link rel="stylesheet" href="layer/layui/css/layui.css">
+    <script src="layer/laydate/laydate.js"></script> 
+  <script type="text/javascript">
+    $(function() {
+      //   $('.showmenu').height($(document).height());
+      $('.look').click(function() {
+        $('.shadow,.rule').fadeIn();
+      });
+      $('.closed,.shadow').click(function() {
+        $('.shadow,.rule').fadeOut();
+      });
+    })
+    var swfu = null;
+    var arctype = 'article';
+
+    function len(s) {
+      var l = 0;
+      var a = s.split("");
+      for (var i = 0; i < a.length; i++) {
+        if (a[i].charCodeAt(0) < 299) {
+          l++;
+        } else {
+          l += 2;
+        }
+      }
+      return l;
+    }
+
+    // --提交按钮
+    function checkSubmit() {
+      //plg添加20121015
+      var oEditor = CKEDITOR.instances.body;
+      var Neirong = oEditor.getData();
+
+      <!-- if (Neirong.match(/中公|offcn.com|chinagwy.org|考试吧/)) { -->
+        <!-- alert("包含中公关或offcn或chinagwy或考试吧键字"); -->
+        <!-- return false; -->
+      <!-- } -->
+	  
+	  //判断u3手动上传的文件，有没有添加方法，如果没有则提示
+	  var theahreftext = Neirong.match(/<a(.*?)<\/a>/g);
+		if(theahreftext!=null){
+	  
+		  for(var aa = 0; aa < theahreftext.length ; aa++){
+		  
+				if(theahreftext[aa].indexOf('go/u3') != -1 && theahreftext[aa].indexOf('onclick="xcx') == -1 ){
+					//alert('内容存在手动上传的文件，却没有再次点击一键排版(带链接)，请点击一键排版(带链接)，修改内容再提交，记得要修改结尾落款缩进，内容为：'+theahreftext[aa]);
+					
+					var div = document.createElement("div");
+					div.innerHTML = theahreftext[aa];
+					var href = div.querySelector("a").href;
+					var text = div.querySelector("a").innerHTML;
+					var ahtml = "<a  href='"+href+"' " + ' onclick="xcx(\''+ href +'\')" >'+text+"</a>";
+					Neirong = Neirong.replace(theahreftext[aa],ahtml);				
+					
+					//return false;
+				}
+				if(theahreftext[aa].indexOf('href="https://u3.huatu.com') != -1 && theahreftext[aa].indexOf('onclick="xcx') == -1 ){
+					//alert('内容存在手动上传的文件，却没有再次点击一键排版(带链接)，请点击一键排版(带链接)，修改内容再提交，记得要修改结尾落款缩进，内容为：'+theahreftext[aa]);
+					var div = document.createElement("div");
+					div.innerHTML = theahreftext[aa];
+					var href = div.querySelector("a").href;
+					var text = div.querySelector("a").innerHTML;
+					var ahtml = "<a  href='"+href+"' " + ' onclick="xcx(\''+ href +'\')" >'+text+"</a>";
+					Neirong = Neirong.replace(theahreftext[aa],ahtml);				
+					
+					//return false;
+				}
+				if(theahreftext[aa].indexOf('xd.huatu.com') != -1 && theahreftext[aa].indexOf('onclick="xcx') == -1 ){
+					//alert('内容存在链接没有添加小程序方法，请手动添加或者点击一键排版(带链接)，内容为：'+theahreftext[aa]);
+					var div = document.createElement("div");
+					div.innerHTML = theahreftext[aa];
+					var href = div.querySelector("a").href;
+					var text = div.querySelector("a").innerHTML;
+					var ahtml = "<a  href='"+href+"' " + ' onclick="xcx(\''+ href +'\')" >'+text+"</a>";
+					Neirong = Neirong.replace(theahreftext[aa],ahtml);				
+					
+					//return false;
+				}
+				if(theahreftext[aa].indexOf('xue.huatu.com') != -1 && theahreftext[aa].indexOf('onclick="xcx') == -1 ){
+					//alert('内容存在链接没有添加小程序方法，请手动添加或者点击一键排版(带链接)，内容为：'+theahreftext[aa]);
+					var div = document.createElement("div");
+					div.innerHTML = theahreftext[aa];
+					var href = div.querySelector("a").href;
+					var text = div.querySelector("a").innerHTML;
+					var ahtml = "<a  href='"+href+"' " + ' onclick="xcx(\''+ href +'\')" >'+text+"</a>";
+					Neirong = Neirong.replace(theahreftext[aa],ahtml);				
+					
+					//return false;
+				}
+				if(theahreftext[aa].indexOf('v.huatucom') != -1 && theahreftext[aa].indexOf('onclick="xcx') == -1 ){
+					//alert('内容存在链接没有添加小程序方法，请手动添加或者点击一键排版(带链接)，内容为：'+theahreftext[aa]);
+					var div = document.createElement("div");
+					div.innerHTML = theahreftext[aa];
+					var href = div.querySelector("a").href;
+					var text = div.querySelector("a").innerHTML;
+					var ahtml = "<a  href='"+href+"' " + ' onclick="xcx(\''+ href +'\')" >'+text+"</a>";
+					Neirong = Neirong.replace(theahreftext[aa],ahtml);				
+					
+					//return false;
+				}
+				if(theahreftext[aa].indexOf('href') != -1 &&theahreftext[aa].indexOf('huatu') == -1 && theahreftext[aa].indexOf('onclick="xcx') == -1 ){
+					//alert('内容存在外链没有添加小程序方法，请手动添加或者点击一键排版(带链接)，内容为：'+theahreftext[aa]);
+					var div = document.createElement("div");
+					div.innerHTML = theahreftext[aa];
+					var href = div.querySelector("a").href;
+					var text = div.querySelector("a").innerHTML;
+					var ahtml = "<a  href='"+href+"' " + ' onclick="xcx(\''+ href +'\')" >'+text+"</a>";
+					Neirong = Neirong.replace(theahreftext[aa],ahtml);				
+					
+					//return false;
+				}
+				
+		  }
+		  oEditor.setData(Neirong);
+	  
+		}
+		if (Neirong.match(	/穆松公考培训|李永新|张永生|李琳|张红军|刘彦|于天笑|中公|启政教育|京佳教育|www.233.com|考试吧|华政教育|大公教育|鸿图教育|北京大公|北京新天地|北京金路|成都博大|江苏天策|江西锐才|陕西省中科|新东方在线|广东南方|河北顺通|粉笔公考|腰果公考|启公教育|光华教育|知满天教育|辽宁科信|新西南教育|大树教育|志公|海大源|题名教育|无忧考网|www.51test.net|华公教育|华梦教育|新东方|半月谈|中政|育路|纵横公考|天公华师|零点启航|鸿途教育|成功教育|新途径教育|尚政教育|图公教育|华都教育|东营启仕教育|诚博教育|中政教育|成功教育|京智|中创|畅学教育|联创世华|山香教育|士博教育|一路成公教育|明途教育|天道公考|大汉鸿儒教育|智拓教育|精图教育|国韵公考|国培公考|王智精英|展鸿公务员|慧普公务员|天策公务员|苏索公务员|善课思教育|启禾公务员|希赛|环球网校|中国教育在线电大平台|233网校|中海公务员|习近平书记|总书记总书记|总书记主席|公考雷达|公考资讯网|offcn.com/)) {
+		
+		    var keyword = Neirong.match(	/穆松公考培训|李永新|张永生|李琳|张红军|刘彦|于天笑|中公|启政教育|京佳教育|www.233.com|考试吧|华政教育|大公教育|鸿图教育|北京大公|北京新天地|北京金路|成都博大|江苏天策|江西锐才|陕西省中科|新东方在线|广东南方|河北顺通|粉笔公考|腰果公考|启公教育|光华教育|知满天教育|辽宁科信|新西南教育|大树教育|志公|海大源|题名教育|无忧考网|www.51test.net|华公教育|华梦教育|新东方|半月谈|中政|育路|纵横公考|天公华师|零点启航|鸿途教育|成功教育|新途径教育|尚政教育|图公教育|华都教育|东营启仕教育|诚博教育|中政教育|成功教育|京智|中创|畅学教育|联创世华|山香教育|士博教育|一路成公教育|明途教育|天道公考|大汉鸿儒教育|智拓教育|精图教育|国韵公考|国培公考|王智精英|展鸿公务员|慧普公务员|天策公务员|苏索公务员|善课思教育|启禾公务员|希赛|环球网校|中国教育在线电大平台|233网校|中海公务员|习近平书记|总书记总书记|总书记主席|公考雷达|公考资讯网|offcn.com/);
+			alert("包含中公关或offcn或chinagwy或考试吧等关键字，关键字为："+keyword);
+			return false;
+		 }
+	  
+      //plgend
+      if (document.form1.title.value == '') {
+        alert('文章标题不能为空！');
+        return false;
+      }
+      if (document.form1.keywords.value == '') {
+        alert('关键字是必填内容，请填写关键字！');
+        return false;
+      }
+      if (document.form1.description.value == '') {
+        alert('内容摘要是必填内容，请填写内容摘要！');
+        return false;
+      }
+      if (len(document.form1.description.value) < 20) {
+        alert('内容摘要长度不够！');
+        return false;
+      }
+      if (document.form1.typeid.value == 0) {
+        alert('请选择档案的主类别！');
+        return false;
+      }
+	  
+	  
+	  
+	  	
+		if(document.form1.bqzkxx.value==675||document.form1.bqzkxx.value==676){
+			if(document.form1.bkggbmsj.value==''||document.form1.bkggkssj.value==''){
+			 // ShowMsg("请填写报名时间或者考试时间！","-1");
+			   alert('请填写报名时间或者考试时间！');
+               return false;
+			}
+			
+		}
+	  
+	  
+    }
+
+    function addVote() {
+      tb_show('添加投票', 'vote_add.php?isarc=1&TB_iframe=true&height=460&width=600', false);
+    }
+
+    function selectVote() {
+      tb_show('选取投票', 'vote_main.php?issel=1', false);
+    }
+
+    function viewVote() {
+      if ($("#voteid").val()) {
+        window.open('<?php echo $cfg_cmsurl;?>/plus/vote.php?dopost=view&aid=' + $("#voteid").val());
+      } else {
+        alert('请选择一个投票');
+        return false;
+      }
+    }
+  </script>
+
+  <script type="text/javascript">
+    function showbiaoqian(str) {
+		
+      var xmlhttp;
+      if (str == "") {
+        document.getElementById("biaoqian").innerHTML = "";
+        return;
+      }
+      if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp = new XMLHttpRequest();
+      } else { // code for IE6, IE5
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+      }
+      xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+          document.getElementById("biaoqian").innerHTML = xmlhttp.responseText;
+        }
+      }
+      xmlhttp.open("GET", "biaoqian.php?q=" + str + "&timestamp=" + new Date().getTime(), true); //+"&timestamp=" + new Date().getTime()加上这个避免缓存看不到调试结果，最后可删除。
+      xmlhttp.send();
+	  changedishi(str);
+	  if(str == '14479'){
+	     CKEDITOR.instances.body.insertHtml("{题目}<br/>---------------------------------<br/>{答案}<br/>---------------------------------<br/>{解析}");
+	  }
+    }
+	
+	
+	function changedishi(str){
+	
+	    
+		var mouble = document.getElementById("moubles");
+		var num = parseInt(Math.random()*(9-1+1)+1);
+		mouble.options[num].selected = 'true';
+	    changemoublesstr(mouble.options[num].value,"top");
+	
+	   
+	    $.ajax({
+			  url:"http://172.23.0.125/uigfwereytEWrws/zChangedishi.php",
+			  data:{act:'change',id:str},
+			  dataType:"json",
+			  type: "post",
+			  async:false,
+			  success: function(data){
+
+			      //var data = JSON.parse(data);
+				  
+				  var diquid = document.getElementById("diquid");
+				  for(var i = 1 ; i < diquid.options.length ; i ++){
+				        if(diquid.options[i].text==data.str){
+						    diquid.options[i].selected = 'true';
+							break;
+						}
+						
+						     
+				  }
+				  
+				  
+			  },
+		  })
+	
+	}
+	
+	function onclickall(){
+	
+	
+	    formatText('1');
+		//formatText('0');
+		//GetContents();
+
+	   
+	   //全部上传方法（复制一个修改为全部的）
+	   postFtpall('images');
+	   // postFtp('images');
+		
+	   // postFtp('files');
+		
+	
+	   
+	    
+
+	}
+	
+			//添加服务号登录
+	function onclickallforwxfwh(){	 
+	   formatTextforwxfwh('1');
+	}	
+	
+	
+	
+     	function onclickforu3(){
+	
+	
+			 formatText('3');
+			alert('成功');
+
+		}	
+	
+	
+	
+  </script>
+  
+<script>
+	//点击事件，弹出窗口
+	function opengonggaoSelect(){
+		 layer.open({
+	   type: 2, //以frame型式加载content页面
+	   title: "选择文章",
+	   shadeClose: true,
+	   shade: 0.4,
+	   area: ['95%', '95%'],
+	   content: "http://172.23.0.125/uigfwereytEWrws/rililist.php", //指向页面
+	   btn: ['选择考试','关闭'], //底部按钮
+	   yes: function(index){
+			//当点击‘选择城市'按钮的时候，获取弹出层返回的值 
+			var res = window["layui-layer-iframe" + index].callback();
+			//打印返回的值，看是否有我们想返回的值。    
+
+			var jsondata = JSON.parse(res);
+			if(jsondata.code=='true'){
+				//alert(jsondata.wztitle); 
+				document.getElementById('wztitlestr').innerText = jsondata.wztitle;
+				var href = 'http://172.23.0.125/uigfwereytEWrws/archives_do.php?aid='+jsondata.wzaids+'&dopost=viewArchives';
+				document.getElementById('wztitlestr').href = href;
+				$('input[name="rilistid"]').val(jsondata.wzaids);
+				$('input[name="rilistleixing"]').val(jsondata.leixing);
+				$('input[name="rilistdatastr1"]').val(jsondata.datestr);
+				$('input[name="rilistdatastr2"]').val('');
+				//最后关闭弹出层
+				layer.close(index);
+			}else{
+			  alert('请选择文章和类型');
+			}
+	   },
+	   cancel: function(){
+		//右上角关闭回调
+	   }
+	  });
+	 }
+
+</script> 
+
+</head>
+
+<body class="showmenu" onload="showbiaoqian(<?php echo $cid;?>)">
+
+  <div>
+    <div class="r_box">
+      <div class="crumbsNav"><span><a href="catalog_main.php">栏目管理</a></span>
+        <?php if(!empty($backurl)) { ?><span>
+          <?php echo $backurl; ?></span>
+        <?php  } ?>文章管理 > 发布文章</div>
+
+        <div class="rl_fabwzC1">
+						<p id="getone">
+				<strong>文章采集：</strong>
+				<input name="getjson" type="text" id="getjson" value="" style="width:500px">
+				<input type="button" class="nbt" id="getwzBtn" value="URL抓取采集">&nbsp;
+				
+			</p>
+<!--           <p><a href="#" onClick="ShowHide('getone')">　●输入网址采集单个网页&gt;&gt;</a><select name="rand_time" class="rand_time">&nbsp;&nbsp;<select name="rand_time" class="rand_time"><option value="0_0"></option></select></p>
+              <form  name="getonepage" action="article_add.php" method="get">
+              <p id="getone" style="display:none;">
+                  <input type="hidden" name="channelid" value="1" />
+                  <input type="hidden" name="cid" value="4568" />
+          <strong><a name="downurl"></a>&nbsp;采集单个网页-URL：</strong>
+          <input name="geturl" type="text" id="geturl" style="width:290px" value="" />
+          <input type="submit" class='nbt' name="Submit3" value="抓取" />&nbsp;
+          <input type="button" class='nbt' name="setrule" value="规则管理" onClick="OpenMyWinCoOne('article_coonepage_rule.php')" />
+        </p>
+              </form> -->
+      </div>
+
+      <form name="form1" action="article_add.php" enctype="multipart/form-data" method="post" onSubmit="return checkSubmit()">
+        <input type="hidden" name="channelid" value="<?php echo $channelid?>" />
+        <input type="hidden" name="dopost" value="save" />
+		
+		<input type="hidden" name="rilistid" id="rilistid" value="" />
+		<input type="hidden" name="rilistleixing" id="rilistleixing" value="" />
+		<input type="hidden" name="rilistdatastr1" id="rilistdatastr1" value="" />
+		<input type="hidden" name="rilistdatastr2" id="rilistdatastr2" value="" />
+		
+		
+        <div class="rl_fabwz">
+          <h3>
+            常规信息
+          </h3>
+          <div class="rl_fabwzC">
+            <div class="rl_fabwzC1">
+              <p>
+                <strong>
+                  文章标题
+                </strong>
+                <input name="title" type="text" id="title" value="<?php if(!empty($akeyinfo))echo $akeyinfo['title']; ?><?php echo $title; ?>" style="width:364px" />
+                <strong>
+                  简略标题
+                </strong>
+                <input name="shorttitle" type="text" id="shorttitle" style="width:214px" />
+                <span class="look">查看范文</span>
+                <div class="rule"><img src="images/rule.png" alt="">
+                  <div class="closed"></div>
+                </div>
+              </p>
+              <p>
+                <strong>
+                  自定义属性
+                </strong>
+                <?php
+                                $dsql->SetQuery("Select * From `#@__arcatt` where att != 'b' order by sortid asc");
+                                $dsql->Execute();
+                                while($trow = $dsql->GetObject())
+                                {
+                                if($trow->att=='j')
+                                echo "<input type='checkbox' name='flags[]' id='flags{$trow->att}' value='{$trow->att}' onclick='ShowUrlTr()'>{$trow->attname}[{$trow->att}]";
+                                else
+                                echo "<input type='checkbox' name='flags[]' id='flags{$trow->att}' value='{$trow->att}'>{$trow->attname}[{$trow->att}]";
+                                }
+                            ?>
+                <a href="riliinfo/index.php" target="_blank">【公考日历添加】</a>
+				<script type="text/javascript">document.getElementById("flagsm").checked=true</script>
+              </p>
+              <p id="redirecturltr" style="display:none">
+                <strong>
+                  跳转网址
+                </strong>
+                <input name="redirecturl" type="text" id="redirecturl" style="width:300px" value="" />
+              </p>
+              <p>
+                <strong>
+                  【TAG】标签
+                </strong>
+                <input name="tags" type="text" id="tags" value="" style="width:300px" onChange="$Obj('keywords').value=this.value;" onkeyup="JavaScript:this.value=this.value.replace(/，/ig,',');"/>(','号分开，单个标签小于12字节)
+                <strong>
+                  权重
+                </strong>
+                <input name="weight" type="text" id="weight" style="width:68px" value="<?php echo $maxWright['cc'];?>" />
+                (越小越靠前)
+              </p>
+              <p id="pictable">
+                <strong>
+                  缩略图
+                </strong>
+                <input name="picname" type="text" id="picname" />
+				<input type="button" value="随机略缩图" onclick='changepic1()'/>
+                <input type="button" value="本地上传" />
+				
+                <iframe name='uplitpicfra' id='uplitpicfra' src='' width='200' height='200' style='display:none'></iframe>
+                <span><input name="litpic" type="file" id="litpic" onChange="SeePicNew(this, 'divpicview', 'uplitpicfra', 165, 'article_add.php');" size="1" /></span>
+                <!--<input type="button" name="Submit2" value="站内选择" onClick="SelectImage('form1.picname','small');" class='np coolbg'/>
+                            <input type="button" name="Submit2" value="裁剪"  onClick="imageCut('picname');" class='np coolbg'/>
+                            <input type='checkbox' name='ddisremote' value='1' id='ddisremote'/>
+                            <label>
+                                远程
+                            </label>-->
+                <span id='divpicview'></span>
+              </p>
+              <p>
+                <strong>
+                  文章来源
+                </strong>
+                <input name="source" type="text" id="source" style="width:160px" value="<?php echo $source; ?>" size="16" />
+                <!--<input name="selsource" type="button" id="selsource" value="选择">-->
+                <strong>
+                  作者
+                </strong>
+                <input name="writer" type="text" id="writer" style="width:120px" value="广东华图" />
+                <!--<input name="selwriter" type="button" id="selwriter" value="选择"/>-->
+              </p>
+						<style>
+			   .copyListzhu {display: inline-block;width: 163px;height: 208px;padding: 15px 10px 0 10px;margin-right: 10px;background-color: #fbfbfb;overflow-y: scroll;}
+			   .rl_fabwzC1zhu .news_select {display: inline-block;width: 190px;height: 30px;border: solid 1px #cdd3d8;padding-left: 6px;margin-right: 10px;margin-top: 0;outline: none;}
+			   .copyListzhu:last-child {margin-right: 0;}
+			   .copyListzhu li {margin-bottom: 10px;cursor: pointer;}	
+			   .copyListzhu li.active {background-color: #eee;}		
+			   .closezhu1,.column_remove {position: absolute;top: 10px;right: 10px;width: 12px;height: 12px;background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADRSURBVChThZJJCsJAEEVbUXDCAQdQRFy5EsUbeLNs3WTRpEk6k4FcwNO49Srt76RajBl8EAivf30qA/N9/+667pH9IQiCrZTywRBeYUhBHOisBIJrncG1y0SapsO6IRN2HGdOKkcIMfodiqJoQ80LUkXMENac2bbdbwwblFItCirLsjqk6+GcjxF+YvdXHMdL0tV4nren9i7a2/oe7kzHRUw4SZIpKWaeIwzDE6mcr+YJqQ8o6BWG8EYuWujdM1GBGULxVf8at9JHqQC5gZSSvwHm3YxxbbECpgAAAABJRU5ErkJggg==");background-repeat: no-repeat;cursor: pointer;}
+			   .listWrapzhu {width: 783px;overflow: hidden;}
+			   .newsWrapzhu {padding: 20px 0;overflow: hidden;}
+			   .newsWrapzhu strong {text-align: right;display: inline-block;width: 78px;font-weight: 100;margin-right: 13px;color: #fff;}
+			   .listWrap01zhu,.listWrap02{white-space: nowrap;overflow-x: auto;}
+			   .listWrap02zhu {padding-bottom: 20px;}
+			   .submitColumnzhu {width: 90px;height: 32px;margin-right: 10px;color: #fff;letter-spacing: 2px;background-color: #fc6c21;cursor: pointer;font-size: 14px;text-align: center;line-height: 32px;margin: 20px auto 0 auto;letter-spacing: 0;}
+								  </style>
+			
+			  
+              <div style="line-height: 43px;background: url(../images/caij_msCline.png) repeat-x left bottom;color: #fff;overflow: hidden;">
+                <strong style="float: left;text-align: right;display: inline-block;width: 78px;font-weight: 100;margin-right: 13px;">
+                  文章主栏目
+                </strong><div class="addzhu" style="cursor: pointer;color: #fefefe;background-color: #697cd7;width:80px;float: left;margin-right: 5px;line-height: 26px;margin-top: 10px;"><div class="add_icon">+</div>快速选择</div>
+				
+				
+                <?php
+                            $typeOptions = GetOptionList($cid,$cuserLogin->getUserChannel(),$channelid);
+                            echo "<select autocomplete='off' name='typeid' id='typeid' style='width:214px' onchange='showbiaoqian(this.value)'>\r\n";
+                            echo "<option value='0'>请选择栏目...</option>\r\n";
+                            echo $typeOptions;
+                            echo "</select>";
+                            ?></span>
+				
+                <img src='images/searchIcon.png' style='cursor:pointer;' onClick="ShowCatMap(event, this, <?php echo $channelid; ?>, 'typeid')" alt='快捷选择' title='快捷选择' />
+				
+                &nbsp;
+                <?php
+                            if($cfg_need_typeid2=='Y')
+                            {
+                                echo "<a href='javascript:AddTypeid2();'>【<u>选择副栏目</u>】</a>";
+                                            }
+                                            ?>
+                <?php
+                                 if($cfg_remote_site=='Y')
+                                 {
+                                 ?> 　
+                <input name="isremote" type="checkbox" id="isremote" value="1" <?php if($cfg_title_site=='Y' ) echo "checked" ;?>>是否同步远程发布
+                <?php GetFtp();?>
+                <?php
+                                 }
+                            ?>
+							
+						<div class="1" style="float: right;" onclick='opengonggaoSelect()'>选择内容</div>
+						<div class="1" style="float: right;"><a id='wztitlestr' target="_blank" href="" ></a></div>
+
+              </div>
+			  <div class="alertHintzhu" style="display:none;position: fixed;top: 50%;left: 50%;width: 762px;padding: 10px;transform: translate(-50%, -50%);background-color: #fff;z-index: 10;overflow-y:scroll;">
+                <div class="closezhu" style="background-color: #e9e8e8;height: 23px;width: 29px;float: right;">关闭</div>
+                <div class="listWrapzhu">
+                  <div class="listWrap01zhu">
+                    <!-- 第一列 -->
+                    <ul class="copyListzhu">
+                    </ul>
+                  </div>
+                </div>
+              </div>
+			  
+
+
+             <!--公告相关Start-->
+              <p>
+                <strong>
+                  文章类别
+                </strong>
+                <input type='radio' name="article_type" value="2" onclick='changeArticleType("2")'>
+                <label>预公告</label>
+                <input type='radio' name="article_type" value="1" onclick='changeArticleType("1")'>
+                <label>公告</label>
+                <input type='radio' name="article_type" value="3" onclick='changeArticleType("3")'>
+                <label>非公告</label>
+              </p>
+              <!--选择公告之后显示模块 -->
+              <div class="isArticleShow">
+                <p>
+                  <strong>年份</strong>
+                  <select id="article_year" name='article_year'></select>
+                </p>
+                <p>
+                  <strong>事业部</strong>
+                  <select id="article_department" name='article_department'></select>
+                </p>
+                <p>
+                  <strong>考试类型</strong>
+                  <select id="article_examtype" name='article_examtype'></select>
+                  <input value="" name="article_examtype_zn" id="article_examtype_zn" type="hidden" />
+                </p>
+                <p>
+                  <strong>考试形式</strong>
+                  <select id="article_form" name="article_form"></select>
+                  <input value="" name="article_form_zn" id="article_form_zn" type="hidden" />
+                </p>
+                <p>
+                  <strong>地区</strong>
+                  <input value="" name="article_province_zn" id="article_province_zn" type="hidden" />
+                  <input value="" name="article_city_zn" id="article_city_zn" type="hidden" />
+                  <input value="" name="article_area_zn" id="article_area_zn" type="hidden" />
+                  <select id="article_province" name="article_province"></select>
+                  <select id="article_city" name="article_city"></select>
+                  <select id="article_area" name="article_area"></select>
+                </p>
+                <p>
+                  <strong>考试批次</strong>
+                  <select id="article_batch" name="article_batch"></select>
+                  <input value="" name="article_batch_zn" id="article_batch_zn" type="hidden" />
+                  <span class="add_batch" onclick="openBatchAdd()">+</span>
+                </p>
+              </div>
+              <div class="article_batch_shadow">
+                <div class="article_batch_add">
+                  <img class="article_batch_add_close" onclick="closeBatchAdd()" src="https://www.huatu.com/images/2018css/jinrong/images/live/close.png" />
+                  <p class="article_batch_add_title">新增考试批次</p>
+                  <p class="article_batch_add_content">第<input id="article_batch_num" name="article_batch_num" type="number">次 <span>保存后立即生效，请谨慎填写！</span></p>
+                  <div class="article_batch_add_btns">
+                    <span onclick="closeBatchAdd()">取消</span>
+                    <span class="btn_sure" onclick="sureBatchAdd()">确定</span>
+                  </div>
+                </div>
+              </div>
+              <!--选择公告之后显示模块END -->
+              <!--公告相关END-->
+
+
+              <span id="biaoqian"></span>
+              <p id='typeid2tr' style='display:none'>
+                <strong>文章副栏目</strong>
+                <span id='typeid2ct'></span><input type='text' name='typeid2' id='typeid2' value='' style='width:200px;' />
+                <img src='images/menusearch2.gif' style='cursor:pointer;' onClick="ShowCatMap(event, this, <?php echo $channelid; ?>, 'typeid2')" alt='选择副栏目' title='选择副栏目' />
+              </p>
+              <!--新增复制-->
+              <div class="copy clearfix">
+                <strong>复制栏目</strong>
+                <div class='addColumn'>
+                  <div class="add fl"><div class="add_icon">+</div>添加复制栏目</div>
+                </div>
+              </div>
+
+              <div class="shadow"></div>
+              <div class="alertHint">
+                <div class="close"></div>
+                <div class="listWrap">
+                  <div class="listWrap01">
+
+                    <!-- 第一列 -->
+                    <ul class="copyList">
+
+                      <!--<li class="clearfix">-->
+                      <!--<i class="choose fl"></i>-->
+                      <!--<div class="fl copyTxt">广东人事考试1-3</div>-->
+                      <!--<div class="fl">></div>-->
+                      <!--</li>-->
+
+                    </ul>
+
+                  </div>
+                </div>
+                <div class="clearfix allChoose_wrap">
+                  <div class="fl allChoose" id="allChoose">全选</div>
+                  <div class="fl">(全选功能目前仅针对招考公告类栏目开放)</div>
+                </div>
+                <div class="copyColumn">
+                  <div class="clearfix">
+                    <div class="fl w255">复制栏目</div>
+                    <div class="fl w255">文章标题</div>
+                  </div>
+                  <ul class="columnList">
+                    <!--<li class="clearfix">
+                                <div class="fl column" title="广东人事考试-......职位表">
+                                  <div class="column_remove"></div>
+                                  <div class="column_txt">广东人事考试-......职位表</div>
+                                </div>
+                                <input type="text" class="fl column_title" value="显示文章页填写的标题，可以保持不变或者直接点击修改">
+                                <div class="fl repeat active" title="此标题重复"></div>
+                              </li>-->
+                  </ul>
+                </div>
+                <div class="submitColumn">确认添加</div>
+              </div>
+              <div class="alertMsg checkTips">
+                <div class="news_icon"></div>
+                <div>标题有重复</div>
+                <div>请修改后再提交</div>
+              </div>
+              <div class="alertMsg checkTag">
+                <div class="news_icon"></div>
+                <div>请先添加标签</div>
+              </div>
+              <script>
+                var GlobBqPd = ['province','city','examtype','bqzkxx','bqbkzd','bqstzl','bqstlx','sllbbq','mslbbq'];//需要判断的标签
+                          $(function(){
+                              $.ajax({
+                                  url:"content_list_op.php",
+                                  data:{act:'getarctype'},
+                                  success:function(res){
+                                      $(".copyList").eq(0).html(res);
+									  $(".copyListzhu").eq(0).html(res);
+                                  },
+                              })
+                          })
+
+                          //全选
+                          $('#allChoose').live('click',function(){
+
+                              var alChIdArr = [];
+                              $(".columnList li").each(function(index,obj){
+                                  var column_id = $(this).attr("data-id");
+                                  alChIdArr.push(column_id);
+
+                              })
+                              var alChId = alChIdArr.join(",");
+                              var cTitle=$("#title").val();
+
+                              $.ajax({
+                                  url:"content_list_op.php",
+                                  data:{act:'allchoose',ids:alChId,ctitle:cTitle},
+                                  dataType:"json",
+                                  success:function(res){
+
+                                      if(res.code == 200){
+                                          $('.columnList').append(res.data);
+                                          //文字超出中间截取
+                                          $('.column_txt').each(function(k){
+                                              var text=$('.column_txt').eq(k).text();
+                                              if(text.length > 18){
+                                                  $('.column_txt').eq(k).text(text.substring(0,10)+'......'+text.substring(text.length-10))
+                                              }
+                                          });
+                                      }else if(res.code == -1){
+                                          alert(res.msg);
+                                      }
+                                  },
+                              })
+
+                          })
+						  //111111111111111111111111
+                          $('.addzhu').live('click',function(){
+                              var obj;
+                              <!-- for(var i=0;i<GlobBqPd.length;i++){ -->
+                                  <!-- obj = 'input[name="'+GlobBqPd[i]+'"]'; -->
+                                  <!-- if( $(obj).length > 0 ){ -->
+
+                                      <!-- if($(obj+':checked').val() == undefined){ -->
+                                          <!-- //没添加标签提示 -->
+                                          <!-- $('.checkTag').fadeIn(); -->
+                                          <!-- setTimeout(function(){ -->
+                                              <!-- $('.checkTag').fadeOut(); -->
+                                          <!-- },2000); -->
+                                          <!-- return false; -->
+                                      <!-- } -->
+                                  <!-- } -->
+                              <!-- } -->
+
+                              <!-- //给已选择栏目加标题 -->
+                              <!-- $(".columnListzhu li").each(function(index,obj){ -->
+                                  <!-- if($(this).find(".column_title").val() == ""){ -->
+                                      <!-- $(this).find(".column_title").val($("#title").val()); -->
+                                  <!-- } -->
+                              <!-- }) -->
+
+                              $('.alertHintzhu').fadeIn();
+
+                          });
+						  //111111111111111111
+						  $('.closezhu').click(function(){
+                            $('.shadow,.alertHintzhu').fadeOut();
+                          });
+
+
+                          $('.add').live('click',function(){
+                              var obj;
+                              for(var i=0;i<GlobBqPd.length;i++){
+                                  obj = 'input[name="'+GlobBqPd[i]+'"]';
+                                  if( $(obj).length > 0 ){
+
+                                      if($(obj+':checked').val() == undefined){
+                                          //没添加标签提示
+                                          $('.checkTag').fadeIn();
+                                          setTimeout(function(){
+                                              $('.checkTag').fadeOut();
+                                          },2000);
+                                          return false;
+                                      }
+                                  }
+                              }
+
+                              //给已选择栏目加标题
+                              $(".columnList li").each(function(index,obj){
+                                  if($(this).find(".column_title").val() == ""){
+                                      $(this).find(".column_title").val($("#title").val());
+                                  }
+                              })
+
+                              $('.shadow,.alertHint').fadeIn();
+
+                          });
+                          $('.close').click(function(){
+                            $('.shadow,.alertHint').fadeOut();
+                          });
+                          /*对应添加*/
+                          $('.copyList li').live('click',function(){
+
+                            var info=$(this).attr('data-msg');
+                            var id=$(this).attr('tid');
+                            var cTitle=$("#title").val();
+                            var ispart = $(this).attr('ispart');
+
+                            var cTypeid = jQuery("#typeid  option:selected").val();
+                            if(cTypeid == id){
+                                alert("所选栏目与当前栏目重合");
+                                return false;
+                            }
+                            if(ispart == 'f'){
+                                alert("此栏目不允许发文章");
+                                return false;
+                            }
+                            $(this).find('i').toggleClass('active');
+                            if($(this).find('i').hasClass('active')){
+                              if($(this).attr('data-msg')){
+                                if( $('.columnList li[data-id="'+id+'"]').length > 0 ){
+                                  alert("此栏目已添加");
+                                  return false;
+                                }
+                                var html='';
+                                html+='<li class="clearfix" data-id="'+id+'">',
+                                html+='  <div class="fl column" title="'+info+'">',
+                                html+='    <div class="column_remove"></div>',
+                                html+='    <div class="column_txt">'+info+'</div>',
+                                html+='  </div>',
+                                html+='  <input data-id="'+id+'" type="text" class="fl column_title" value="'+cTitle+'">',
+                                html+='';
+                                html+='  <div style="display:none;" class="fl repeat" title="此标题重复"></div>',
+                                html+='</li>';
+                                 $('.columnList').append(html);
+                              }
+                              //文字超出中间截取
+                              $('.column_txt').each(function(k){
+                                var text=$('.column_txt').eq(k).text();
+                                if(text.length > 18){
+                                  $('.column_txt').eq(k).text(text.substring(0,7)+'......'+text.substring(text.length-8))
+                                }
+                              });
+                            }else{
+                                $('.columnList li[data-id="'+id+'"]').remove();
+                            }
+                          });
+						  
+						  
+                          /*对应添加111111111111111111111*/
+                          $('.copyListzhu li').live('click',function(){
+
+                            var info=$(this).attr('data-msg');
+                            var id=$(this).attr('tid');
+                            var cTitle=$("#title").val();
+                            var ispart = $(this).attr('ispart');
+
+                            //var cTypeid = jQuery("#typeid  option:selected").val();
+                           // if(cTypeid == id){
+                              //  alert("所选栏目与当前栏目重合");
+                              //  return false;
+                            //}
+                            if(ispart == 'f'){
+                              //  alert("此栏目不允许发文章");
+                               // return false;
+                            }
+							var typeidstr = document.getElementById("typeid");
+							
+							for(var i = 0 ; i < typeidstr.options.length;i++){
+							
+							   if(typeidstr.options[i].value == id){
+							       typeidstr.options[i].selected = 'true';
+								   showbiaoqian(id);
+								   break;
+							   }
+							
+							}
+							 
+                             $('.shadow,.alertHintzhu').fadeOut();
+                          });						  
+						  
+						  
+						  
+						  
+                          //判断title
+                          $(".column_title").live("blur",function(){
+                              var tid = $(this).attr("data-id");
+                              var title = $(this).val();
+                              var cTitle = $("#title").val();
+                              if(title != cTitle){
+                                  var obj = this;
+                                  $.ajax({
+                                      url:"content_list_op.php",
+                                      data:{act:'checktitle',tid:tid,title:title},
+                                      dataType:"JSON",
+                                      success:function(res){
+
+                                          if(res == '-1'){
+                                              $(obj).next(".repeat").show();
+
+                                          }else if(res == '200'){
+                                              $(obj).next(".repeat").hide();
+                                          }
+
+
+                                      },
+                                  })
+                              }
+
+
+
+                          })
+                            //获取子类栏目
+                          $('.copyList li').live('mouseenter',function(){
+                              $(this).addClass('active').siblings().removeClass('active');
+                              var tid = $(this).attr('tid');
+                              tid = parseInt(tid);
+                              var pname = $(this).attr('data-msg');
+                              //alert(pname);
+                              var obj = this;
+                              $.ajax({
+                                  url:"content_list_op.php",
+                                  data:{act:'getarctype',reid:tid,pname:pname},
+                                  success:function(res){
+
+                                      if(res == ""){
+                                          $(obj).parent('.copyList').nextAll().remove();
+
+                                      }else{
+                                          var str = '<ul class="copyList">';
+                                          str += res;
+                                          str += '</ul>';
+
+                                          $(obj).parent('.copyList').nextAll().remove();
+                                          $(obj).parent('.copyList').eq(0).after(str)
+
+                                          var obj_new = $(obj).parent('.copyList').next().find('li')
+
+                                          obj_new.each(function(index){
+                                              var tid = obj_new.eq(index).attr('tid');
+
+                                              if($('.columnList li[data-id="'+tid+'"]').length > 0 ){
+                                                  obj_new.eq(index).find('i').addClass('active')
+                                              }
+                                          })
+
+                                      }
+
+
+                                  },
+
+                              })
+
+                            //$(this).find('.copyTxt').addClass('active').parent().siblings('').find('.copyTxt').removeClass('active');
+                          });
+						  
+                            //获取子类栏目11111111111
+                          $('.copyListzhu li').live('mouseenter',function(){
+                              $(this).addClass('active').siblings().removeClass('active');
+                              var tid = $(this).attr('tid');
+                              tid = parseInt(tid);
+                              var pname = $(this).attr('data-msg');
+                              //alert(pname);
+                              var obj = this;
+                              $.ajax({
+                                  url:"content_list_op.php",
+                                  data:{act:'getarctype',reid:tid,pname:pname},
+                                  success:function(res){
+
+                                      if(res == ""){
+                                          $(obj).parent('.copyListzhu').nextAll().remove();
+
+                                      }else{
+                                          var str = '<ul class="copyListzhu">';
+                                          str += res;
+                                          str += '</ul>';
+
+                                          $(obj).parent('.copyListzhu').nextAll().remove();
+                                          $(obj).parent('.copyListzhu').eq(0).after(str)
+
+                                          var obj_new = $(obj).parent('.copyListzhu').next().find('li')
+
+                                          obj_new.each(function(index){
+                                              var tid = obj_new.eq(index).attr('tid');
+
+                                              if($('.columnListzhu li[data-id="'+tid+'"]').length > 0 ){
+                                                  obj_new.eq(index).find('i').addClass('active')
+                                              }
+                                          })
+
+                                      }
+
+
+                                  },
+
+                              })
+
+                            //$(this).find('.copyTxt').addClass('active').parent().siblings('').find('.copyTxt').removeClass('active');
+                          });						  
+						  
+						  
+						  
+						  
+                          /*对应删除*/
+                          $('.column_remove').live('click', function() {
+                            var id=$(this).parent().parent().attr('data-id');
+                            $(this).parent().parent().remove();
+                            $('.copyList li[tid="'+id+'"]').find('i').removeClass('active');
+                          });
+
+                          //确认添加
+                          $('.submitColumn').live('click',function(){
+                            /*检测是否重名提示*/
+                              var isRepeat = false;
+                              $(".columnList li .repeat").each(function(index){
+                                  if(!$(this).is(":hidden")){
+                                      isRepeat = true;
+
+                                  }
+                              })
+                              if(isRepeat){
+                                  $('.checkTips').fadeIn();
+                                  setTimeout(function(){
+                                      $('.checkTips').fadeOut();
+                                  },2000);
+
+                                  return false;
+                              }
+
+                              var isTitleEmpty = false;
+                              $(".columnList li .column_title").each(function(index){
+                                    if($(this).val() == ''){
+                                        isTitleEmpty = true;
+                                    }
+                              })
+
+                              if(isTitleEmpty){
+                                  alert("请填入标题");
+                                  return false;
+                              }
+
+                            //添加复制栏目
+                             var str = "<span class=\"add\"><i>+</i>添加复制栏目</span>";
+                            //var str ='';
+                            $(".columnList li").each(function(index,obj){
+                                var title=$(this).find(".column_txt").parent('.column').attr('title');
+                                var column_txt = $(this).find(".column_txt").text();
+                                var column_id = $(this).attr("data-id");
+                                var column_title = $(this).find(".column_title").val();
+                                str += '<span class="add_new" title="'+title+'"><i class="span_remove"></i>'+column_txt+'<input type="hidden"  name="fz_id[]" value="'+column_id+'"><input type="hidden" name="fz_title[]" value="'+column_title+'"></span>';
+                            })
+                            $(".addColumn").html('');
+                            $(".addColumn").html(str);
+                            $('.shadow,.alertHint').fadeOut();
+                          });
+						  
+					  
+						  
+						  
+						  
+						  
+                          //删除栏目标签
+                          $('.span_remove').live('click',function(){
+                            $(this).parent().remove();
+                            var id = $(this).next().val();
+                            $(".columnList").find("li[data-id='"+id+"']").remove();
+                            $(".copyList").find("li[tid='"+id+"'] i").removeClass('active');
+                          });
+                        </script>
+              <!--新增end-->
+			  <p>
+				<strong>
+					附加年份信息
+				</strong>
+				<input type='text' name="theyear" id="theyear" style="width:111px;" value="" />
+				<strong>
+					附加省份信息
+				</strong>
+				<input type='text' name="theprovince" id="theprovince" style="width:111px;" value="" />
+			  </p>
+              <p>
+                <strong>
+                  关键字
+                </strong>
+                <input type='text' name="keywords" id="keywords" style="width:364px;" value="<?php if(!empty($akeyinfo))echo $akeyinfo['keywords']; ?><?php echo $keywords; ?>" onkeyup="JavaScript:this.value=this.value.replace(/，/ig,',');"/>
+                <!-- <input type="button" name="Submit" value="浏览..." style="width:56;height:20" onClick="SelectKeywords('form1.keywords');" />-->
+                <input name="autokey" type="checkbox" onClick="ShowHide('keywords');" class="np" id="autokey" value="1" <?php if($cfg_arc_autokeyword=='Y' ) echo ' checked="1" ' ; ?>/>
+                <label>
+                  自动获取，手动填写用","分开
+                </label>
+              </p>
+              <p class="rl_fabwzC1_txt">
+                <strong>
+                  内容摘要
+                </strong>
+                <textarea name="description" rows="5" id="description"><?php if(!empty($akeyinfo))echo $akeyinfo['description']; ?><?php echo $description; ?></textarea>
+                &nbsp;&nbsp;<input onclick="copytitle()" type="button" value="一键复制内容到摘要"  style="display:none"/>	<input onclick="copybymobule()" type="button" value="模板内容组合摘要" />
+							<script type="text/javascript">
+							function copytitle() {
+								//var title01 = title.value
+								//description.value=title01
+								  var oEditor = CKEDITOR.instances.body;
+								  var Neirong = oEditor.getData();
+								  
+								  if(Neirong==''){
+								    alert("请填写文章内容");
+								     return;
+								  }
+								  
+								  Neirong = Neirong.replace(/<[^>]+>/g,"");
+								  Neirong = Neirong.replace(/&rdquo;/g,'"');
+								  Neirong = Neirong.replace(/&ldquo;/g,'"');
+								  Neirong = Neirong.replace(/&nbsp;/g,'');
+								  Neirong = Neirong.replace(/&mdash;/g,'——');
+								  
+								  
+								  Neirong = Neirong.replace(/\s*/g,"");
+								  Neirong = Neirong.replace(/[\r\n]/g,"");
+								  Neirong = Neirong.substring(0,100);
+								  Neirong = Neirong+".....";
+								   description.value=Neirong;
+								}
+								
+								
+								function changepic1(){
+								    
+								    var num = parseInt(Math.random()*(9-1+1)+1);
+									var picstr = 'https://gd.huatu.com//zt/images/zsouyelst/';
+									picstr = picstr + num +'.jpeg';
+									$('input[name="picname"]').val(picstr);
+								}
+								
+								
+								function copybymobule(){
+								   var typeid = $('#typeid option:selected').val();
+								   
+								   if($('input[name="source"]').val()&&$('input[name="title"]').val()&&$('#typeid option:selected').val()&&$('#typeid option:selected').val()!=0){
+									
+									
+								   
+									    $.ajax({
+											  url:"http://172.23.0.125/uigfwereytEWrws/zchangemoublesstr.php",
+											  data:{act:'arcttypedes',typeid:typeid},
+											  dataType:"json",
+											  type: "post",
+											  async:false,
+											  success: function(data){
+
+												  var str = data.str;
+												  if(str==""){
+												    alert("该栏目没有维护好摘要模板,调用内容进行填充");
+													copytitle();
+													return;
+												  }
+												  
+	
+													str = str.replace(/title/g,$('input[name="title"]').val());
+													str = str.replace(/tags/g,$('input[name="tags"]').val());
+													
+													str = str.replace(/keywords/g,$('input[name="keywords"]').val());
+													str = str.replace(/description/g,$('input[name="description"]').val());
+													str = str.replace(/source/g,$('input[name="source"]').val());
+													str = str.replace(/writer/g,$('input[name="writer"]').val());
+													str = str.replace(/bkggzkrs/g,$('input[name="bkggzkrs"]').val());
+													
+													var kstimer = $('input[name="bkggkssj"]').val();
+													
+													if(kstimer==undefined)
+													    kstimer = "";
+													
+													if((kstimer.indexOf("公告") == -1)&&(kstimer.indexOf("另行") == -1)&&(kstimer.indexOf("官网") == -1)&&(kstimer != "")){
+													   kstimer = "考试时间为："+kstimer+"，";
+													}else{
+													   kstimer = "";
+													}
+													
+													var bktimer = $('input[name="bkggbmsj"]').val();
+													if(bktimer==undefined)
+													    bktimer = "";
+													if((bktimer.indexOf("公告") == -1)&&(bktimer.indexOf("另行") == -1)&&(bktimer.indexOf("官网") == -1)&&(bktimer != "")){
+													   bktimer = "报考时间为："+bktimer+"，";
+													}else{
+													   bktimer = "";
+													}
+													str = str.replace(/bkggkssj/g,kstimer);
+													str = str.replace(/bkggbmsj/g,bktimer);
+													
+													
+													
+													str = str.replace(/bkggksnr/g,$('input[name="bkggksnr"]').val());
+													str = str.replace(/bkggbmfs/g,$('input[name="bkggbmfs"]').val());
+													
+													
+													var bz = $('input[name="bkggbz"]').val();
+													if(bz != ""){
+													   bz = ""+bz+"，";
+													}else{
+													   bz = "";
+													}
+													str = str.replace(/bkggbz/g,bz);
+													//str = str.replace(/bkggbz/g,$('input[name="bkggbz"]').val());
+													
+													
+													
+													
+													var cityid = $('input[name="city"]:checked').val();
+													var cityname = "";
+													if(cityid==186){cityname = "广东";}
+													else if(cityid == 311){cityname = "广州";}
+													else if(cityid == 312){cityname = "深圳";}
+													else if(cityid == 313){cityname = "珠海";}
+													else if(cityid == 314){cityname = "汕头";}
+													else if(cityid == 315){cityname = "韶关";}
+													else if(cityid == 316){cityname = "河源";}
+													else if(cityid == 317){cityname = "梅州";}
+													else if(cityid == 318){cityname = "惠州";}
+													else if(cityid == 319){cityname = "汕尾";}
+													else if(cityid == 320){cityname = "东莞";}
+													else if(cityid == 321){cityname = "中山";}
+													else if(cityid == 322){cityname = "江门";}
+													else if(cityid == 323){cityname = "佛山";}
+													else if(cityid == 324){cityname = "阳江";}
+													else if(cityid == 325){cityname = "湛江";}
+													else if(cityid == 326){cityname = "茂名";}
+													else if(cityid == 327){cityname = "肇庆";}
+													else if(cityid == 328){cityname = "清远";}
+													else if(cityid == 329){cityname = "潮州";}
+													else if(cityid == 330){cityname = "揭阳";}
+													else if(cityid == 331){cityname = "云浮";}
+													else if(cityid == 777){cityname = "中国";}
+													else{cityname = "广东";}
+													str = str.replace(/cityname/g,cityname); //地市网站名称	
+													str = str.replace(/city/g,cityname); //城市		
+
+													var cityurl = "";
+													if(cityid == 186){cityurl = "https://gd.huatu.com/";}
+													else if(cityid == 311){cityurl = "https://guangzhou.huatu.com/";}
+													else if(cityid == 312){cityurl = "https://shenzhen.huatu.com/";}
+													else if(cityid == 313){cityurl = "https://zhuhai.huatu.com/";}
+													else if(cityid == 314){cityurl = "https://shantou.huatu.com/";}
+													else if(cityid == 315){cityurl = "https://shaoguan.huatu.com/";}
+													else if(cityid == 316){cityurl = "https://heyuan.huatu.com/";}
+													else if(cityid == 317){cityurl = "https://meizhou.huatu.com/";}
+													else if(cityid == 318){cityurl = "https://huizhou.huatu.com/";}
+													else if(cityid == 319){cityurl = "https://shanwei.huatu.com/";}
+													else if(cityid == 320){cityurl = "https://dongguan.huatu.com/";}
+													else if(cityid == 321){cityurl = "https://zhongshan.huatu.com/";}
+													else if(cityid == 322){cityurl = "https://jiangmen.huatu.com/";}
+													else if(cityid == 323){cityurl = "https://foshan.huatu.com/";}
+													else if(cityid == 324){cityurl = "https://yangjiang.huatu.com/";}
+													else if(cityid == 325){cityurl = "https://zhanjiang.huatu.com/";}
+													else if(cityid == 326){cityurl = "https://maoming.huatu.com/";}
+													else if(cityid == 327){cityurl = "https://zhaoqing.huatu.com/";}
+													else if(cityid == 328){cityurl = "https://qingyuan.huatu.com/";}
+													else if(cityid == 329){cityurl = "https://chaozhou.huatu.com/";}
+													else if(cityid == 330){cityurl = "https://jieyang.huatu.com/";}
+													else if(cityid == 331){cityurl = "https://yunfu.huatu.com/";}
+													else if(cityid == 777){cityurl = "https://gd.huatu.com/";}
+													else{cityurl = "https://gd.huatu.com/";}													
+													str = str.replace(/cityurl/g,cityurl); //地市网站域名
+													
+												//考试类型名称
+												    var examtype = $('input[name="examtype"]:checked').val();
+													var examtypename = "";
+													if(examtype == 684){examtypename = "广东公务员";}
+													else if(examtype == 665){examtypename = "事业单位";}
+													else if(examtype == 666){examtypename = "村官";}
+													else if(examtype == 667){examtypename = "选调生";}
+													else if(examtype == 668){examtypename = "警察招聘";}
+													else if(examtype == 669){examtypename = "公安专岗";}
+													else if(examtype == 670){examtypename = "公选遴选";}
+													else if(examtype == 671){examtypename = "军转干";}
+													else if(examtype == 672){examtypename = "三支一扶";}
+													else if(examtype == 673){examtypename = "统考";}
+													else if(examtype == 674){examtypename = "农信社/农商银行";}
+													else if(examtype == 855){examtypename = "教师招聘";}
+													else if(examtype == 858){examtypename = "银行招聘";}
+													else if(examtype == 862){examtypename = "乡镇公务员";}
+													else if(examtype == 863){examtypename = "医疗招聘";}
+													else if(examtype == 866){examtypename = "其他";}
+													else if(examtype == 882){examtypename = "学历教育";}
+													else if(examtype == 883){examtypename = "军队文职";}
+													else if(examtype == 884){examtypename = "国家公务员";}
+													else if(examtype == 885){examtypename = "广州公务员";}
+													else if(examtype == 886){examtypename = "深圳公务员";}
+													else if(examtype == 887){examtypename = "国企招聘";}
+													else if(examtype == 888){examtypename = "特岗教师";}
+													else if(examtype == 889){examtypename = "教师资格";}
+													else if(examtype == 890){examtypename = "医疗证书";}
+													else if(examtype == 891){examtypename = "研究生";}
+													else if(examtype == 892){examtypename = "银行证书";}
+													else{examtypename = "";}
+													str = str.replace(/examtypename/g,examtypename); //地市网站域名//考试类型名称													
+														
+														
+														
+														
+														//报考指导
+													var bqzkxx = $('input[name="bqzkxx"]:checked').val();
+													var bqzkxxname = "";
+													if(bqzkxx == 675){bqzkxxname = "招考公告";}
+													else if(bqzkxx == 676){bqzkxxname = "招考公告";}
+													else if(bqzkxx == 677){bqzkxxname = "职位信息";}
+													else if(bqzkxx == 682){bqzkxxname = "考试时间";}
+													else if(bqzkxx == 893){bqzkxxname = "报名入口";}
+													else if(bqzkxx == 894){bqzkxxname = "准考证打印";}
+													else if(bqzkxx == 679){bqzkxxname = "成绩查询";}
+													else if(bqzkxx == 896){bqzkxxname = "资格复审";}
+													else if(bqzkxx == 680){bqzkxxname = "面试名单\公告";}
+													else if(bqzkxx == 897){bqzkxxname = "体能测试";}
+													else if(bqzkxx == 895){bqzkxxname = "调剂补录";}
+													else if(bqzkxx == 898){bqzkxxname = "体检公告";}
+													else if(bqzkxx == 681){bqzkxxname = "录用公示";}
+													else if(bqzkxx == 899){bqzkxxname = "考试通知";}
+													else if(bqzkxx == 678){bqzkxxname = "考试信息";}
+													else{bqzkxxname = "考试资讯";}
+													str = str.replace(/bqzkxxname/g,bqzkxxname); 
+													
+													var bqbkzd = $('input[name="bqbkzd"]:checked').val();
+													var bqbkzdname = "";
+													if(bqbkzd == 684){bqbkzdname = "公告解读";}
+													else if(bqbkzd == 685){bqbkzdname = "大纲解读";}
+													else if(bqbkzd == 686){bqbkzdname = "职位分析";}
+													else if(bqbkzd == 683){bqbkzdname = "报考条件";}
+													else if(bqbkzd == 688){bqbkzdname = "报考流程";}
+													else if(bqbkzd == 687){bqbkzdname = "报名人数";}
+													else if(bqbkzd == 690){bqbkzdname = "考试费用";}
+													else if(bqbkzd == 850){bqbkzdname = "分数线";}
+													else if(bqbkzd == 689){bqbkzdname = "部门职能";}
+													else if(bqbkzd == 851){bqbkzdname = "政策解读";}
+													else if(bqbkzd == 900){bqbkzdname = "报考指导";}
+													else{bqbkzdname = "考试资讯";}
+													str = str.replace(/bqzkxxname/g,bqbkzdname); 
+													
+													str = str.replace(/typename/g,$('#typeid option:selected').text().replace(/─/g,""));
+													
+													str = str.replace(/\[/g,"");
+													str = str.replace(/\]/g,"");
+													str = str.replace(/,/g,"，");
+													str = str.replace(/[\r\n]/g,"");
+												  description.value=str;
+												  
+											  },
+										  })
+										  
+										  }else{
+										  
+										      alert("请填写必要的信息，如标题，文章来源，栏目等，否则摘要生成有误");
+										  }
+								}
+							
+							</script>			
+              </p>
+              <?php PrintAutoFieldsAdd($cInfos['fieldset'],'autofield'); ?>
+              <p>
+                <strong>
+                  文章内容
+                </strong>
+                <input type="submit" value="保存" />
+                <input type="button" onClick="location.reload();" value="重置" />
+              </p>
+              <p>
+                <strong>
+                  附加选项
+                </strong>
+                <input name="remote" type="checkbox" id="remote" value="1" <?php if($cfg_rm_remote=='Y' ) echo ' checked="1" ' ; ?> />
+                下载远程图片和资源
+                <input name="dellink" type="checkbox" id="dellink" value="1" <?php if($cfg_arc_dellink=='Y' ) echo ' checked="1" ' ; ?> />
+                删除非站内链接 <a href="javascript:OpenMyWin('article_allowurl_edit.php');">[设置]</a>
+                <input name="autolitpic" type="checkbox" id="autolitpic" value="1" <?php if($cfg_arc_autopic=='Y' ) echo ' checked="1" ' ; ?> />
+                提取第一个图片为缩略图
+                <input type='checkbox' name='needwatermark' value='1' <?php if($photo_markup=='1' ) echo "checked" ; ?> />
+                图片是否加水印
+              </p>
+              <p>
+                <strong>
+                  分页方式
+                </strong>
+                <input name="sptype" type="radio" class="np" value="hand" <?php if($cfg_arcautosp=='N' ) echo " checked='1' " ?>/>
+                手动
+                <input type="radio" name="sptype" value="auto" class="np" <?php if($cfg_arcautosp=='Y' ) echo " checked='1' " ?>/>
+                自动　大小：
+                <input name="spsize" type="text" id="spsize" value="<?php echo $cfg_arcautosp_size?>" size="2" /> K
+                (分页符为： <font color="#FFAC40">#p#分页标题#e# </font>)
+
+                <!-- <input onclick="ChuLiP();" type="button" value="测试对<p>后的空格处理" /> -->
+                对<input type='text' value='' style='width:30px;' id='labelname'>标签后<input type='text' value='' id='num' style='width:30px;'>空格 <input onclick="ChuLiP();" type="button" value="执行" />
+              </p>
+			    <p>
+
+                
+                <input type="submit" value="保存文章" />
+				<input type="button" onclick="onclickall()" value="一键一键排版(带链接)" style="background: #ff6c00;" title="一键上传附件/图片/排版/过滤table样式">
+               <!-- <input type="button" onclick="onclickallforwxfwh()" value="添加下载需登录" style="background: #00a241;" title="添加下载需登录">-->
+				<input  onclick="formatText('1');" type="button" value="一键排版(带链接)" />
+                <input  onclick="formatText('0');" type="button" value="一键排版" />
+				
+                <input onclick="GetContents();" type="button" value="过滤table样式" />
+                <input onclick="GetContentslink();" type="button" value="过滤table样式(带链接)" />
+                <input type="button" onclick="postFtp('files')" value="一键上传附件" />
+                <input type="button" onclick="postFtp('images')" value="一键上传图片" />
+				
+				
+				<select autocomplete="off" name="moubles" id="moubles" style="width:102px;margin-left: 20px;" onchange='changemoublesstr(this.value,"top")'>
+					<option value="0">空</option>
+					<option value="1" class=option1">1</option>
+					<option value="2" class=option2">2</option>
+					<option value="3" class=option3">3</option>
+					<option value="4" class=option4">4</option>
+					<option value="5" class=option5">5</option>
+					<option value="6" class=option6">6</option>
+					<option value="7" class=option7">7</option>
+					<option value="8" class=option8">8</option>
+					<option value="9" class=option9">9</option>
+				</select>
+				<!--<input type="text" value="0" style="width: 50px;margin-left: 20px;" id="moubles" name="moubles">-->
+				<input type='hidden' class='text' name='moublesstr' id='moublesstr' value=''>
+				<input type='hidden' class='text' name='moublesstrdishi' id='moublesstrdishi' value=''>
+				
+				<br>
+				<select autocomplete="off" name="diquid" id="diquid" style="width:102px">
+					<option value="0">请选择地区</option>
+					<option value="186" class=option1">广东</option>
+					<option value="311" class=option2">广州市</option>
+					<option value="312" class=option3">深圳市</option>
+					<option value="313" class=option4">珠海市</option>
+					<option value="314" class=option5">汕头市</option>
+					<option value="315" class=option6">韶关市</option>
+					<option value="316" class=option7">河源市</option>
+					<option value="317" class=option8">梅州市</option>
+					<option value="318" class=option9">惠州市</option>
+					<option value="319" class=option10">汕尾市</option>
+					<option value="320" class=option11">东莞市</option>
+					<option value="321" class=option12">中山市</option>
+					<option value="322" class=option13">江门市</option>
+					<option value="323" class=option14">佛山市</option>
+					<option value="324" class=option15">阳江市</option>
+					<option value="325" class=option16">湛江市</option>
+					<option value="326" class=option17">茂名市</option>
+					<option value="327" class=option18">肇庆市</option>
+					<option value="328" class=option19">清远市</option>
+					<option value="329" class=option20">潮州市</option>
+					<option value="330" class=option21">揭阳市</option>
+					<option value="331" class=option22">云浮市</option>
+					<option value="777" class=option23">国家</option>
+				</select>
+				<input type="button" onclick="InsertHtmldishi()" style="display:none" value="添加地市内容" />
+				<input type="button" onclick="InsertHtmldishinew('dishiweixin')" style="display:" value="添加地市微信" />
+				<input type="button" onclick="InsertHtmldishinew('dishigzh')" style="display:" value="添加地市公众号" />
+				<input type="button" onclick="InsertHtmldishinew('yuyue')" style="display:" value="添加地市预约" />
+				<input type="button" onclick="InsertHtmlkaoshi()" style="display:none" value="添加考试类型内容" />
+				<input type="button" onclick="InsertHtmlkaoshinew('yuyue')" style="display:none" value="添加项目预约" />
+				<input type="button" onclick="InsertHtmlkaoshinew('xiangmugzh')" style="display:" value="项目公众号" />
+				<input type="button" onclick="InsertHtmlkaoshinew('xiangmuhuodong')" style="display:" value="项目活动" />
+				<input type="button" onclick="InsertHtmlkaoshinew('xiangmusp')" style="display:" value="项目商品" />
+				<input type="button" onclick="InsertHtml()" style="display:none" value="添加组合内容" />
+				<!--<input type="button" onclick="InsertHtmlTopAndEnd('top')" style="display:" value="test" />-->
+				
+				<a href="http://172.23.0.125/fx/diquexemtype/speditorTwo/indexForId.php?mid=<?php echo $cuserLogin->getUserID();  ?>" target="_blank" style="color:#0bff61;text-decoration:underline;">  维护</a>
+              </p>
+              <p>
+			  
+			  <style>
+			   .float_code{
+					position: fixed;
+					box-sizing: border-box;
+					right: 0;
+					top: 160px;
+					width: 160px;
+					padding: 16px;
+					background:#f3f3f3;
+					height: auto;
+					font-size: 16px;
+					border-radius: 10px 0 0 10px;
+				}
+							  
+			  </style>
+			  <script type="text/javascript">
+			         
+				function changebaoming(){
+				
+				     var bkggzkrs = $('input[name="mo1"]').val();
+					 var bkggbmsj =  $('input[name="mo2"]').val();
+					 var bkggkssj =  $('input[name="mo3"]').val();
+					 var bkggbmfs =  $('input[name="mo4"]').val();
+					 var bkggksnr =  $('input[name="mo5"]').val();
+				     
+					 $('input[name="bkggzkrs"]').val(bkggzkrs);
+					 $('input[name="bkggbmsj"]').val(bkggbmsj);
+					 $('input[name="bkggkssj"]').val(bkggkssj);
+					 $('input[name="bkggbmfs"]').val(bkggbmfs);
+					 $('input[name="bkggksnr"]').val(bkggksnr);
+				
+				}
+				
+				function changexs(){
+				
+				     document.getElementById("mom1").style.display = "block";
+				     document.getElementById("mom2").style.display = "none";
+				}
+				function changexs2(){
+				     changebaoming();
+				     document.getElementById("mom1").style.display = "none";
+				     document.getElementById("mom2").style.display = "block";
+				}
+				</script>	
+			  <div class="float_code" style="color: black;display:none"  id="mom1" >
+					人数:<input name="mo1" type="text" id="mo1" value="" style="color: #342e2e;">
+					报名时间:<input name="mo2" type="text" id="mo2" test-active='test-form2' autoComplete='off' value="" style="color: #342e2e;">
+					考试时间:<input name="mo3" type="text" id="mo3" test-active='test-form3' autoComplete='off' value="" style="color: #342e2e;">
+					报名方式:<input name="mo4" type="text" id="mo4"  autoComplete='off' value="" style="color: #342e2e;">
+					考试内容:<input name="mo5" type="text" id="mo5"  autoComplete='off' value="" style="color: #342e2e;">
+					<input name="mo4" type="button" id="mo4" value="一键填充报名信息" onclick="changebaoming()" style="background-color: #91f7c8;"/>
+					<input name="mo6" type="button" id="mo6" value="关闭并填充" onclick="changexs2()" style="background-color: #f5a2a2;margin: 10px;"/>
+				</div>
+				<div class="float_code" style="color: black;width: 42px;display: block;" id="mom2">
+					
+					<input name="mo5" type="button" id="mo5" value="显示" onclick="changexs()" style="background-color: #91f7c8;margin-left: -11px;width: 35px;height: 37px;"/>
+				</div>
+			  
+			  
+			  <textarea name="body" rows="8" cols="60">
+<?php echo $body;?> 
+</textarea>
+<script>CKEDITOR.replace('body', {customConfig: '/include/ckeditor4/config.js'});</script>
+              </p>
+            </div>
+          </div>
+          <h3>
+            高级参数
+          </h3>
+          <div class="rl_fabwzC rl_fabwzCs">
+            <div class="rl_fabwzC1">
+              <p>
+                <strong>
+                  评论选项
+                </strong>
+                <input type='radio' name='notpost' class='np' value='0' <?php if($cfg_feedback_forbid=='N' ) echo "checked='1' " ; ?> />
+                <label>允许评论</label>
+                &nbsp;
+                <input type='radio' name='notpost' class='np' value='1' <?php if($cfg_feedback_forbid=='Y' ) echo "checked='1' " ; ?> />
+                <label>禁止评论 </label>
+                <strong>
+                  浏览次数
+                </strong>
+                <input type='text' name='click' value='<?php echo ($cfg_arc_click==' -1' ? mt_rand(50, 200) : $cfg_arc_click); ?>' />
+              </p>
+              <p>
+                <strong>
+                  文章排序
+                </strong>
+                <select name="sortup" id="sortup" style="width:144px">
+                  <option value="0" selected>默认排序</option>
+                  <option value="7">置顶一周</option>
+                  <option value="30">置顶一个月</option>
+                  <option value="90">置顶三个月</option>
+                  <option value="180">置顶半年</option>
+                  <option value="360">置顶一年</option>
+                </select>
+                <strong>
+                  阅读权限
+                </strong>
+                <select name="arcrank" id="arcrank" style="width:150px">
+                  <?php
+                                $urank = $cuserLogin->getUserRank();
+                                $dsql->SetQuery("Select * from `#@__arcrank`");
+                                $dsql->Execute();
+                                while($row = $dsql->GetObject())
+                                {
+                                echo "     <option value='".$row->rank."'>".$row->membername."</option>\r\n";
+                                }
+                                ?>
+                </select>
+              </p>
+              <p>
+                <strong>
+                  发布时间
+                </strong>
+                <?php
+                              $nowtime = GetDateTimeMk(time());
+                              echo "<input name=\"pubdate\" value=\"$nowtime\" type=\"text\" id=\"pubdate\" style=\"width:137px\">";
+
+                            ?>&nbsp;&nbsp;<select name="rand_time" class="rand_time"><option value="0_0">随机发布时间</option></select>
+                <script language="javascript" type="text/javascript">
+                  var showX = getElementLeft($Obj("pubdate")) - 130;
+                  var showY = (window.navigator.userAgent.indexOf("MSIE") >= 1) ? getElementTop($Obj("pubdate")) + 465 : getElementTop($Obj("pubdate")) + 435;
+                  if ((window.navigator.userAgent.indexOf("MSIE 7.0") >= 1)) {
+                    showX = getElementLeft($Obj("pubdate")) + 105;
+                    showY = getElementTop($Obj("pubdate")) + 1200;
+                  }
+                  if (window.navigator.userAgent.indexOf("MSIE 6.0") >= 1) {
+                    Calendar.setup({
+                      inputField: "pubdate",
+                      ifFormat: "%Y-%m-%d %H:%M:%S",
+                      showsTime: true,
+                      timeFormat: "24"
+                    });
+                  } else {
+                    Calendar.setup({
+                      inputField: "pubdate",
+                      ifFormat: "%Y-%m-%d %H:%M:%S",
+                      showsTime: true,
+                      position: [showX, showY],
+                      timeFormat: "24"
+                    });
+                  }
+                </script>
+
+
+              </p>
+              <p class="rl_fabwzC1_nl">
+                <strong>
+                  发布选项
+                </strong>
+                <input name="ishtml" type="radio" class="np" value="1" checked="1" />
+                <label>生成HTML</label>
+                <input type="radio" name="ishtml" class="np" value="0" />
+                <label>仅动态浏览</label>
+                自定义文件名
+                <input type="text" name="filename" id="filename" />（不包括后缀名如.html等）
+                （不包括后缀名如。html）
+              </p>
+
+              <p>
+                <?php
+                      if(isset($cfg_tamplate_rand) && $cfg_tamplate_rand==1)
+                      {
+                      ?>
+                随机选择模板：
+                <select name='templet' id='templet' style='width:200px' size='1'>
+                  <?php
+                          $rndsel = mt_rand(1, count($cfg_tamplate_arr)) - 1;
+                          foreach($cfg_tamplate_arr as $k=>$v)
+                            {
+                            $v = trim($v);
+                            echo ($k==$rndsel ? "<option value='$v' selected>$v</option>\r\n" : "<option value='$v'>$v</option>\r\n");
+                            }
+                            ?>
+                </select>
+                <?php
+                        }
+                        else{
+		                    echo "<input type='hidden' name='templet' value='' />";
+                        }
+                        ?>
+              </p>
+			  </p>
+			  <p>
+			     <input name="xcxflag" type="checkbox" id="xcxflag" value="1"  checked="1"  />
+				
+					发布到微信小程序
+			  </p>
+              <p>
+                <strong>
+                  文章内容
+                </strong>
+                <input type="submit" value="保存" />
+                <input type="button" onClick="location.reload();" value="重置" />
+              </p>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+  </div>
+
+  <script src="http://172.23.0.141/gd/cssimg/layer/layer.js" charset="utf-8"></script>
+  <script src="http://172.23.0.141/gd/caiji/api/api_gbk.js" charset="utf-8"></script>
+  <script src="http://172.23.0.141/gd/caiji/ftp/post.js" charset="utf-8"></script>
+  <script src="/include/js/formattext.js?1"></script>
+<!-- 引入 layui.js 的 <script> 标签最好放置在 html 末尾 -->
+
+<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+<script type="text/javascript" src="layer/js/dateRange.js"></script>
+<link rel="stylesheet" type="text/css" href="layer/css/dateRange.css"/>
+<script src="layer/layui/layui.js"></script>
+  <link rel="stylesheet" href="layer/layui/css/layui.css">
+  <script src="layer/laydate/laydate.js"></script> <!-- 改成你的路径 -->
+     <link rel="stylesheet" href="layer/css/datepicker.css">
+	<script src="layer/js/plugins/moment.min.js"></script>
+	     <script src="layer/js/datepicker.all.min.js"></script>
+
+    <script src="layer/js/datepicker.en.js"></script>
+    <style>
+      .p20{
+        padding:20px;
+      }
+      .mt20{
+        margin-top:20px;
+      }
+      .mt40{
+        margin-top:40px;
+      }
+      .mt10{
+        margin-top:10px;
+      }
+      .hide{
+        display: none;
+      }
+      body{
+        height:1000px;
+      }
+      .c999{
+        color:#999;
+        font-size:12px;
+      }
+      
+    </style>
+<script>
+layui.use(function(){
+  var layer = layui.layer
+  ,form = layui.form
+  ,laypage = layui.laypage
+  ,element = layui.element
+  ,laydate = layui.laydate
+  ,util = layui.util;
+  
+  //欢迎信息
+ // layer.msg('Hello World');
+  
+  //输出版本号
+  lay('#version').html(layui.v);
+  
+  //日期
+  <!-- laydate.render({ -->
+    <!-- elem: '#test2' -->
+    <!-- ,value: new Date() -->
+    <!-- ,isInitValue: true -->
+  <!-- }); -->
+  
+
+	  
+  //触发事件
+  util.event('test-active', {
+    'test-form1': function(){
+      layer.open({
+        type: 1
+        ,resize: false
+        ,shadeClose: true
+        ,area: '421px'
+        ,title: '考试时间'
+        ,content: ['<ul class="layui-form layui-form-pane" style="margin: 15px;">'
+          <!-- ,'<li class="layui-form-item" style="display:none">' -->
+            <!-- ,'<label class="layui-form-label">输入框</label>' -->
+            <!-- ,'<div class="layui-input-block">' -->
+              <!-- ,'<input  class="layui-input"  name="field11">' -->
+            <!-- ,'</div>' -->
+          <!-- ,'</li>' -->
+          <!-- ,'<li class="layui-form-item"  style="display:none">' -->
+            <!-- ,'<label class="layui-form-label">选择框</label>' -->
+            <!-- ,'<div class="layui-input-block">' -->
+              <!-- ,'<select name="field0">' -->
+                <!-- ,'<option value="A">A</option>' -->
+                <!-- ,'<option value="B">B</option>' -->
+              <!-- ,'<select>' -->
+            <!-- ,'</div>' -->
+          <!-- ,'</li>' -->
+		  
+		  ,'<li class="layui-form-item" id="rq1" ><div class="mt40"><div>日期段 <span class="c999"></span></div><div class="c-datepicker-date-editor J-datepicker-range-day mt10"><i class="c-datepicker-range__icon kxiconfont icon-clock"></i><input placeholder="开始日期" name="field1" class="c-datepicker-data-input only-date" value=""><span class="c-datepicker-range-separator">-</span><input placeholder="结束日期" name="field11" class="c-datepicker-data-input only-date" value=""></div></div></li>'
+		  ,'<li class="layui-form-item" style="display:none" id="rq2" ><div class="mt40"><div>日期<span class="c999"></span></div><div class="c-datepicker-date-editor c-datepicker-single-editor J-datepicker-day mt10"><i class="c-datepicker-range__icon kxiconfont icon-clock"></i><input type="text" autocomplete="off" id="field2" name="field2" placeholder="选择日期" class=" c-datepicker-data-input only-date" value=""></div></div></li>'
+		  ,'<li class="layui-form-item" id="rq3" style="display:none">'
+		  ,'<label class="layui-form-label">时间说明</label>'
+		    ,'<div class="layui-input-block">'
+              ,'<input  class="layui-input"  name="field3" id="field3">'
+            ,'</div></li>'
+		  ,'<li class="layui-form-item"><input type="radio"  name="sex" value="1" title="时间段" checked  lay-filter="ChoiceRadio"><input type="radio" name="sex" value="2" title="截至时间"  lay-filter="ChoiceRadio"><input type="radio" name="sex" value="3" title="详见公告"  lay-filter="ChoiceRadio"></li>'
+          ,'<li class="layui-form-item" style="text-align:center;">'
+            ,'<button type="submit" lay-submit lay-filter="*" class="layui-btn">确认</button>'
+          ,'</li>'
+        ,'</ul>'].join('')
+        ,success: function(layero, index){
+          layero.find('.layui-layer-content').css('overflow', 'visible');
+           form.render().on('submit(*)', function(data){
+            if(data.field.sex == 1){
+			   document.getElementById("bkggbmsj").value = (data.field.field1+' 至 '+data.field.field11).replace(/00:00:00/g,'').replace(/23:59:59/g,'');
+			}else if(data.field.sex == 2){
+			   document.getElementById("bkggbmsj").value = data.field.field2+"截止";
+			}else{
+			    document.getElementById("bkggbmsj").value = data.field.field3;
+			}
+            layer.close(index); //关闭层
+          });
+
+		  form.on('radio(ChoiceRadio)', function(data){
+			  console.log(data.elem); //得到 radio 原始 DOM 对象
+			   //layer.msg(data.value);
+			   if(data.value == 1){
+			      $("#rq1").css({"display": ""});
+				  $("#rq2").css({"display": "none"});
+				  $("#rq3").css({"display": "none"});
+			   }else if(data.value == 2){
+			      $("#rq2").css({"display": ""});
+				  $("#rq1").css({"display": "none"});
+				  $("#rq3").css({"display": "none"});
+			   }else{
+			      $("#rq3").css({"display": ""});
+				  $("#rq1").css({"display": "none"});
+				  $("#rq2").css({"display": "none"});
+				  if($("#field3").val()==''){
+				    $("#field3").val('详见公告')
+				  }
+			   }
+			  console.log(data.value); //被点击的 radio 的 value 值
+			  
+			}); 
+
+        }
+      });
+
+         $(function(){
+        //选择时分秒
+      
+       
+        var DATAPICKERAPI = {
+          // 默认input显示当前月,自己获取后填充
+          activeMonthRange: function () {
+            return {
+              begin: moment().set({ 'date': 1, 'hour': 0, 'minute': 0, 'second': 0 }).format('YYYY-MM-DD HH:mm:ss'),
+              end: moment().set({ 'hour': 23, 'minute': 59, 'second': 59 }).format('YYYY-MM-DD HH:mm:ss')
+            }
+          },
+          shortcutMonth: function () {
+            // 当月
+            var nowDay = moment().get('date');
+            var prevMonthFirstDay = moment().subtract(1, 'months').set({ 'date': 1 });
+            var prevMonthDay = moment().diff(prevMonthFirstDay, 'days');
+            return {
+              now: '-' + nowDay + ',0',
+              prev: '-' + prevMonthDay + ',-' + nowDay
+            }
+          },
+          // 近n小时计算返回
+          shortcutPrevHours: function (hour) {
+            var nowDay = moment().get('date');
+            var prevHours = moment().subtract(hour, 'hours');
+            var prevDate=prevHours.get('date')- nowDay;
+            var nowTime=moment().format('HH:mm:ss');
+            var prevTime = prevHours.format('HH:mm:ss');
+            return {
+              day: prevDate + ',0',
+              time: prevTime+',' + nowTime,
+              name: '近'+ hour+'小时'
+            }
+          },
+          // 注意为函数：快捷选项option:只能同一个月份内的
+          rangeMonthShortcutOption1: function () {
+            var result = DATAPICKERAPI.shortcutMonth();
+            // 近18小时
+            var resultTime= DATAPICKERAPI.shortcutPrevHours(18);
+            return [{
+              name: '昨天',
+              day: '-1,-1',
+              time: '00:00:00,23:59:59'
+            }, {
+              name: '这一月',
+              day: result.now,
+              time: '00:00:00,'
+            }, {
+              name: '上一月',
+              day: result.prev,
+              time: '00:00:00,23:59:59'
+            }, {
+              name: resultTime.name,
+              day: resultTime.day,
+              time: resultTime.time
+            }];
+          },
+          // 快捷选项option
+          rangeShortcutOption1: [{
+            name: '最近一周',
+            day: '-7,0'
+          }, {
+            name: '最近一个月',
+            day: '-30,0'
+          }, {
+            name: '最近三个月',
+            day: '-90, 0'
+          }],
+          singleShortcutOptions1: [{
+            name: '今天',
+            day: '0',
+            time: '00:00:00'
+          }, {
+            name: '昨天',
+            day: '-1',
+            time: '00:00:00'
+          }, {
+            name: '一周前',
+            day: '-7'
+          }]
+        };
+          //时分秒年月日单个
+          $('.J-datepicker').datePicker({
+            hasShortcut:true,
+            min:'2018-01-01 04:00:00',
+            max:'2019-04-29 20:59:59',
+            shortcutOptions:[{
+              name: '今天',
+              day: '0'
+            }, {
+              name: '昨天',
+              day: '-1',
+              time: '00:00:00'
+            }, {
+              name: '一周前',
+              day: '-7'
+            }],
+            hide:function(){
+              console.info(this)
+            }
+          });
+          
+          //年月日单个
+          $('.J-datepicker-day').datePicker({
+            hasShortcut: true,
+            format:'YYYY-MM-DD',
+            shortcutOptions: [{
+              name: '今天',
+              day: '0'
+            }, {
+              name: '昨天',
+              day: '-1'
+            }, {
+              name: '一周前',
+              day: '-7'
+            }]
+          });
+          
+          //年月日范围
+          $('.J-datepicker-range-day').datePicker({
+            hasShortcut: true,
+            format: 'YYYY-MM-DD',
+            isRange: true,
+            shortcutOptions: DATAPICKERAPI.rangeShortcutOption1
+          });
+
+          //十分年月日单个
+          $('.J-datepickerTime-single').datePicker({
+            format: 'YYYY-MM-DD HH:mm'
+          });
+          
+          //十分年月日范围
+          $('.J-datepickerTime-range').datePicker({
+            format: 'YYYY-MM-DD HH:mm',
+            isRange: true
+          });
+          
+          //时分秒年月日范围，包含最大最小值
+          $('.J-datepicker-range').datePicker({
+            hasShortcut: true,
+            min: '2018-01-01 06:00:00',
+            max: '2019-04-29 20:59:59',
+            isRange: true,
+            shortcutOptions: [{
+              name: '昨天',
+              day: '-1,-1',
+              time: '00:00:00,23:59:59'
+            },{
+              name: '最近一周',
+              day: '-7,0',
+              time:'00:00:00,'
+            }, {
+              name: '最近一个月',
+              day: '-30,0',
+              time: '00:00:00,'
+            }, {
+              name: '最近三个月',
+              day: '-90, 0',
+              time: '00:00:00,'
+            }],
+            hide: function (type) {
+              console.info(this.$input.eq(0).val(), this.$input.eq(1).val());
+              console.info('类型：',type)
+            }
+          });
+          //时分秒年月日范围，限制只能选择同一月，比如2018-10-01到2018-10-30
+          $('.J-datepicker-range-betweenMonth').datePicker({
+            isRange: true,
+            between:'month',
+            hasShortcut: true,
+            shortcutOptions: DATAPICKERAPI.rangeMonthShortcutOption1()
+          });
+          
+          //时分秒年月日范围，限制开始结束相隔天数小于30天
+          $('.J-datepicker-range-between30').datePicker({
+            isRange: true,
+            between: 30
+          });
+          
+          //年月单个
+          $('.J-yearMonthPicker-single').datePicker({
+            format: 'YYYY-MM',
+            min: '2018-01',
+            max: '2019-04',
+            hide: function (type) {
+              console.info(this.$input.eq(0).val());
+            }
+          });
+          
+          //选择年
+          $('.J-yearPicker-single').datePicker({
+            format: 'YYYY',
+            min: '2018',
+            max: '2020'
+          });
+          
+          
+      });
+
+
+    }
+  });
+  
+  
+   //触发事件
+  util.event('test-active', {
+    'test-form': function(){
+      layer.open({
+        type: 1
+        ,resize: false
+        ,shadeClose: true
+        ,area: '437px'
+        ,title: '考试时间'
+        ,content: ['<ul class="layui-form layui-form-pane" style="margin: 15px;">'
+          <!-- ,'<li class="layui-form-item" style="display:none">' -->
+            <!-- ,'<label class="layui-form-label">输入框</label>' -->
+            <!-- ,'<div class="layui-input-block">' -->
+              <!-- ,'<input  class="layui-input"  name="field11">' -->
+            <!-- ,'</div>' -->
+          <!-- ,'</li>' -->
+          <!-- ,'<li class="layui-form-item"  style="display:none">' -->
+            <!-- ,'<label class="layui-form-label">选择框</label>' -->
+            <!-- ,'<div class="layui-input-block">' -->
+              <!-- ,'<select name="field0">' -->
+                <!-- ,'<option value="A">A</option>' -->
+                <!-- ,'<option value="B">B</option>' -->
+              <!-- ,'<select>' -->
+            <!-- ,'</div>' -->
+          <!-- ,'</li>' -->
+		  ,'<li class="layui-form-item" id="rq2" ><div class="mt40"><div>日期<span class="c999"></span></div><div class="c-datepicker-date-editor c-datepicker-single-editor J-datepicker-day mt10"><i class="c-datepicker-range__icon kxiconfont icon-clock"></i><input type="text" autocomplete="off" id="field2" name="field2" placeholder="选择日期" class=" c-datepicker-data-input only-date" value=""></div></div></li>'
+		  ,'<li class="layui-form-item" id="rq1" style="display:none"><div class="mt40"><div>多天 <span class="c999"></span></div><div class="c-datepicker-date-editor J-datepicker-range-day mt10"><i class="c-datepicker-range__icon kxiconfont icon-clock"></i><input placeholder="开始日期" name="field1" class="c-datepicker-data-input only-date" value=""><span class="c-datepicker-range-separator">-</span><input placeholder="结束日期" name="field11" class="c-datepicker-data-input only-date" value=""></div></div></li>'
+		  ,'<li class="layui-form-item" id="rq4" style="display:none">'
+		  ,'<label class="layui-form-label">时间说明</label>'
+		    ,'<div class="layui-input-block">'
+              ,'<input  class="layui-input"  name="field4" id="field4">'
+            ,'</div></li>'
+		  ,'<li class="layui-form-item" id="rq3" style="display:none">'
+		  ,'<label class="layui-form-label">时间说明</label>'
+		    ,'<div class="layui-input-block">'
+              ,'<input  class="layui-input"  name="field3" id="field3">'
+            ,'</div></li>'
+		  ,'<li class="layui-form-item"><input type="radio" name="sex" value="2"v checked  title="单天"  lay-filter="ChoiceRadio"><input type="radio" name="sex" value="1" title="多天" lay-filter="ChoiceRadio"><input type="radio" name="sex" value="4" title="准考证"  lay-filter="ChoiceRadio"><input type="radio" name="sex" value="3" title="另行通知"  lay-filter="ChoiceRadio"></li>'
+          ,'<li class="layui-form-item" style="text-align:center;">'
+            ,'<button type="submit" lay-submit lay-filter="*" class="layui-btn">确认</button>'
+          ,'</li>'
+        ,'</ul>'].join('')
+        ,success: function(layero, index){
+          layero.find('.layui-layer-content').css('overflow', 'visible');
+          
+
+		  
+		  form.render().on('submit(*)', function(data){
+            if(data.field.sex == 1){
+			   document.getElementById("bkggkssj").value =  (data.field.field1+' 至 '+data.field.field11).replace(/00:00:00/g,'').replace(/23:59:59/g,'');
+			}else if(data.field.sex == 2){
+			   document.getElementById("bkggkssj").value = data.field.field2+"";
+			}else if(data.field.sex == 3){
+			   document.getElementById("bkggkssj").value = data.field.field3;
+			}else{
+			    document.getElementById("bkggkssj").value = data.field.field4;
+			}
+            layer.close(index); //关闭层
+          });
+		  form.on('radio(ChoiceRadio)', function(data){
+			  console.log(data.elem); //得到 radio 原始 DOM 对象
+			   //layer.msg(data.value);
+			   if(data.value == 1){
+			      $("#rq1").css({"display": ""});
+				  $("#rq2").css({"display": "none"});
+				  $("#rq3").css({"display": "none"});
+				  $("#rq4").css({"display": "none"});
+			   }else if(data.value == 2){
+			      $("#rq2").css({"display": ""});
+				  $("#rq1").css({"display": "none"});
+				  $("#rq3").css({"display": "none"});
+				  $("#rq4").css({"display": "none"});
+			   }else if(data.value == 3){
+			      $("#rq3").css({"display": ""});
+				  $("#rq1").css({"display": "none"});
+				  $("#rq2").css({"display": "none"});
+				  if($("#field3").val()==''){
+				    $("#field3").val('另行通知')
+				  }
+				  $("#rq4").css({"display": "none"});
+			   }else{
+			      $("#rq3").css({"display": "none"});
+				  $("#rq1").css({"display": "none"});
+				  $("#rq2").css({"display": "none"});
+				  if($("#field4").val()==''){
+				    $("#field4").val('详看准考证')
+				  }
+				  $("#rq4").css({"display": ""});
+			   }
+			  console.log(data.value); //被点击的 radio 的 value 值
+			}); 
+
+        }
+      });
+
+		
+         $(function(){
+        //选择时分秒
+      
+       
+        var DATAPICKERAPI = {
+          // 默认input显示当前月,自己获取后填充
+          activeMonthRange: function () {
+            return {
+              begin: moment().set({ 'date': 1, 'hour': 0, 'minute': 0, 'second': 0 }).format('YYYY-MM-DD HH:mm:ss'),
+              end: moment().set({ 'hour': 23, 'minute': 59, 'second': 59 }).format('YYYY-MM-DD HH:mm:ss')
+            }
+          },
+          shortcutMonth: function () {
+            // 当月
+            var nowDay = moment().get('date');
+            var prevMonthFirstDay = moment().subtract(1, 'months').set({ 'date': 1 });
+            var prevMonthDay = moment().diff(prevMonthFirstDay, 'days');
+            return {
+              now: '-' + nowDay + ',0',
+              prev: '-' + prevMonthDay + ',-' + nowDay
+            }
+          },
+          // 近n小时计算返回
+          shortcutPrevHours: function (hour) {
+            var nowDay = moment().get('date');
+            var prevHours = moment().subtract(hour, 'hours');
+            var prevDate=prevHours.get('date')- nowDay;
+            var nowTime=moment().format('HH:mm:ss');
+            var prevTime = prevHours.format('HH:mm:ss');
+            return {
+              day: prevDate + ',0',
+              time: prevTime+',' + nowTime,
+              name: '近'+ hour+'小时'
+            }
+          },
+          // 注意为函数：快捷选项option:只能同一个月份内的
+          rangeMonthShortcutOption1: function () {
+            var result = DATAPICKERAPI.shortcutMonth();
+            // 近18小时
+            var resultTime= DATAPICKERAPI.shortcutPrevHours(18);
+            return [{
+              name: '昨天',
+              day: '-1,-1',
+              time: '00:00:00,23:59:59'
+            }, {
+              name: '这一月',
+              day: result.now,
+              time: '00:00:00,'
+            }, {
+              name: '上一月',
+              day: result.prev,
+              time: '00:00:00,23:59:59'
+            }, {
+              name: resultTime.name,
+              day: resultTime.day,
+              time: resultTime.time
+            }];
+          },
+          // 快捷选项option
+          rangeShortcutOption1: [{
+            name: '最近一周',
+            day: '-7,0'
+          }, {
+            name: '最近一个月',
+            day: '-30,0'
+          }, {
+            name: '最近三个月',
+            day: '-90, 0'
+          }],
+          singleShortcutOptions1: [{
+            name: '今天',
+            day: '0',
+            time: '00:00:00'
+          }, {
+            name: '昨天',
+            day: '-1',
+            time: '00:00:00'
+          }, {
+            name: '一周前',
+            day: '-7'
+          }]
+        };
+          //时分秒年月日单个
+          $('.J-datepicker').datePicker({
+            hasShortcut:true,
+            min:'2018-01-01 04:00:00',
+            max:'2019-04-29 20:59:59',
+            shortcutOptions:[{
+              name: '今天',
+              day: '0'
+            }, {
+              name: '昨天',
+              day: '-1',
+              time: '00:00:00'
+            }, {
+              name: '一周前',
+              day: '-7'
+            }],
+            hide:function(){
+              console.info(this)
+            }
+          });
+          
+          //年月日单个
+          $('.J-datepicker-day').datePicker({
+            hasShortcut: true,
+            format:'YYYY-MM-DD',
+            shortcutOptions: [{
+              name: '今天',
+              day: '0'
+            }, {
+              name: '昨天',
+              day: '-1'
+            }, {
+              name: '一周前',
+              day: '-7'
+            }]
+          });
+          
+          //年月日范围
+          $('.J-datepicker-range-day').datePicker({
+            hasShortcut: true,
+            format: 'YYYY-MM-DD',
+            isRange: true,
+            shortcutOptions: DATAPICKERAPI.rangeShortcutOption1
+          });
+
+          //十分年月日单个
+          $('.J-datepickerTime-single').datePicker({
+            format: 'YYYY-MM-DD HH:mm'
+          });
+          
+          //十分年月日范围
+          $('.J-datepickerTime-range').datePicker({
+            format: 'YYYY-MM-DD HH:mm',
+            isRange: true
+          });
+          
+          //时分秒年月日范围，包含最大最小值
+          $('.J-datepicker-range').datePicker({
+            hasShortcut: true,
+            min: '2018-01-01 06:00:00',
+            max: '2019-04-29 20:59:59',
+            isRange: true,
+            shortcutOptions: [{
+              name: '昨天',
+              day: '-1,-1',
+              time: '00:00:00,23:59:59'
+            },{
+              name: '最近一周',
+              day: '-7,0',
+              time:'00:00:00,'
+            }, {
+              name: '最近一个月',
+              day: '-30,0',
+              time: '00:00:00,'
+            }, {
+              name: '最近三个月',
+              day: '-90, 0',
+              time: '00:00:00,'
+            }],
+            hide: function (type) {
+              console.info(this.$input.eq(0).val(), this.$input.eq(1).val());
+              console.info('类型：',type)
+            }
+          });
+          //时分秒年月日范围，限制只能选择同一月，比如2018-10-01到2018-10-30
+          $('.J-datepicker-range-betweenMonth').datePicker({
+            isRange: true,
+            between:'month',
+            hasShortcut: true,
+            shortcutOptions: DATAPICKERAPI.rangeMonthShortcutOption1()
+          });
+          
+          //时分秒年月日范围，限制开始结束相隔天数小于30天
+          $('.J-datepicker-range-between30').datePicker({
+            isRange: true,
+            between: 30
+          });
+          
+          //年月单个
+          $('.J-yearMonthPicker-single').datePicker({
+            format: 'YYYY-MM',
+            min: '2018-01',
+            max: '2019-04',
+            hide: function (type) {
+              console.info(this.$input.eq(0).val());
+            }
+          });
+          
+          //选择年
+          $('.J-yearPicker-single').datePicker({
+            format: 'YYYY',
+            min: '2018',
+            max: '2020'
+          });
+          
+          
+      });
+
+    }
+  });  
+  
+  
+  
+  //触发事件mo2
+  util.event('test-active', {
+    'test-form2': function(){
+      layer.open({
+        type: 1
+        ,resize: false
+        ,shadeClose: true
+        ,area: '421px'
+        ,title: '报名时间'
+        ,content: ['<ul class="layui-form layui-form-pane" style="margin: 15px;">'
+		  
+		  ,'<li class="layui-form-item" id="rq1" ><div class="mt40"><div>时间段 <span class="c999"></span></div><div class="c-datepicker-date-editor J-datepicker-range-day mt10"><i class="c-datepicker-range__icon kxiconfont icon-clock"></i><input placeholder="开始日期" name="field1" class="c-datepicker-data-input only-date" value=""><span class="c-datepicker-range-separator">-</span><input placeholder="结束日期" name="field11" class="c-datepicker-data-input only-date" value=""></div></div></li>'
+		  ,'<li class="layui-form-item" id="rq2" style="display:none"><div class="mt40"><div>日期<span class="c999"></span></div><div class="c-datepicker-date-editor c-datepicker-single-editor J-datepicker-day mt10"><i class="c-datepicker-range__icon kxiconfont icon-clock"></i><input type="text" autocomplete="off" id="field2" name="field2" placeholder="选择日期" class=" c-datepicker-data-input only-date" value=""></div></div></input></li>'
+		  ,'<li class="layui-form-item" id="rq3" style="display:none">'
+		  ,'<label class="layui-form-label">时间说明</label>'
+		    ,'<div class="layui-input-block">'
+              ,'<input  class="layui-input"  name="field3" id="field3">'
+            ,'</div></li>'
+		  ,'<li class="layui-form-item"><input type="radio" checked name="sex" value="1" title="时间段" lay-filter="ChoiceRadio"><input type="radio" name="sex" value="2"v   title="截至时间"  lay-filter="ChoiceRadio"><input type="radio" name="sex" value="3" title="详见公告"  lay-filter="ChoiceRadio"></li>'
+          ,'<li class="layui-form-item" style="text-align:center;">'
+            ,'<button type="submit" lay-submit lay-filter="*" class="layui-btn">确认</button>'
+          ,'</li>'
+        ,'</ul>'].join('')
+        ,success: function(layero, index){
+          layero.find('.layui-layer-content').css('overflow', 'visible');
+          
+          form.render().on('submit(*)', function(data){
+            //layer.msg(JSON.stringify(data.field), {icon: 1});
+			if(data.field.sex == 1){
+			   document.getElementById("bkggbmsj").value = (data.field.field1+' 至 '+data.field.field11).replace(/00:00:00/g,'').replace(/23:59:59/g,'');;
+			   document.getElementById("mo2").value = (data.field.field1+' 至 '+data.field.field11).replace(/00:00:00/g,'').replace(/23:59:59/g,'');;
+			}else if(data.field.sex == 2){
+			   document.getElementById("bkggbmsj").value = data.field.field2+" 截止";
+			   document.getElementById("mo2").value = data.field.field2+" 截止";
+			}else{
+			    document.getElementById("bkggbmsj").value = data.field.field3;
+				document.getElementById("mo2").value = data.field.field3;
+			}
+			
+            layer.close(index); //关闭层
+          });
+		  form.on('radio(ChoiceRadio)', function(data){
+			  console.log(data.elem); //得到 radio 原始 DOM 对象
+			   //layer.msg(data.value);
+			   if(data.value == 1){
+			      $("#rq1").css({"display": ""});
+				  $("#rq2").css({"display": "none"});
+				  $("#rq3").css({"display": "none"});
+			   }else if(data.value == 2){
+			      $("#rq2").css({"display": ""});
+				  $("#rq1").css({"display": "none"});
+				  $("#rq3").css({"display": "none"});
+			   }else{
+			      $("#rq3").css({"display": ""});
+				  $("#rq1").css({"display": "none"});
+				  $("#rq2").css({"display": "none"});
+				  if($("#field3").val()==''){
+				    $("#field3").val('详见公告')
+				  }
+			   }
+			  console.log(data.value); //被点击的 radio 的 value 值
+			}); 
+
+        }
+      });
+
+         $(function(){
+        //选择时分秒
+      
+       
+        var DATAPICKERAPI = {
+          // 默认input显示当前月,自己获取后填充
+          activeMonthRange: function () {
+            return {
+              begin: moment().set({ 'date': 1, 'hour': 0, 'minute': 0, 'second': 0 }).format('YYYY-MM-DD HH:mm:ss'),
+              end: moment().set({ 'hour': 23, 'minute': 59, 'second': 59 }).format('YYYY-MM-DD HH:mm:ss')
+            }
+          },
+          shortcutMonth: function () {
+            // 当月
+            var nowDay = moment().get('date');
+            var prevMonthFirstDay = moment().subtract(1, 'months').set({ 'date': 1 });
+            var prevMonthDay = moment().diff(prevMonthFirstDay, 'days');
+            return {
+              now: '-' + nowDay + ',0',
+              prev: '-' + prevMonthDay + ',-' + nowDay
+            }
+          },
+          // 近n小时计算返回
+          shortcutPrevHours: function (hour) {
+            var nowDay = moment().get('date');
+            var prevHours = moment().subtract(hour, 'hours');
+            var prevDate=prevHours.get('date')- nowDay;
+            var nowTime=moment().format('HH:mm:ss');
+            var prevTime = prevHours.format('HH:mm:ss');
+            return {
+              day: prevDate + ',0',
+              time: prevTime+',' + nowTime,
+              name: '近'+ hour+'小时'
+            }
+          },
+          // 注意为函数：快捷选项option:只能同一个月份内的
+          rangeMonthShortcutOption1: function () {
+            var result = DATAPICKERAPI.shortcutMonth();
+            // 近18小时
+            var resultTime= DATAPICKERAPI.shortcutPrevHours(18);
+            return [{
+              name: '昨天',
+              day: '-1,-1',
+              time: '00:00:00,23:59:59'
+            }, {
+              name: '这一月',
+              day: result.now,
+              time: '00:00:00,'
+            }, {
+              name: '上一月',
+              day: result.prev,
+              time: '00:00:00,23:59:59'
+            }, {
+              name: resultTime.name,
+              day: resultTime.day,
+              time: resultTime.time
+            }];
+          },
+          // 快捷选项option
+          rangeShortcutOption1: [{
+            name: '最近一周',
+            day: '-7,0'
+          }, {
+            name: '最近一个月',
+            day: '-30,0'
+          }, {
+            name: '最近三个月',
+            day: '-90, 0'
+          }],
+          singleShortcutOptions1: [{
+            name: '今天',
+            day: '0',
+            time: '00:00:00'
+          }, {
+            name: '昨天',
+            day: '-1',
+            time: '00:00:00'
+          }, {
+            name: '一周前',
+            day: '-7'
+          }]
+        };
+          //时分秒年月日单个
+          $('.J-datepicker').datePicker({
+            hasShortcut:true,
+            min:'2018-01-01 04:00:00',
+            max:'2019-04-29 20:59:59',
+            shortcutOptions:[{
+              name: '今天',
+              day: '0'
+            }, {
+              name: '昨天',
+              day: '-1',
+              time: '00:00:00'
+            }, {
+              name: '一周前',
+              day: '-7'
+            }],
+            hide:function(){
+              console.info(this)
+            }
+          });
+          
+          //年月日单个
+          $('.J-datepicker-day').datePicker({
+            hasShortcut: true,
+            format:'YYYY-MM-DD',
+            shortcutOptions: [{
+              name: '今天',
+              day: '0'
+            }, {
+              name: '昨天',
+              day: '-1'
+            }, {
+              name: '一周前',
+              day: '-7'
+            }]
+          });
+          
+          //年月日范围
+          $('.J-datepicker-range-day').datePicker({
+            hasShortcut: true,
+            format: 'YYYY-MM-DD',
+            isRange: true,
+            shortcutOptions: DATAPICKERAPI.rangeShortcutOption1
+          });
+
+          //十分年月日单个
+          $('.J-datepickerTime-single').datePicker({
+            format: 'YYYY-MM-DD HH:mm'
+          });
+          
+          //十分年月日范围
+          $('.J-datepickerTime-range').datePicker({
+            format: 'YYYY-MM-DD HH:mm',
+            isRange: true
+          });
+          
+          //时分秒年月日范围，包含最大最小值
+          $('.J-datepicker-range').datePicker({
+            hasShortcut: true,
+            min: '2018-01-01 06:00:00',
+            max: '2019-04-29 20:59:59',
+            isRange: true,
+            shortcutOptions: [{
+              name: '昨天',
+              day: '-1,-1',
+              time: '00:00:00,23:59:59'
+            },{
+              name: '最近一周',
+              day: '-7,0',
+              time:'00:00:00,'
+            }, {
+              name: '最近一个月',
+              day: '-30,0',
+              time: '00:00:00,'
+            }, {
+              name: '最近三个月',
+              day: '-90, 0',
+              time: '00:00:00,'
+            }],
+            hide: function (type) {
+              console.info(this.$input.eq(0).val(), this.$input.eq(1).val());
+              console.info('类型：',type)
+            }
+          });
+          //时分秒年月日范围，限制只能选择同一月，比如2018-10-01到2018-10-30
+          $('.J-datepicker-range-betweenMonth').datePicker({
+            isRange: true,
+            between:'month',
+            hasShortcut: true,
+            shortcutOptions: DATAPICKERAPI.rangeMonthShortcutOption1()
+          });
+          
+          //时分秒年月日范围，限制开始结束相隔天数小于30天
+          $('.J-datepicker-range-between30').datePicker({
+            isRange: true,
+            between: 30
+          });
+          
+          //年月单个
+          $('.J-yearMonthPicker-single').datePicker({
+            format: 'YYYY-MM',
+            min: '2018-01',
+            max: '2019-04',
+            hide: function (type) {
+              console.info(this.$input.eq(0).val());
+            }
+          });
+          
+          //选择年
+          $('.J-yearPicker-single').datePicker({
+            format: 'YYYY',
+            min: '2018',
+            max: '2020'
+          });
+          
+          
+      });
+
+    }
+  });  
+  
+  
+  
+  //触发事件mo3
+  util.event('test-active', {
+    'test-form3': function(){
+      layer.open({
+        type: 1
+        ,resize: false
+        ,shadeClose: true
+        ,area: '437px'
+        ,title: '考试时间'
+        ,content: ['<ul class="layui-form layui-form-pane" style="margin: 15px;">'
+		  ,'<li class="layui-form-item" id="rq2" ><div class="mt40"><div>日期<span class="c999"></span></div><div class="c-datepicker-date-editor c-datepicker-single-editor J-datepicker-day mt10"><i class="c-datepicker-range__icon kxiconfont icon-clock"></i><input type="text" autocomplete="off" id="field2" name="field2" placeholder="选择日期" class=" c-datepicker-data-input only-date" value=""></div></div></li>'
+		  ,'<li class="layui-form-item" id="rq1" style="display:none"><div class="mt40"><div>日期范围 <span class="c999"></span></div><div class="c-datepicker-date-editor J-datepicker-range-day mt10"><i class="c-datepicker-range__icon kxiconfont icon-clock"></i><input placeholder="开始日期" name="field1" class="c-datepicker-data-input only-date" value=""><span class="c-datepicker-range-separator">-</span><input placeholder="结束日期" name="field11" class="c-datepicker-data-input only-date" value=""></div></div></li>'
+		  ,'<li class="layui-form-item" id="rq4" style="display:none">'
+		  ,'<label class="layui-form-label">时间说明</label>'
+		    ,'<div class="layui-input-block">'
+              ,'<input  class="layui-input"  name="field4" id="field4">'
+            ,'</div></li>'
+		  ,'<li class="layui-form-item" id="rq3" style="display:none">'
+		  ,'<label class="layui-form-label">时间说明</label>'
+		    ,'<div class="layui-input-block">'
+              ,'<input  class="layui-input"  name="field3" id="field3">'
+            ,'</div></li>'
+		  ,'<li class="layui-form-item"><input type="radio" name="sex" value="2"v checked  title="单天"  lay-filter="ChoiceRadio"><input type="radio" name="sex" value="1" title="多天" lay-filter="ChoiceRadio"><input type="radio" name="sex" value="4" title="准考证"  lay-filter="ChoiceRadio"><input type="radio" name="sex" value="3" title="另行通知"  lay-filter="ChoiceRadio"></li>'
+          ,'<li class="layui-form-item" style="text-align:center;">'
+            ,'<button type="submit" lay-submit lay-filter="*" class="layui-btn">确认</button>'
+          ,'</li>'
+        ,'</ul>'].join('')
+        ,success: function(layero, index){
+          layero.find('.layui-layer-content').css('overflow', 'visible');
+          
+          form.render().on('submit(*)', function(data){
+            //layer.msg(JSON.stringify(data.field), {icon: 1});
+			if(data.field.sex == 1){
+			   document.getElementById("bkggkssj").value =(data.field.field1+' 至 '+data.field.field11).replace(/00:00:00/g,'').replace(/23:59:59/g,'');
+			   document.getElementById("mo3").value = (data.field.field1+' 至 '+data.field.field11).replace(/00:00:00/g,'').replace(/23:59:59/g,'');
+			}else if(data.field.sex == 2){
+			   document.getElementById("bkggkssj").value = data.field.field2+"";
+			   document.getElementById("mo3").value = data.field.field2+"";
+			}else if(data.field.sex == 3){
+			   document.getElementById("bkggkssj").value = data.field.field3;
+				document.getElementById("mo3").value = data.field.field3;
+			}else{
+			    document.getElementById("bkggkssj").value = data.field.field4;
+				document.getElementById("mo3").value = data.field.field4;
+			}
+			
+            layer.close(index); //关闭层
+          });
+		  form.on('radio(ChoiceRadio)', function(data){
+			  console.log(data.elem); //得到 radio 原始 DOM 对象
+			   //layer.msg(data.value);
+			   if(data.value == 1){
+			      $("#rq1").css({"display": ""});
+				  $("#rq2").css({"display": "none"});
+				  $("#rq3").css({"display": "none"});
+				  $("#rq4").css({"display": "none"});
+			   }else if(data.value == 2){
+			      $("#rq2").css({"display": ""});
+				  $("#rq1").css({"display": "none"});
+				  $("#rq3").css({"display": "none"});
+				  $("#rq4").css({"display": "none"});
+			   }else if(data.value == 3){
+			      $("#rq3").css({"display": ""});
+				  $("#rq1").css({"display": "none"});
+				  $("#rq2").css({"display": "none"});
+				  $("#rq4").css({"display": "none"});
+				  if($("#field3").val()==''){
+				    $("#field3").val('另行通知')
+				  }
+			   }else{
+			      $("#rq3").css({"display": "none"});
+				  $("#rq1").css({"display": "none"});
+				  $("#rq2").css({"display": "none"});
+				  $("#rq4").css({"display": ""});
+				  if($("#field4").val()==''){
+				    $("#field4").val('详看准考证')
+				  }
+			   }
+			  console.log(data.value); //被点击的 radio 的 value 值
+			}); 
+
+        }
+      });
+       $(function(){
+        //选择时分秒
+      
+       
+        var DATAPICKERAPI = {
+          // 默认input显示当前月,自己获取后填充
+          activeMonthRange: function () {
+            return {
+              begin: moment().set({ 'date': 1, 'hour': 0, 'minute': 0, 'second': 0 }).format('YYYY-MM-DD HH:mm:ss'),
+              end: moment().set({ 'hour': 23, 'minute': 59, 'second': 59 }).format('YYYY-MM-DD HH:mm:ss')
+            }
+          },
+          shortcutMonth: function () {
+            // 当月
+            var nowDay = moment().get('date');
+            var prevMonthFirstDay = moment().subtract(1, 'months').set({ 'date': 1 });
+            var prevMonthDay = moment().diff(prevMonthFirstDay, 'days');
+            return {
+              now: '-' + nowDay + ',0',
+              prev: '-' + prevMonthDay + ',-' + nowDay
+            }
+          },
+          // 近n小时计算返回
+          shortcutPrevHours: function (hour) {
+            var nowDay = moment().get('date');
+            var prevHours = moment().subtract(hour, 'hours');
+            var prevDate=prevHours.get('date')- nowDay;
+            var nowTime=moment().format('HH:mm:ss');
+            var prevTime = prevHours.format('HH:mm:ss');
+            return {
+              day: prevDate + ',0',
+              time: prevTime+',' + nowTime,
+              name: '近'+ hour+'小时'
+            }
+          },
+          // 注意为函数：快捷选项option:只能同一个月份内的
+          rangeMonthShortcutOption1: function () {
+            var result = DATAPICKERAPI.shortcutMonth();
+            // 近18小时
+            var resultTime= DATAPICKERAPI.shortcutPrevHours(18);
+            return [{
+              name: '昨天',
+              day: '-1,-1',
+              time: '00:00:00,23:59:59'
+            }, {
+              name: '这一月',
+              day: result.now,
+              time: '00:00:00,'
+            }, {
+              name: '上一月',
+              day: result.prev,
+              time: '00:00:00,23:59:59'
+            }, {
+              name: resultTime.name,
+              day: resultTime.day,
+              time: resultTime.time
+            }];
+          },
+          // 快捷选项option
+          rangeShortcutOption1: [{
+            name: '最近一周',
+            day: '-7,0'
+          }, {
+            name: '最近一个月',
+            day: '-30,0'
+          }, {
+            name: '最近三个月',
+            day: '-90, 0'
+          }],
+          singleShortcutOptions1: [{
+            name: '今天',
+            day: '0',
+            time: '00:00:00'
+          }, {
+            name: '昨天',
+            day: '-1',
+            time: '00:00:00'
+          }, {
+            name: '一周前',
+            day: '-7'
+          }]
+        };
+          //时分秒年月日单个
+          $('.J-datepicker').datePicker({
+            hasShortcut:true,
+            min:'2018-01-01 04:00:00',
+            max:'2019-04-29 20:59:59',
+            shortcutOptions:[{
+              name: '今天',
+              day: '0'
+            }, {
+              name: '昨天',
+              day: '-1',
+              time: '00:00:00'
+            }, {
+              name: '一周前',
+              day: '-7'
+            }],
+            hide:function(){
+              console.info(this)
+            }
+          });
+          
+          //年月日单个
+          $('.J-datepicker-day').datePicker({
+            hasShortcut: true,
+            format:'YYYY-MM-DD',
+            shortcutOptions: [{
+              name: '今天',
+              day: '0'
+            }, {
+              name: '昨天',
+              day: '-1'
+            }, {
+              name: '一周前',
+              day: '-7'
+            }]
+          });
+          
+          //年月日范围
+          $('.J-datepicker-range-day').datePicker({
+            hasShortcut: true,
+            format: 'YYYY-MM-DD',
+            isRange: true,
+            shortcutOptions: DATAPICKERAPI.rangeShortcutOption1
+          });
+
+          //十分年月日单个
+          $('.J-datepickerTime-single').datePicker({
+            format: 'YYYY-MM-DD HH:mm'
+          });
+          
+          //十分年月日范围
+          $('.J-datepickerTime-range').datePicker({
+            format: 'YYYY-MM-DD HH:mm',
+            isRange: true
+          });
+          
+          //时分秒年月日范围，包含最大最小值
+          $('.J-datepicker-range').datePicker({
+            hasShortcut: true,
+            min: '2018-01-01 06:00:00',
+            max: '2019-04-29 20:59:59',
+            isRange: true,
+            shortcutOptions: [{
+              name: '昨天',
+              day: '-1,-1',
+              time: '00:00:00,23:59:59'
+            },{
+              name: '最近一周',
+              day: '-7,0',
+              time:'00:00:00,'
+            }, {
+              name: '最近一个月',
+              day: '-30,0',
+              time: '00:00:00,'
+            }, {
+              name: '最近三个月',
+              day: '-90, 0',
+              time: '00:00:00,'
+            }],
+            hide: function (type) {
+              console.info(this.$input.eq(0).val(), this.$input.eq(1).val());
+              console.info('类型：',type)
+            }
+          });
+          //时分秒年月日范围，限制只能选择同一月，比如2018-10-01到2018-10-30
+          $('.J-datepicker-range-betweenMonth').datePicker({
+            isRange: true,
+            between:'month',
+            hasShortcut: true,
+            shortcutOptions: DATAPICKERAPI.rangeMonthShortcutOption1()
+          });
+          
+          //时分秒年月日范围，限制开始结束相隔天数小于30天
+          $('.J-datepicker-range-between30').datePicker({
+            isRange: true,
+            between: 30
+          });
+          
+          //年月单个
+          $('.J-yearMonthPicker-single').datePicker({
+            format: 'YYYY-MM',
+            min: '2018-01',
+            max: '2019-04',
+            hide: function (type) {
+              console.info(this.$input.eq(0).val());
+            }
+          });
+          
+          //选择年
+          $('.J-yearPicker-single').datePicker({
+            format: 'YYYY',
+            min: '2018',
+            max: '2020'
+          });
+          
+          
+      });
+
+    }
+  });  
+  
+  
+  
+});
+
+
+
+
+</script>
+</body>
+
+</html>

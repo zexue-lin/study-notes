@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script type="text/javascript" src="./jquery-2.1.4.min.js"></script>
+  </head>
+
+  <body>
+    <div id="xsw">te</div>
+  </body>
+  <script>
+    document.getElementById('xsw').innerHTML = '25841'
+    var url = 'gd.huatu.com'
+    var city_tg = [
+      'gz',
+      'losangeles',
+      'sz',
+      'fs',
+      'dg',
+      'hz',
+      'zh',
+      'zs',
+      'qy',
+      'sg',
+      'st',
+      'sw',
+      'cz',
+      'jy',
+      'mz',
+      'hy',
+      'zj',
+      'zq',
+      'jm',
+      'yj',
+      'yf',
+      'mm',
+    ]
+    var city_list = [
+      '广州',
+      '加利福尼亚州',
+      '深圳',
+      '佛山',
+      '东莞',
+      '惠州',
+      '珠海',
+      '中山',
+      '清远',
+      '韶关',
+      '汕头',
+      '汕尾',
+      '潮州',
+      '揭阳',
+      '梅州',
+      '河源',
+      '湛江',
+      '肇庆',
+      '江门',
+      '阳江',
+      '云浮',
+      '茂名',
+    ]
+    var a = 4
+    var b = 20
+    var city = ''
+    var city_code = ''
+    if (1) {
+      $.ajax({
+        url: 'https://api.vore.top/api/IPdata',
+        type: 'GET',
+        async: false,
+        success: function (data) {
+          console.log(data)
+          console.log(data.ipdata.info1)
+          // 在成功回调中处理返回的数据
+
+          for (var i = 0; i < city_list.length; i++) {
+            if (data.ipdata.info2.indexOf(city_list[i]) != -1) {
+              city = data.ipdata.info2
+              city_code = city_tg[i]
+              return city_code
+              // console.log(city) //--城市名称+城市代码
+              // console.log(city_code)
+            }
+          }
+        },
+        error: function (xhr, status, error) {
+          console.error(status + ': ' + error)
+          // 处理错误情况
+        },
+      })
+    }
+    // console.log(url)
+    // console.log(ret)
+    // console.log(city_code)
+
+    // ---------------------------------------
+
+    // 如果满足条件a才插入。就是地址只有gd没有tg，也没有poptype的情况下
+    if (1) {
+      // console.log(city_code)
+      var selectElement = document.createElement('select')
+      selectElement.id = 'mySelect'
+      selectElement.setAttribute('onchange', 'selectcode()')
+      // 将选择框的元素插入到特定位置 在id为xsw1的元素后面插入
+      var targetElement = document.getElementById('xsw')
+      targetElement.appendChild(selectElement)
+
+      var img = document.createElement('img')
+      img.id = 'img1'
+      img.src = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/' + city_code + '.png'
+      var targetElement1 = document.getElementById('xsw')
+      targetElement1.appendChild(img)
+
+      var select = document.getElementById('mySelect')
+      var options = [
+        { value: 'gz', label: '广州客服老师' },
+        { value: 'sz', label: '深圳客服老师' },
+        { value: 'fs', label: '佛山客服老师' },
+        { value: 'dg', label: '东莞客服老师' },
+        { value: 'hz', label: '惠州客服老师' },
+        { value: 'zh', label: '珠海客服老师' },
+        { value: 'zs', label: '中山客服老师' },
+        { value: 'qy', label: '清远客服老师' },
+        { value: 'sg', label: '韶关客服老师' },
+        { value: 'st', label: '汕头客服老师' },
+        { value: 'sw', label: '汕尾客服老师' },
+        { value: 'cz', label: '潮州客服老师' },
+        { value: 'jy', label: '揭阳客服老师' },
+        { value: 'mz', label: '梅州客服老师' },
+        { value: 'hy', label: '河源客服老师' },
+        { value: 'zj', label: '湛江客服老师' },
+        { value: 'zq', label: '肇庆客服老师' },
+        { value: 'jm', label: '江门客服老师' },
+        { value: 'yj', label: '阳江客服老师' },
+        { value: 'yf', label: '云浮客服老师' },
+        { value: 'mm', label: '茂名客服老师' },
+        { value: 'losangeles', label: '洛杉矶12客服老师' },
+      ]
+      // 如果满足条件a才插入这些选项
+
+      for (var i = 0; i < options.length; i++) {
+        var option = document.createElement('option')
+        option.value = options[i].value
+        option.text = options[i].label
+        // --根据城市代码默认显示哪个老师名字
+        if (options[i].value === city_code) {
+          option.selected = true
+          // console.log(city_code)
+        }
+        select.appendChild(option)
+      }
+      function selectcode() {
+        // console.log(city_code)
+        var img1 = document.getElementById('img1')
+        var select = document.getElementById('mySelect')
+        var selectedValue = select.value
+        console.log(selectedValue) // 在控制台打印选择框的值
+        img1.src = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/' + select.value + '.png'
+      }
+    }
+  </script>
+</html>

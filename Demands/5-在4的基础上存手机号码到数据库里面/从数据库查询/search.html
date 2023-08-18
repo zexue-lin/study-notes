@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>学员预约并领取优惠资格查询</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <body>
+    <h1>学员预约并领取优惠资格查询</h1>
+    <input type="text" id="mobile" placeholder="请输入学员手机号" />
+    <button id="queryBtn">查询</button>
+    <div id="result"></div>
+
+    <script>
+      $(document).ready(function () {
+        // 监听查询按钮点击事件
+        $('#queryBtn').click(function () {
+          var mobile = $('#mobile').val()
+
+          // 发送 AJAX 请求到服务器
+          $.ajax({
+            url: 'https://gd.huatu.com/zt/2023znqlm/api/query.php', // 修改为您的服务器端处理查询的 PHP 文件
+            method: 'GET',
+            data: { mobile: mobile },
+            dataType: 'json',
+            success: function (response) {
+              if (response.success) {
+                $('#result').html('查询结果: ' + '该学员已预约并领取优惠') // 修改为您需要显示的查询结果
+              } else {
+                $('#result').html('查询失败')
+              }
+            },
+            error: function () {
+              $('#result').html('查询出错')
+            },
+          })
+        })
+      })
+    </script>
+  </body>
+</html>
