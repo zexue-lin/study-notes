@@ -402,7 +402,6 @@
         var wxewm = $('#fromphonepic')
         // var selectedValue = select.value
         var selectedValue = select.val()
-
         // console.log(selectedValue) // 在控制台打印选择框的值
         // console.log(city)
         // console.log(code)
