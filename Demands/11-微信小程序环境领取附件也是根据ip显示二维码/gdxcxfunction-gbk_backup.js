@@ -1,4 +1,4 @@
-var redirect_href = ''
+var redirect_href = '';
 
 //url 链接或者口令
 function xcx1(url) {

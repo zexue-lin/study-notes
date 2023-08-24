@@ -10,7 +10,6 @@ function xcx1(url) {
                 wxtc(url)
                 event.preventDefault()
             } else {
-                //if(window.location.href.indexOf("https://m.qingyuan.huatu.com/2023/0317/4332722.html") != -1){
                 if (0) {
                     if (1) {
                         //if(localStorage.getItem('gdht_wxlogin_type')){
@@ -1071,8 +1070,7 @@ var ua = navigator.userAgent.toLowerCase()
 var locationurl = window.location.href
 if (ua.match(/MicroMessenger/i) == 'micromessenger' && locationurl.indexOf('/zixun/') == -1) {
     wx.miniProgram.getEnv(res => {
-        if (res.miniprogram && province == '广东省') {
-
+        if (res.miniprogram || province == '广东省') {
             // https://m.gd.huatu.com/ylws/2023/0601/4976439.html?tg=gd
             // https://gd.huatu.com/sydw/2023/0711/5168687.html?wximg=https://u3.huatu.com/uploads/gdht/all/2023/0711/1689046551.png&amp;poptype=1&amp;popkey=
             // https://m.gd.huatu.com/ylws/2023/0601/4976439.html
