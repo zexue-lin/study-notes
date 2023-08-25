@@ -1,15 +1,16 @@
-let redirect_href = ''
+var redirect_href = ''
 
 //url 链接或者口令
 function xcx1(url) {
-    const ua = navigator.userAgent.toLowerCase()
-    if (ua.match(/MicroMessenger/i) === 'micromessenger') {
+    var ua = navigator.userAgent.toLowerCase()
+    if (ua.match(/MicroMessenger/i) == 'micromessenger') {
         // wxtc(url)
         wx.miniProgram.getEnv(res => {
             if (res.miniprogram) {
                 wxtc(url)
                 event.preventDefault()
             } else {
+                //if(window.location.href.indexOf("https://m.qingyuan.huatu.com/2023/0317/4332722.html") != -1){
                 if (0) {
                     if (1) {
                         //if(localStorage.getItem('gdht_wxlogin_type')){
@@ -22,15 +23,15 @@ function xcx1(url) {
                     //微信浏览器
                     //广东，深圳都开启关注服务号
                     //if(0){
-                    //if((window.location.href.indexOf("https://shenzhen.huatu.com/") !== -1)||(window.location.href.indexOf("https://gd.huatu.com/") !== -1)){
+                    //if((window.location.href.indexOf("https://shenzhen.huatu.com/") != -1)||(window.location.href.indexOf("https://gd.huatu.com/") != -1)){
                     //微信端判断跳转的链接或者附件如果是gov和那些小店链接，则不收手机号
                     //alert('开始下载了');
                     //alert('华图提醒你正在下载1');
-                    if (url.indexOf('go/u3/') !== -1 || url.indexOf('https://u3.huatu.com/uploads/soft/') !== -1 || url.indexOf('xls') !== -1 || url.indexOf('pdf') !== -1 || url.indexOf('doc') !== -1 || url.indexOf('xlsx') !== -1) {
+                    if (url.indexOf('go/u3/') != -1 || url.indexOf('https://u3.huatu.com/uploads/soft/') != -1 || url.indexOf('xls') != -1 || url.indexOf('pdf') != -1 || url.indexOf('doc') != -1 || url.indexOf('xlsx') != -1) {
                         //alert('华图提醒你正在下载2');
                         //地址带有wj=1，则直接下载附件
-                        let wj = getQueryString('wj')
-                        if (wj === '1') {
+                        var wj = getQueryString('wj')
+                        if (wj == '1') {
                         } else {
                             wxtc(url)
                             event.preventDefault()
@@ -46,16 +47,16 @@ function xcx1(url) {
                     }
 
                     //开始判断其他入口的链接 微信浏览器的情况下 且有自定义参数的情况下
-                    if (url.indexOf('huatu.com') === -1 && url.indexOf('https://htjy') === -1) {
+                    if (url.indexOf('huatu.com') == -1 && url.indexOf('https://htjy') == -1) {
                         //判断微信浏览器地址是否带有弹窗类型标志poptype  1为用户回复获取（企业微信、客服二维码 2为关键词获取 3为扫码获取
-                        let poptype = 1
-                        let locationurl = window.location.href
+                        var poptype = 1
+                        var locationurl = window.location.href
                         //带有参数的直接弹窗
-                        if (locationurl.indexOf('amp;poptype=') !== -1) {
+                        if (locationurl.indexOf('amp;poptype=') != -1) {
                             wxtc(url)
                         } else {
                             //判断文章中有没有自定义控制的三个内容 wzpoptype wzpopkey wzwximg 等  或者地址上带有tg=
-                            if (document.getElementById('wzpoptype') || locationurl.indexOf('tg=') !== -1) {
+                            if (document.getElementById('wzpoptype') || locationurl.indexOf('tg=') != -1) {
                                 wxtc(url)
                             }
                         }
@@ -67,15 +68,15 @@ function xcx1(url) {
         })
     } else {
         //参数1不为空
-        let flagzw = false
+        var flagzw = false
         if (/.*[\u4e00-\u9fa5]+.*$/.test(url)) {
             flagzw = true
         }
         if (url && !flagzw) {
-            if (url.indexOf('go/u3/') !== -1 || url.indexOf('https://u3.huatu.com/uploads/soft/') !== -1) {
+            if (url.indexOf('go/u3/') != -1 || url.indexOf('https://u3.huatu.com/uploads/soft/') != -1) {
                 //判断是否为移动端
                 redirect_href = url
-                let ua1 = window.navigator.userAgent.toLowerCase()
+                var ua1 = window.navigator.userAgent.toLowerCase()
                 if (
                     ua1.match(
                         /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i
@@ -83,23 +84,26 @@ function xcx1(url) {
                 ) {
                     //移动端
 
+                    //if(1){
                     if (localStorage.getItem('gdht_wxlogin_type')) {
                         //loginOpen();
                         //event.preventDefault();
                     } else {
                         var xcxfunction = $('#xcxfunction').val()
-                        if (xcxfunction !== 'true' && window.location.href.indexOf('/zt/') !== -1) {
+                        if (xcxfunction != 'true' && window.location.href.indexOf('/zt/') != -1) {
                             //专题下面没开启true就不弹窗
                         } else {
-                            if (window.location.href.indexOf('isxcx=false') !== -1) {
+                            if (window.location.href.indexOf('isxcx=false') != -1) {
                                 //链接带着某些参数的不弹窗
                             } else {
                                 if (ua1.match(/(iPhone|iPod|iPad);?/i)) {
                                     //区分iPhone设备
                                     //console.log('IOS');
                                     checkRedirect(url)
+                                    //loginOpen();
                                     event.preventDefault()
                                 } else {
+                                    //console.log("Android");
                                     checkRedirect(url)
                                     event.preventDefault()
                                 }
@@ -117,16 +121,16 @@ function xcx1(url) {
                     }
                 } else {
                     //pc端
-                    if (window.location.href.indexOf('https://jiangmen.huatu.com/') !== -1) {
+                    if (window.location.href.indexOf('https://jiangmen.huatu.com/') != -1) {
                         //江门不进行关注服务号号的操作
                     } else {
                         if (localStorage.getItem('gdht_wxlogin_type')) {
                         } else {
                             var xcxfunction = $('#xcxfunction').val()
-                            if (xcxfunction !== 'true' && window.location.href.indexOf('/zt/') !== -1) {
+                            if (xcxfunction != 'true' && window.location.href.indexOf('/zt/') != -1) {
                                 //专题下面没开启true就不弹窗
                             } else {
-                                if (window.location.href.indexOf('isxcx=false') !== -1) {
+                                if (window.location.href.indexOf('isxcx=false') != -1) {
                                     //链接带着某些参数的不弹窗
                                 } else {
                                     loginOpen()
@@ -139,7 +143,7 @@ function xcx1(url) {
             }
 
             //开始判断其他入口的链接进行手机号的收集，不单单u3，在pc/移动的情况下
-            if (url.indexOf('huatu.com') === -1 && url.indexOf('https://htjy') === -1) {
+            if (url.indexOf('huatu.com') == -1 && url.indexOf('https://htjy') == -1) {
                 //判断是否为移动端
                 redirect_href = url
                 var ua1 = window.navigator.userAgent.toLowerCase()
@@ -152,10 +156,10 @@ function xcx1(url) {
                     if (localStorage.getItem('gdht_wxlogin_type')) {
                     } else {
                         var xcxfunction = $('#xcxfunction').val()
-                        if (xcxfunction !== 'true' && window.location.href.indexOf('/zt/') !== -1) {
+                        if (xcxfunction != 'true' && window.location.href.indexOf('/zt/') != -1) {
                             //专题下面没开启true就不弹窗
                         } else {
-                            if (window.location.href.indexOf('isxcx=false') !== -1) {
+                            if (window.location.href.indexOf('isxcx=false') != -1) {
                                 //链接带着某些参数的不弹窗
                             } else {
                                 if (ua1.match(/(iPhone|iPod|iPad);?/i)) {
@@ -182,21 +186,21 @@ function xcx1(url) {
                     }
                 } else {
                     //pc端
-                    if (window.location.href.indexOf('https://jiangmen.huatu.com/') !== -1) {
+                    if (window.location.href.indexOf('https://jiangmen.huatu.com/') != -1) {
                         //江门不进行关注服务号号的操作
                     } else {
                         if (localStorage.getItem('gdht_wxlogin_type')) {
                         } else {
                             var xcxfunction = $('#xcxfunction').val()
-                            if (xcxfunction !== 'true' && window.location.href.indexOf('/zt/') !== -1) {
+                            if (xcxfunction != 'true' && window.location.href.indexOf('/zt/') != -1) {
                                 //专题下面没开启true就不弹窗
                             } else {
-                                if (window.location.href.indexOf('isxcx=false') !== -1) {
+                                if (window.location.href.indexOf('isxcx=false') != -1) {
                                     //链接带着某些参数的不弹窗
                                 } else {
                                     //pc端不弹窗设置
                                     var pcfunction = $('#pcfunction').val()
-                                    if (pcfunction == 'true' && window.location.href.indexOf('/zt/') !== -1) {
+                                    if (pcfunction == 'true' && window.location.href.indexOf('/zt/') != -1) {
                                     } else {
                                         loginOpen()
                                         event.preventDefault()
@@ -214,19 +218,19 @@ function xcx1(url) {
 }
 
 function xcxforminiprom1(url) {
-    let flagzw = false
-    let text = ''
+    var flagzw = false
+    var text = ''
     if (/.*[\u4e00-\u9fa5]+.*$/.test(url)) {
         flagzw = true
         text = url
     }
-    let alink = url
+    var alink = url
     if (text) {
         alink = text
     }
-    let demoInput = document.getElementById('demoInput')
+    var demoInput = document.getElementById('demoInput')
 
-    if (alink.indexOf('go/u3/') !== -1 || alink.indexOf('https://u3.huatu.com/uploads/soft/') !== -1 || alink.indexOf('xls') !== -1 || alink.indexOf('pdf') !== -1 || alink.indexOf('doc') !== -1 || alink.indexOf('xlsx') !== -1) {
+    if (alink.indexOf('go/u3/') != -1 || alink.indexOf('https://u3.huatu.com/uploads/soft/') != -1 || alink.indexOf('xls') != -1 || alink.indexOf('pdf') != -1 || alink.indexOf('doc') != -1 || alink.indexOf('xlsx') != -1) {
         alink = copytheu3all()
     }
 
@@ -235,14 +239,14 @@ function xcxforminiprom1(url) {
     let data = input.select()
     document.execCommand('copy')
 
-    if (alink.indexOf('go/u3/') !== -1 || alink.indexOf('https://u3.huatu.com/uploads/soft/') !== -1 || alink.indexOf('xls') !== -1 || alink.indexOf('pdf') !== -1 || alink.indexOf('doc') !== -1 || alink.indexOf('xlsx') !== -1) {
+    if (alink.indexOf('go/u3/') != -1 || alink.indexOf('https://u3.huatu.com/uploads/soft/') != -1 || alink.indexOf('xls') != -1 || alink.indexOf('pdf') != -1 || alink.indexOf('doc') != -1 || alink.indexOf('xlsx') != -1) {
     } else {
-        if (typeof thecopyforhtmlgg == 'string' && thecopyforhtmlgg !== '') {
+        if (typeof thecopyforhtmlgg == 'string' && thecopyforhtmlgg != '') {
             alink += '\r\n\r\n' + thecopyforhtmlgg + '\r\n\r\n'
         }
     }
 
-    if (typeof thecopyforhtml == 'string' && thecopyforhtml !== '') {
+    if (typeof thecopyforhtml == 'string' && thecopyforhtml != '') {
         alink = thecopyforhtml
     }
 
@@ -254,13 +258,13 @@ function xcxforminiprom1(url) {
     document.body.removeChild(textarea) // 删除临时实例
 
     //非华图的直接显示复制内容成功
-    if (url.indexOf('huatu.com') === -1) {
+    if (url.indexOf('huatu.com') == -1) {
         alert('链接复制成功，请到浏览器打开')
         return
     }
 
     if (1) {
-        //if (url.indexOf("go/u3/") !== -1) {
+        //if (url.indexOf("go/u3/") != -1) {
         document.getElementById('thetitle').innerHTML = '链接获取'
         document.getElementById('tishi').innerHTML = '小程序里不能直接打开相关链接'
         document.getElementById('tishi2').innerHTML = '直接复制链接到浏览器打开！'
@@ -269,7 +273,8 @@ function xcxforminiprom1(url) {
         alertext = '链接复制成功'
     }
     //付款购买的显示企业号
-    if (url.indexOf('htjy.cc') !== -1 || url.indexOf('xd.huatu.com') !== -1 || url.indexOf('xue.huatu.com') !== -1 || url.indexOf('v.huatucom') !== -1) {
+    if (url.indexOf('htjy.cc') != -1 || url.indexOf('xd.huatu.com') != -1 || url.indexOf('xue.huatu.com') != -1 || url.indexOf('v.huatucom') != -1) {
+        //$('.wxewm').attr('src', 'https://gd.huatu.com/zt/gdhttg/zxkfewm/gdwzqywxkf.png');
     }
 
     textcopy = '链接'
@@ -286,9 +291,9 @@ function xcxforminiprom1(url) {
 
     document.getElementById('copyid').style.display = 'block'
     //服务号开通
-    let locationurl = window.location.href
+    var locationurl = window.location.href
 
-    let tg = getQueryString('tg')
+    var tg = getQueryString('tg')
 
     //locationurl = 'fdsfsfs';
     //注释，修改为去企业微信
@@ -296,7 +301,7 @@ function xcxforminiprom1(url) {
         //if(url.indexOf("go/u3/") == -1 && (url.indexOf("https://u3.huatu.com/uploads/soft/") == -1)){
         //其他链接去服务号
 
-        if (locationurl.indexOf('gd.huatu.com') !== -1) {
+        if (locationurl.indexOf('gd.huatu.com') != -1) {
             //var code = getqrcode(url);
             //var code = getqrcode(url);
             var code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-wl/getQRCode/')
@@ -310,7 +315,7 @@ function xcxforminiprom1(url) {
             textcopy = '-1'
             alertext = '复制成功'
         }
-        if (locationurl.indexOf('shenzhen.huatu.com') !== -1) {
+        if (locationurl.indexOf('shenzhen.huatu.com') != -1) {
             var code = getqrcodesz(url)
             $('.wxewm').attr('src', code)
             document.getElementById('thetitle').innerHTML = '扫码获取'
@@ -322,7 +327,7 @@ function xcxforminiprom1(url) {
             textcopy = '-1'
             alertext = '复制成功'
         }
-        if (locationurl.indexOf('yunfu.huatu.com') !== -1) {
+        if (locationurl.indexOf('yunfu.huatu.com') != -1) {
             var code = getqrcodeyf(url)
             $('.wxewm').attr('src', code)
             document.getElementById('thetitle').innerHTML = '扫码获取'
@@ -335,7 +340,7 @@ function xcxforminiprom1(url) {
             alertext = '复制成功'
         }
 
-        if (locationurl.indexOf('meizhou.huatu.com') !== -1) {
+        if (locationurl.indexOf('meizhou.huatu.com') != -1) {
             var code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-mz/getQRCode/')
             $('.wxewm').attr('src', code)
             document.getElementById('thetitle').innerHTML = '扫码获取'
@@ -348,7 +353,7 @@ function xcxforminiprom1(url) {
             alertext = '复制成功'
         }
 
-        if (locationurl.indexOf('maoming.huatu.com') !== -1) {
+        if (locationurl.indexOf('maoming.huatu.com') != -1) {
             var code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-mm/getQRCode/')
             $('.wxewm').attr('src', code)
             document.getElementById('thetitle').innerHTML = '扫码获取'
@@ -361,7 +366,7 @@ function xcxforminiprom1(url) {
             alertext = '复制成功'
         }
 
-        if (locationurl.indexOf('chaozhou.huatu.com') !== -1) {
+        if (locationurl.indexOf('chaozhou.huatu.com') != -1) {
             var code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-cz/getQRCode/')
             $('.wxewm').attr('src', code)
             document.getElementById('thetitle').innerHTML = '扫码获取'
@@ -374,7 +379,7 @@ function xcxforminiprom1(url) {
             alertext = '复制成功'
         }
 
-        if (locationurl.indexOf('foshan.huatu.com') !== -1) {
+        if (locationurl.indexOf('foshan.huatu.com') != -1) {
             var code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-fs/getQRCode/')
             $('.wxewm').attr('src', code)
             document.getElementById('thetitle').innerHTML = '扫码获取'
@@ -387,7 +392,7 @@ function xcxforminiprom1(url) {
             alertext = '复制成功'
         }
 
-        if (locationurl.indexOf('dongguan.huatu.com') !== -1) {
+        if (locationurl.indexOf('dongguan.huatu.com') != -1) {
             var code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-dg/getQRCode/')
             $('.wxewm').attr('src', code)
             document.getElementById('thetitle').innerHTML = '扫码获取'
@@ -400,7 +405,7 @@ function xcxforminiprom1(url) {
             alertext = '复制成功'
         }
 
-        if (locationurl.indexOf('zhongshan.huatu.com') !== -1) {
+        if (locationurl.indexOf('zhongshan.huatu.com') != -1) {
             var code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-zs/getQRCode/')
             $('.wxewm').attr('src', code)
             document.getElementById('thetitle').innerHTML = '扫码获取'
@@ -413,7 +418,7 @@ function xcxforminiprom1(url) {
             alertext = '复制成功'
         }
 
-        if (locationurl.indexOf('jieyang.huatu.com') !== -1) {
+        if (locationurl.indexOf('jieyang.huatu.com') != -1) {
             var code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-jy/getQRCode/')
             $('.wxewm').attr('src', code)
             document.getElementById('thetitle').innerHTML = '扫码获取'
@@ -426,7 +431,7 @@ function xcxforminiprom1(url) {
             alertext = '复制成功'
         }
 
-        if (locationurl.indexOf('guangzhou.huatu.com') !== -1) {
+        if (locationurl.indexOf('guangzhou.huatu.com') != -1) {
             var code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-gz/getQRCode/')
             $('.wxewm').attr('src', code)
             document.getElementById('thetitle').innerHTML = '扫码获取'
@@ -439,7 +444,7 @@ function xcxforminiprom1(url) {
             alertext = '复制成功'
         }
 
-        if (locationurl.indexOf('shantou.huatu.com') !== -1) {
+        if (locationurl.indexOf('shantou.huatu.com') != -1) {
             var code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-st/getQRCode/')
             $('.wxewm').attr('src', code)
             document.getElementById('thetitle').innerHTML = '扫码获取'
@@ -452,7 +457,7 @@ function xcxforminiprom1(url) {
             alertext = '复制成功'
         }
 
-        if (locationurl.indexOf('huizhou.huatu.com') !== -1) {
+        if (locationurl.indexOf('huizhou.huatu.com') != -1) {
             var code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-hz/getQRCode/')
             $('.wxewm').attr('src', code)
             document.getElementById('thetitle').innerHTML = '扫码获取'
@@ -465,7 +470,7 @@ function xcxforminiprom1(url) {
             alertext = '复制成功'
         }
 
-        if (locationurl.indexOf('zhanjiang.huatu.com') !== -1) {
+        if (locationurl.indexOf('zhanjiang.huatu.com') != -1) {
             var code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-zj/getQRCode/')
             $('.wxewm').attr('src', code)
             document.getElementById('thetitle').innerHTML = '扫码获取'
@@ -478,7 +483,7 @@ function xcxforminiprom1(url) {
             alertext = '复制成功'
         }
 
-        if (locationurl.indexOf('yangjiang.huatu.com') !== -1) {
+        if (locationurl.indexOf('yangjiang.huatu.com') != -1) {
             var code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-yj/getQRCode/')
             $('.wxewm').attr('src', code)
             document.getElementById('thetitle').innerHTML = '扫码获取'
@@ -491,7 +496,7 @@ function xcxforminiprom1(url) {
             alertext = '复制成功'
         }
 
-        if (locationurl.indexOf('gd.huatu.com/jsks/') !== -1) {
+        if (locationurl.indexOf('gd.huatu.com/jsks/') != -1) {
             var code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-xm-jsks/getQRCode/')
             $('.wxewm').attr('src', code)
             document.getElementById('thetitle').innerHTML = '扫码获取'
@@ -504,7 +509,7 @@ function xcxforminiprom1(url) {
             alertext = '复制成功'
         }
 
-        if (locationurl.indexOf('zhuhai.huatu.com') !== -1) {
+        if (locationurl.indexOf('zhuhai.huatu.com') != -1) {
             var code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-zh/getQRCode/')
             $('.wxewm').attr('src', code)
             document.getElementById('thetitle').innerHTML = '扫码获取'
@@ -517,7 +522,7 @@ function xcxforminiprom1(url) {
             alertext = '复制成功'
         }
 
-        if (locationurl.indexOf('qingyuan.huatu.com') !== -1) {
+        if (locationurl.indexOf('qingyuan.huatu.com') != -1) {
             var code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-qy/getQRCode/')
             $('.wxewm').attr('src', code)
             document.getElementById('thetitle').innerHTML = '扫码获取'
@@ -530,7 +535,7 @@ function xcxforminiprom1(url) {
             alertext = '复制成功'
         }
 
-        if (locationurl.indexOf('jiangmen.huatu.com') !== -1) {
+        if (locationurl.indexOf('jiangmen.huatu.com') != -1) {
             var code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-jm/getQRCode/')
             $('.wxewm').attr('src', code)
             document.getElementById('thetitle').innerHTML = '扫码获取'
@@ -543,7 +548,7 @@ function xcxforminiprom1(url) {
             alertext = '复制成功'
         }
 
-        if (locationurl.indexOf('heyuan.huatu.com') !== -1) {
+        if (locationurl.indexOf('heyuan.huatu.com') != -1) {
             var code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-hy/getQRCode/')
             $('.wxewm').attr('src', code)
             document.getElementById('thetitle').innerHTML = '扫码获取'
@@ -556,7 +561,7 @@ function xcxforminiprom1(url) {
             alertext = '复制成功'
         }
 
-        if (locationurl.indexOf('zhaoqing.huatu.com') !== -1) {
+        if (locationurl.indexOf('zhaoqing.huatu.com') != -1) {
             var code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-zq/getQRCode/')
             $('.wxewm').attr('src', code)
             document.getElementById('thetitle').innerHTML = '扫码获取'
@@ -569,7 +574,7 @@ function xcxforminiprom1(url) {
             alertext = '复制成功'
         }
 
-        if (locationurl.indexOf('shanwei.huatu.com') !== -1) {
+        if (locationurl.indexOf('shanwei.huatu.com') != -1) {
             var code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-sw/getQRCode/')
             $('.wxewm').attr('src', code)
             document.getElementById('thetitle').innerHTML = '扫码获取'
@@ -594,56 +599,56 @@ function xcxforminiprom1(url) {
         $('.wxewm_next').attr('src', 'https://gd.huatu.com/zt/js/images/gc.png')
 
         var code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/gd.png'
-        if (locationurl.indexOf('maoming.huatu.com') !== -1) {
+        if (locationurl.indexOf('maoming.huatu.com') != -1) {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/mm.png'
-        } else if (locationurl.indexOf('zhuhai.huatu.com') !== -1) {
+        } else if (locationurl.indexOf('zhuhai.huatu.com') != -1) {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/zh.png'
-        } else if (locationurl.indexOf('zhongshan.huatu.com') !== -1) {
+        } else if (locationurl.indexOf('zhongshan.huatu.com') != -1) {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/zs.png'
-        } else if (locationurl.indexOf('zhaoqing.huatu.com') !== -1) {
+        } else if (locationurl.indexOf('zhaoqing.huatu.com') != -1) {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/zq.png'
-        } else if (locationurl.indexOf('zhanjiang.huatu.com') !== -1) {
+        } else if (locationurl.indexOf('zhanjiang.huatu.com') != -1) {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/zj.png'
-        } else if (locationurl.indexOf('yunfu.huatu.com') !== -1) {
+        } else if (locationurl.indexOf('yunfu.huatu.com') != -1) {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/yf.png'
-        } else if (locationurl.indexOf('shenzhen.huatu.com') !== -1) {
+        } else if (locationurl.indexOf('shenzhen.huatu.com') != -1) {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/sz.png'
-        } else if (locationurl.indexOf('shaoguan.huatu.com') !== -1) {
+        } else if (locationurl.indexOf('shaoguan.huatu.com') != -1) {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/sg.png'
-        } else if (locationurl.indexOf('shanwei.huatu.com') !== -1) {
+        } else if (locationurl.indexOf('shanwei.huatu.com') != -1) {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/sw.png'
-        } else if (locationurl.indexOf('shantou.huatu.com') !== -1) {
+        } else if (locationurl.indexOf('shantou.huatu.com') != -1) {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/st.png'
-        } else if (locationurl.indexOf('qingyuan.huatu.com') !== -1) {
+        } else if (locationurl.indexOf('qingyuan.huatu.com') != -1) {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/qy.png'
-        } else if (locationurl.indexOf('meizhou.huatu.com') !== -1) {
+        } else if (locationurl.indexOf('meizhou.huatu.com') != -1) {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/mz.png'
-        } else if (locationurl.indexOf('jieyang.huatu.com') !== -1) {
+        } else if (locationurl.indexOf('jieyang.huatu.com') != -1) {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/jy.png'
-        } else if (locationurl.indexOf('jiangmen.huatu.com') !== -1) {
+        } else if (locationurl.indexOf('jiangmen.huatu.com') != -1) {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/jm.png'
-        } else if (locationurl.indexOf('huizhou.huatu.com') !== -1) {
+        } else if (locationurl.indexOf('huizhou.huatu.com') != -1) {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/hz.png'
-        } else if (locationurl.indexOf('heyuan.huatu.com') !== -1) {
+        } else if (locationurl.indexOf('heyuan.huatu.com') != -1) {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/hy.png'
-        } else if (locationurl.indexOf('guangzhou.huatu.com') !== -1) {
+        } else if (locationurl.indexOf('guangzhou.huatu.com') != -1) {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/gz.png'
-        } else if (locationurl.indexOf('foshan.huatu.com') !== -1) {
+        } else if (locationurl.indexOf('foshan.huatu.com') != -1) {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/fs.png'
-        } else if (locationurl.indexOf('dongguan.huatu.com') !== -1) {
+        } else if (locationurl.indexOf('dongguan.huatu.com') != -1) {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/dg.png'
-        } else if (locationurl.indexOf('chaozhou.huatu.com') !== -1) {
+        } else if (locationurl.indexOf('chaozhou.huatu.com') != -1) {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/cz.png'
-        } else if (locationurl.indexOf('yangjiang.huatu.com') !== -1) {
+        } else if (locationurl.indexOf('yangjiang.huatu.com') != -1) {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/yj.png'
-        } else if (locationurl.indexOf('nanshan.huatu.com') !== -1) {
+        } else if (locationurl.indexOf('nanshan.huatu.com') != -1) {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/ns.png'
-        } else if (locationurl.indexOf('huidong.huatu.com') !== -1) {
+        } else if (locationurl.indexOf('huidong.huatu.com') != -1) {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/hd.png'
-        } else if (locationurl.indexOf('gd.huatu.com/sydw') !== -1 || locationurl.indexOf('gd.huatu.com/zt/gdsydw') !== -1) {
+        } else if (locationurl.indexOf('gd.huatu.com/sydw') != -1 || locationurl.indexOf('gd.huatu.com/zt/gdsydw') != -1) {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/gd.png'
-        } else if (locationurl.indexOf('gd.huatu.com/zt/jszg') !== -1) {
-        } else if (locationurl.indexOf('gd.huatu.com/jsks') !== -1) {
+        } else if (locationurl.indexOf('gd.huatu.com/zt/jszg') != -1) {
+        } else if (locationurl.indexOf('gd.huatu.com/jsks') != -1) {
         } else {
         }
 
@@ -702,7 +707,7 @@ function xcx2(url, text) {
             } else {
                 //微信浏览器
                 //广东，深圳都开启关注服务号
-                if (window.location.href.indexOf('https://shenzhen.huatu.com/') !== -1 || window.location.href.indexOf('https://gd.huatu.com/') !== -1) {
+                if (window.location.href.indexOf('https://shenzhen.huatu.com/') != -1 || window.location.href.indexOf('https://gd.huatu.com/') != -1) {
                     redirect_href = url
                     loginOpen()
                     event.preventDefault()
@@ -723,11 +728,11 @@ function xcx2(url, text) {
                 //移动端
             } else {
                 //pc端
-                if (window.location.href.indexOf('https://jiangmen.huatu.com/') !== -1) {
+                if (window.location.href.indexOf('https://jiangmen.huatu.com/') != -1) {
                     //江门不进行关注服务号号的操作
                 } else {
                     //xcx2 3 如果是pc端，就不进行关注
-                    if (url.indexOf('huatu') == -1 || url.indexOf('htjy.cc') !== -1) {
+                    if (url.indexOf('huatu') == -1 || url.indexOf('htjy.cc') != -1) {
                     } else {
                         if (localStorage.getItem('gdht_wxlogin_type')) {
                         } else {
@@ -755,7 +760,7 @@ function xcxforminiprom2(url, text) {
     document.execCommand('copy')
     textcopy = '口令'
     if (1) {
-        //if (url.indexOf("go/u3/") !== -1) {
+        //if (url.indexOf("go/u3/") != -1) {
 
         document.getElementById('thetitle').innerHTML = '口令获取'
         document.getElementById('tishi').innerHTML = '小程序里不能直接打开相关链接'
@@ -765,7 +770,7 @@ function xcxforminiprom2(url, text) {
         alertext = '口令复制成功'
     }
     //付款购买的显示企业号
-    if (url.indexOf('htjy.cc') !== -1 || url.indexOf('xd.huatu.com') !== -1 || url.indexOf('xue.huatu.com') !== -1 || url.indexOf('v.huatucom') !== -1) {
+    if (url.indexOf('htjy.cc') != -1 || url.indexOf('xd.huatu.com') != -1 || url.indexOf('xue.huatu.com') != -1 || url.indexOf('v.huatucom') != -1) {
         //$('.wxewm').attr('src', 'https://gd.huatu.com/zt/gdhttg/zxkfewm/gdwzqywxkf.png');
     }
 
@@ -781,7 +786,7 @@ function xcxforminiprom2(url, text) {
     //服务号开通
     var locationurl = window.location.href
     locationurl = 'fdsfsfs'
-    if (locationurl.indexOf('gd.huatu.com') !== -1) {
+    if (locationurl.indexOf('gd.huatu.com') != -1) {
         var code = getqrcode(url)
         $('.wxewm').attr('src', code)
         document.getElementById('thetitle').innerHTML = '扫码获取'
@@ -826,7 +831,7 @@ function xcx3(url, text, pic) {
             } else {
                 //微信浏览器
                 //广东，深圳都开启关注服务号
-                if (window.location.href.indexOf('https://shenzhen.huatu.com/') !== -1 || window.location.href.indexOf('https://gd.huatu.com/') !== -1) {
+                if (window.location.href.indexOf('https://shenzhen.huatu.com/') != -1 || window.location.href.indexOf('https://gd.huatu.com/') != -1) {
                     redirect_href = url
                     loginOpen()
                     event.preventDefault()
@@ -847,11 +852,11 @@ function xcx3(url, text, pic) {
                 //移动端
             } else {
                 //pc端
-                if (window.location.href.indexOf('https://jiangmen.huatu.com/') !== -1) {
+                if (window.location.href.indexOf('https://jiangmen.huatu.com/') != -1) {
                     //江门不进行关注服务号号的操作
                 } else {
                     //xcx2 3 如果是pc端，就不进行关注
-                    if (url.indexOf('huatu') == -1 || url.indexOf('htjy.cc') !== -1) {
+                    if (url.indexOf('huatu') == -1 || url.indexOf('htjy.cc') != -1) {
                     } else {
                         if (localStorage.getItem('gdht_wxlogin_type')) {
                         } else {
@@ -879,7 +884,7 @@ function xcxforminiprom3(url, text, pic) {
     document.execCommand('copy')
     textcopy = '口令'
     if (1) {
-        //if (url.indexOf("go/u3/") !== -1) {
+        //if (url.indexOf("go/u3/") != -1) {
 
         document.getElementById('thetitle').innerHTML = '口令获取'
         document.getElementById('tishi').innerHTML = '小程序里不能直接打开相关链接'
@@ -888,7 +893,7 @@ function xcxforminiprom3(url, text, pic) {
         document.getElementById('copyid').innerHTML = '点击复制口令'
     }
     //付款购买的显示企业号
-    if (url.indexOf('htjy.cc') !== -1 || url.indexOf('xd.huatu.com') !== -1 || url.indexOf('xue.huatu.com') !== -1 || url.indexOf('v.huatucom') !== -1) {
+    if (url.indexOf('htjy.cc') != -1 || url.indexOf('xd.huatu.com') != -1 || url.indexOf('xue.huatu.com') != -1 || url.indexOf('v.huatucom') != -1) {
         //$('.wxewm').attr('src', 'https://gd.huatu.com/zt/gdhttg/zxkfewm/gdwzqywxkf.png');
     }
 
@@ -908,7 +913,7 @@ function xcxforminiprom3(url, text, pic) {
     //服务号开通
     var locationurl = window.location.href
     locationurl = 'fdsfsfs'
-    if (locationurl.indexOf('gd.huatu.com') !== -1) {
+    if (locationurl.indexOf('gd.huatu.com') != -1) {
         var code = getqrcode(url)
         $('.wxewm').attr('src', code)
         document.getElementById('thetitle').innerHTML = '扫码获取'
@@ -1064,14 +1069,14 @@ if (1) {
 // console.log(province)
 var ua = navigator.userAgent.toLowerCase()
 var locationurl = window.location.href
-if (ua.match(/MicroMessenger/i) === 'micromessenger' && locationurl.indexOf('/zixun/') === -1) {
+if (ua.match(/MicroMessenger/i) == 'micromessenger' && locationurl.indexOf('/zixun/') == -1) {
     wx.miniProgram.getEnv(res => {
-        if (res.miniprogram || province === '广东省') {
+        if (res.miniprogram || province == '广东省') {
             // https://m.gd.huatu.com/ylws/2023/0601/4976439.html?tg=gd
             // https://gd.huatu.com/sydw/2023/0711/5168687.html?wximg=https://u3.huatu.com/uploads/gdht/all/2023/0711/1689046551.png&amp;poptype=1&amp;popkey=
             // https://m.gd.huatu.com/ylws/2023/0601/4976439.html
-            if (window.location.href.indexOf('https://m.gd.huatu.com') !== -1 || window.location.href.indexOf('https://gd.huatu.com') !== -1) {
-                if (locationurl.indexOf('?tg=') === -1 && locationurl.indexOf('&amp;poptype=1&amp;popkey=') === -1) {
+            if (window.location.href.indexOf('https://m.gd.huatu.com') != -1 || window.location.href.indexOf('https://gd.huatu.com') != -1) {
+                if (locationurl.indexOf('?tg=') == -1 && locationurl.indexOf('&amp;poptype=1&amp;popkey=') == -1) {
                     //微信浏览器,插入弹窗
                     document.write('<link rel="stylesheet" type="text/css" href="https://gd.huatu.com/zt/css.css?v=1"></link>')
                     var title = '相关入口'
@@ -1088,13 +1093,13 @@ if (ua.match(/MicroMessenger/i) === 'micromessenger' && locationurl.indexOf('/zi
                     textEle += '			<p class="tishi" id="wx_tishi">小程序里不能打开外部链接</p>'
                     textEle += '			<p class="tishi" id="wx_tishi2" style="color:#009688">微信关注回复口令即可进入！</p>'
                     textEle += '      <select id="mySelect" onchange="selectcode()"></select>'
-                    textEle += '			<img class="wxewm" id="wxewm" src="" alt="">'
+                    textEle += '			<img class="wxewm" id="wxewm" src="">'
                     textEle += '			<p class="gzcopy" id="wx_gzcopy">识别二维码，回复口令快速进入！</p>'
                     textEle +=
-                        '            <button class="copy-btn" id="wx_copyid" data-clipboard-text="" onclick="copythemessage1()"><img src="https://u3.huatu.com/guangdong/tupian/gdhtim05.png" style="position: absolute;right: 212px;bottom: 126px;" alt="">点击获取口令</button>'
+                        '            <button class="copy-btn" id="wx_copyid" data-clipboard-text="" onclick="copythemessage1()"><img src="https://u3.huatu.com/guangdong/tupian/gdhtim05.png" style="position: absolute;right: 212px;bottom: 126px;">点击获取口令</button>'
                     textEle += '		</li>'
                     textEle +=
-                        '		<li><img class="wxewm_next" id="wxewm_next" style="width: 90%;display: block;margin: 0 auto;" src="https://gd.huatu.com/zt/js/images/gc.png" alt=""></li>'
+                        '		<li><img class="wxewm_next" id="wxewm_next" style="width: 90%;display: block;margin: 0 auto;" src="https://gd.huatu.com/zt/js/images/gc.png"></li>'
                     textEle += '	</ul>'
                     textEle += '</div></div>'
                     $('body').append(textEle)
@@ -1106,7 +1111,7 @@ if (ua.match(/MicroMessenger/i) === 'micromessenger' && locationurl.indexOf('/zi
                     var textEle = '	<div class="xn-wx-bg hide">'
                     textEle += '	<div class="xn-wx-box">'
                     textEle += '		<div class="xn-wx-head">'
-                    textEle += '		<img src="https://gd.huatu.com/zt/theshow/file/images/download.png" alt="">'
+                    textEle += '		<img src="https://gd.huatu.com/zt/theshow/file/images/download.png">'
                     textEle += '		<span id="wx_thetitle">' + title + '</span>'
                     textEle += '		<i title="关闭" id="xn_closed" onclick="close_x_wx_box()" id="xn_closed_id">x</i>'
                     textEle += '	</div>'
@@ -1134,7 +1139,7 @@ if (ua.match(/MicroMessenger/i) === 'micromessenger' && locationurl.indexOf('/zi
                 var textEle = '	<div class="xn-wx-bg hide">'
                 textEle += '	<div class="xn-wx-box">'
                 textEle += '		<div class="xn-wx-head">'
-                textEle += '		<img src="https://gd.huatu.com/zt/theshow/file/images/download.png" alt="">'
+                textEle += '		<img src="https://gd.huatu.com/zt/theshow/file/images/download.png">'
                 textEle += '		<span id="wx_thetitle">' + title + '</span>'
                 textEle += '		<i title="关闭" id="xn_closed" onclick="close_x_wx_box()" id="xn_closed_id">x</i>'
                 textEle += '	</div>'
@@ -1143,13 +1148,13 @@ if (ua.match(/MicroMessenger/i) === 'micromessenger' && locationurl.indexOf('/zi
                 textEle += '			<p class="tishi3" id="wx_tishi3"></p>'
                 textEle += '			<p class="tishi" id="wx_tishi">小程序里不能打开外部链接<w/p>'
                 textEle += '			<p class="tishi" id="wx_tishi2" style="color:#009688">微信关注回复口令即可进入！</p>'
-                textEle += '			<img class="wxewm" id="wxewm" src="" alt="">'
+                textEle += '			<img class="wxewm" id="wxewm" src="">'
                 textEle += '			<p class="gzcopy" id="wx_gzcopy">识别二维码，回复口令快速进入！</p>'
                 textEle +=
-                    '            <button class="copy-btn" id="wx_copyid" data-clipboard-text="" onclick="copythemessage1()"><img src="https://u3.huatu.com/guangdong/tupian/gdhtim05.png" style="position: absolute;right: 212px;bottom: 126px;" alt="">点击获取口令</button>'
+                    '            <button class="copy-btn" id="wx_copyid" data-clipboard-text="" onclick="copythemessage1()"><img src="https://u3.huatu.com/guangdong/tupian/gdhtim05.png" style="position: absolute;right: 212px;bottom: 126px;">点击获取口令</button>'
                 textEle += '		</li>'
                 textEle +=
-                    '		<li><img class="wxewm_next" id="wxewm_next" style="width: 90%;display: block;margin: 0 auto;" src="https://gd.huatu.com/zt/js/images/gc.png" alt=""></li>'
+                    '		<li><img class="wxewm_next" id="wxewm_next" style="width: 90%;display: block;margin: 0 auto;" src="https://gd.huatu.com/zt/js/images/gc.png"></li>'
                 textEle += '	</ul>'
                 textEle += '</div></div>'
                 $('body').append(textEle)
@@ -1162,7 +1167,7 @@ if (ua.match(/MicroMessenger/i) === 'micromessenger' && locationurl.indexOf('/zi
             var textEle = '	<div class="xn-wx-bg hide">'
             textEle += '	<div class="xn-wx-box">'
             textEle += '		<div class="xn-wx-head">'
-            textEle += '		<img src="https://gd.huatu.com/zt/theshow/file/images/download.png" alt="">'
+            textEle += '		<img src="https://gd.huatu.com/zt/theshow/file/images/download.png">'
             textEle += '		<span id="wx_thetitle">' + title + '</span>'
             textEle += '		<i title="关闭" id="xn_closed" onclick="close_x_wx_box()" id="xn_closed_id">x</i>'
             textEle += '	</div>'
@@ -1171,13 +1176,13 @@ if (ua.match(/MicroMessenger/i) === 'micromessenger' && locationurl.indexOf('/zi
             textEle += '			<p class="tishi3" id="wx_tishi3"></p>'
             textEle += '			<p class="tishi" id="wx_tishi">小程序里不能打开外部链接<w/p>'
             textEle += '			<p class="tishi" id="wx_tishi2" style="color:#009688">微信关注回复口令即可进入！</p>'
-            textEle += '			<img class="wxewm" id="wxewm" src="" alt="">'
+            textEle += '			<img class="wxewm" id="wxewm" src="">'
             textEle += '			<p class="gzcopy" id="wx_gzcopy">识别二维码，回复口令快速进入！</p>'
             textEle +=
-                '            <button class="copy-btn" id="wx_copyid" data-clipboard-text="" onclick="copythemessage1()"><img src="https://u3.huatu.com/guangdong/tupian/gdhtim05.png" style="position: absolute;right: 212px;bottom: 126px;" alt="">点击获取口令</button>'
+                '            <button class="copy-btn" id="wx_copyid" data-clipboard-text="" onclick="copythemessage1()"><img src="https://u3.huatu.com/guangdong/tupian/gdhtim05.png" style="position: absolute;right: 212px;bottom: 126px;">点击获取口令</button>'
             textEle += '		</li>'
             textEle +=
-                '		<li><img class="wxewm_next" id="wxewm_next" style="width: 90%;display: block;margin: 0 auto;" src="https://gd.huatu.com/zt/js/images/gc.png" alt=""></li>'
+                '		<li><img class="wxewm_next" id="wxewm_next" style="width: 90%;display: block;margin: 0 auto;" src="https://gd.huatu.com/zt/js/images/gc.png"></li>'
             textEle += '	</ul>'
             textEle += '</div></div>'
             $('body').append(textEle)
@@ -1189,14 +1194,14 @@ if (ua.match(/MicroMessenger/i) === 'micromessenger' && locationurl.indexOf('/zi
     // --如果满足条件插入特定的弹窗end
 
     //  --测试网页
-    if (window.location.href.indexOf('https://m.gd.huatu.com/sydw/2023/0713/5170510.html') !== -1) {
+    if (window.location.href.indexOf('https://m.gd.huatu.com/sydw/2023/0713/5170510.html') != -1) {
         //微信浏览器,插入弹窗
         document.write('<link rel="stylesheet" type="text/css" href="https://gd.huatu.com/zt/css.css?v=1"></link>')
         var title = '相关入口'
         var textEle = '	<div class="xn-wx-bg hide">'
         textEle += '	<div class="xn-wx-box">'
         textEle += '		<div class="xn-wx-head">'
-        textEle += '		<img src="https://gd.huatu.com/zt/theshow/file/images/download.png" alt="">'
+        textEle += '		<img src="https://gd.huatu.com/zt/theshow/file/images/download.png">'
         textEle += '		<span id="wx_thetitle">' + title + '</span>'
         textEle += '		<i title="关闭" id="xn_closed" onclick="close_x_wx_box()" id="xn_closed_id">x</i>'
         textEle += '	</div>'
@@ -1205,13 +1210,13 @@ if (ua.match(/MicroMessenger/i) === 'micromessenger' && locationurl.indexOf('/zi
         textEle += '			<p class="tishi3" id="wx_tishi3"></p>'
         textEle += '			<p class="tishi" id="wx_tishi">小程序里不能打开外部链接</p>'
         textEle += '			<p class="tishi" id="wx_tishi2" style="color:#009688">微信关注回复口令即可进入！</p>'
-        textEle += '			<img class="wxewm" id="wxewm" src="" alt="">'
+        textEle += '			<img class="wxewm" id="wxewm" src="">'
         textEle += '			<p class="gzcopy" id="wx_gzcopy">识别二维码，回复口令快速进入！</p>'
         textEle +=
-            '            <button class="copy-btn" id="wx_copyid" data-clipboard-text="" onclick="copythemessage1()"><img src="https://u3.huatu.com/guangdong/tupian/gdhtim05.png" style="position: absolute;right: 212px;bottom: 126px;" alt="">点击获取口令</button>'
+            '            <button class="copy-btn" id="wx_copyid" data-clipboard-text="" onclick="copythemessage1()"><img src="https://u3.huatu.com/guangdong/tupian/gdhtim05.png" style="position: absolute;right: 212px;bottom: 126px;">点击获取口令</button>'
         textEle += '		</li>'
         textEle +=
-            '		<li><img class="wxewm_next" id="wxewm_next" style="width: 90%;display: block;margin: 0 auto;" src="https://gd.huatu.com/zt/js/images/gc.png" alt=""></li>'
+            '		<li><img class="wxewm_next" id="wxewm_next" style="width: 90%;display: block;margin: 0 auto;" src="https://gd.huatu.com/zt/js/images/gc.png"></li>'
         textEle += '	</ul>'
         textEle += '</div></div>'
         $('body').append(textEle)
@@ -1222,7 +1227,7 @@ if (ua.match(/MicroMessenger/i) === 'micromessenger' && locationurl.indexOf('/zi
 //微信端口弹窗
 function wxtc(url) {
     if (0) {
-        //if(window.location.href.indexOf('https://m.gd.huatu.com/sydw/2023/0412/4635774.html')!==-1){
+        //if(window.location.href.indexOf('https://m.gd.huatu.com/sydw/2023/0412/4635774.html')!=-1){
         //alert('111');
         checkRedirect(url)
     } else {
@@ -1232,22 +1237,22 @@ function wxtc(url) {
             flagzw = true
             text = url
         }
-        let alink = url
+        var alink = url
         if (text) {
             alink = text
         }
-        let demoInput = document.getElementById('demoInput')
-        if (alink.indexOf('go/u3/') !== -1 || alink.indexOf('https://u3.huatu.com/uploads/soft/') !== -1 || alink.indexOf('xls') !== -1 || alink.indexOf('pdf') !== -1 || alink.indexOf('doc') !== -1 || alink.indexOf('xlsx') !== -1) {
+        var demoInput = document.getElementById('demoInput')
+        if (alink.indexOf('go/u3/') != -1 || alink.indexOf('https://u3.huatu.com/uploads/soft/') != -1 || alink.indexOf('xls') != -1 || alink.indexOf('pdf') != -1 || alink.indexOf('doc') != -1 || alink.indexOf('xlsx') != -1) {
             alink = copytheu3all()
         } else {
             alink = '点击下方链接进入:\r\n\r\n' + alink
 
-            if (typeof thecopyforhtmlgg == 'string' && thecopyforhtmlgg !== '') {
+            if (typeof thecopyforhtmlgg == 'string' && thecopyforhtmlgg != '') {
                 alink += '\r\n\r\n' + thecopyforhtmlgg + '\r\n\r\n'
             }
         }
 
-        if (typeof thecopyforhtml == 'string' && thecopyforhtml !== '') {
+        if (typeof thecopyforhtml == 'string' && thecopyforhtml != '') {
             alink = thecopyforhtml
         }
 
@@ -1255,8 +1260,8 @@ function wxtc(url) {
         var poptype = 1
         var popkey = ''
         var locationurl = window.location.href
-        if (locationurl.indexOf('poptype=') !== -1) {
-            if (getQueryString('amp;poptype') !== '' || getQueryString('amp;poptype') !== null) {
+        if (locationurl.indexOf('poptype=') != -1) {
+            if (getQueryString('amp;poptype') != '' || getQueryString('amp;poptype') != null) {
                 poptype = getQueryString('amp;poptype')
             }
         } else {
@@ -1270,21 +1275,21 @@ function wxtc(url) {
             }
         }
 
-        if (poptype === 1) {
+        if (poptype == 1) {
             document.getElementById('wxewm_next').style.display = 'block'
         } else {
             //判断文章里面是不是有控制弹窗的内容 wzpoptype wzpopkey wzwximg 等
-            if (wzpoptype === 1) {
+            if (wzpoptype == 1) {
                 document.getElementById('wxewm_next').style.display = 'block'
             }
         }
 
-        if (poptype === 2) {
+        if (poptype == 2) {
             popkey = decodeURI(getQueryString('amp;popkey'))
             alink = popkey
         } else {
             //判断文章里面是不是有控制弹窗的内容 wzpoptype wzpopkey wzwximg 等
-            if (wzpoptype === 2) {
+            if (wzpoptype == 2) {
                 popkey = document.getElementById('wzpopkey').value
                 alink = popkey
                 poptype = wzpoptype
@@ -1306,7 +1311,7 @@ function wxtc(url) {
         var tg = getQueryString('tg')
 
         // 查询ip的功能
-        const city_list = [
+        var city_list = [
             '广州',
             '深圳',
             '佛山',
@@ -1329,14 +1334,14 @@ function wxtc(url) {
             '云浮',
             '茂名',
         ]
-        const city_tg = ['gz', 'sz', 'fs', 'dg', 'hz', 'zh', 'zs', 'qy', 'sg', 'st', 'sw', 'cz', 'jy', 'mz', 'hy', 'zj', 'zq', 'jm', 'yj', 'yf', 'mm']
+        var city_tg = ['gz', 'sz', 'fs', 'dg', 'hz', 'zh', 'zs', 'qy', 'sg', 'st', 'sw', 'cz', 'jy', 'mz', 'hy', 'zj', 'zq', 'jm', 'yj', 'yf', 'mm']
 
-        let city = ''
-        let city_code = ''
+        var city = ''
+        var city_code = ''
         // --如果条件满足，发起 AJAX 请求
-        if (province === '广东省') {
-            if (window.location.href.indexOf('https://m.gd.huatu.com') !== -1 || window.location.href.indexOf('https://gd.huatu.com') !== -1) {
-                if (locationurl.indexOf('?tg=') === -1 && locationurl.indexOf('&amp;poptype=1&amp;popkey=') === -1) {
+        if (province == '广东省') {
+            if (window.location.href.indexOf('https://m.gd.huatu.com') != -1 || window.location.href.indexOf('https://gd.huatu.com') != -1) {
+                if (locationurl.indexOf('?tg=') == -1 && locationurl.indexOf('&amp;poptype=1&amp;popkey=') == -1) {
                     // --ajax请求查询ip
                     $.ajax({
                         url: 'https://api.vore.top/api/IPdata',
@@ -1345,8 +1350,8 @@ function wxtc(url) {
                         success: function (data) {
                             // console.log(data)
                             // 在成功回调中处理返回的数据
-                            for (let i = 0; i < city_list.length; i++) {
-                                if (data.ipdata.info2.indexOf(city_list[i]) !== -1) {
+                            for (var i = 0; i < city_list.length; i++) {
+                                if (data.ipdata.info2.indexOf(city_list[i]) != -1) {
                                     city = data.ipdata.info2
                                     city_code = city_tg[i]
                                     return city_code
@@ -1360,7 +1365,7 @@ function wxtc(url) {
                     })
                     var select = document.getElementById('mySelect')
                     select.innerHTML = '' // 清空选择框内容
-                    const options = [
+                    var options = [
                         {value: 'gz', label: '广州客服老师'},
                         {value: 'sz', label: '深圳客服老师'},
                         {value: 'fs', label: '佛山客服老师'},
@@ -1383,8 +1388,8 @@ function wxtc(url) {
                         {value: 'yf', label: '云浮客服老师'},
                         {value: 'mm', label: '茂名客服老师'},
                     ]
-                    for (let i = 0; i < options.length; i++) {
-                        let option = document.createElement('option')
+                    for (var i = 0; i < options.length; i++) {
+                        var option = document.createElement('option')
                         option.value = options[i].value
                         option.text = options[i].label
                         // --根据城市代码默认显示哪个老师名字
@@ -1404,57 +1409,59 @@ function wxtc(url) {
         document.getElementById('wx_copyid').style.display = 'block'
 
         var code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/gd.png'
-        if (locationurl.indexOf('maoming.huatu.com') !== -1 || city_code === 'mm') {
+        if (locationurl.indexOf('maoming.huatu.com') != -1 || city_code == 'mm') {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/mm.png'
-        } else if (locationurl.indexOf('zhuhai.huatu.com') !== -1 || city_code === 'zh') {
+        } else if (locationurl.indexOf('zhuhai.huatu.com') != -1 || city_code == 'zh') {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/zh.png'
-        } else if (locationurl.indexOf('zhongshan.huatu.com') !== -1 || city_code === 'zs') {
+        } else if (locationurl.indexOf('zhongshan.huatu.com') != -1 || city_code == 'zs') {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/zs.png'
-        } else if (locationurl.indexOf('zhaoqing.huatu.com') !== -1 || city_code === 'zq') {
+        } else if (locationurl.indexOf('zhaoqing.huatu.com') != -1 || city_code == 'zq') {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/zq.png'
-        } else if (locationurl.indexOf('zhanjiang.huatu.com') !== -1 || city_code === 'zj') {
+        } else if (locationurl.indexOf('zhanjiang.huatu.com') != -1 || city_code == 'zj') {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/zj.png'
-        } else if (locationurl.indexOf('yunfu.huatu.com') !== -1 || city_code === 'yf') {
+        } else if (locationurl.indexOf('yunfu.huatu.com') != -1 || city_code == 'yf') {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/yf.png'
-        } else if (locationurl.indexOf('shenzhen.huatu.com') !== -1 || city_code === 'sz') {
+        } else if (locationurl.indexOf('shenzhen.huatu.com') != -1 || city_code == 'sz') {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/sz.png'
-        } else if (locationurl.indexOf('shaoguan.huatu.com') !== -1 || city_code === 'sg') {
+        } else if (locationurl.indexOf('shaoguan.huatu.com') != -1 || city_code == 'sg') {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/sg.png'
-        } else if (locationurl.indexOf('shanwei.huatu.com') !== -1 || city_code === 'sw') {
+        } else if (locationurl.indexOf('shanwei.huatu.com') != -1 || city_code == 'sw') {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/sw.png'
-        } else if (locationurl.indexOf('shantou.huatu.com') !== -1 || city_code === 'st') {
+        } else if (locationurl.indexOf('shantou.huatu.com') != -1 || city_code == 'st') {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/st.png'
-        } else if (locationurl.indexOf('qingyuan.huatu.com') !== -1 || city_code === 'qy') {
+        } else if (locationurl.indexOf('qingyuan.huatu.com') != -1 || city_code == 'qy') {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/qy.png'
-        } else if (locationurl.indexOf('meizhou.huatu.com') !== -1 || city_code === 'mz') {
+        } else if (locationurl.indexOf('meizhou.huatu.com') != -1 || city_code == 'mz') {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/mz.png'
-        } else if (locationurl.indexOf('jieyang.huatu.com') !== -1 || city_code === 'jy') {
+        } else if (locationurl.indexOf('jieyang.huatu.com') != -1 || city_code == 'jy') {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/jy.png'
-        } else if (locationurl.indexOf('jiangmen.huatu.com') !== -1 || city_code === 'jm') {
+        } else if (locationurl.indexOf('jiangmen.huatu.com') != -1 || city_code == 'jm') {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/jm.png'
-        } else if (locationurl.indexOf('huizhou.huatu.com') !== -1 || city_code === 'hz') {
+        } else if (locationurl.indexOf('huizhou.huatu.com') != -1 || city_code == 'hz') {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/hz.png'
-        } else if (locationurl.indexOf('heyuan.huatu.com') !== -1 || city_code === 'hy') {
+        } else if (locationurl.indexOf('heyuan.huatu.com') != -1 || city_code == 'hy') {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/hy.png'
-        } else if (locationurl.indexOf('guangzhou.huatu.com') !== -1 || city_code === 'gz') {
+        } else if (locationurl.indexOf('guangzhou.huatu.com') != -1 || city_code == 'gz') {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/gz.png'
-        } else if (locationurl.indexOf('foshan.huatu.com') !== -1 || city_code === 'fs') {
+        } else if (locationurl.indexOf('foshan.huatu.com') != -1 || city_code == 'fs') {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/fs.png'
-        } else if (locationurl.indexOf('dongguan.huatu.com') !== -1 || city_code === 'dg') {
+        } else if (locationurl.indexOf('dongguan.huatu.com') != -1 || city_code == 'dg') {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/dg.png'
-        } else if (locationurl.indexOf('chaozhou.huatu.com') !== -1 || city_code === 'cz') {
+        } else if (locationurl.indexOf('chaozhou.huatu.com') != -1 || city_code == 'cz') {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/cz.png'
-        } else if (locationurl.indexOf('yangjiang.huatu.com') !== -1 || city_code === 'yj') {
+        } else if (locationurl.indexOf('yangjiang.huatu.com') != -1 || city_code == 'yj') {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/yj.png'
-        } else if (locationurl.indexOf('nanshan.huatu.com') !== -1) {
+        } else if (locationurl.indexOf('nanshan.huatu.com') != -1) {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/ns.png'
-        } else if (locationurl.indexOf('huidong.huatu.com') !== -1) {
+        } else if (locationurl.indexOf('huidong.huatu.com') != -1) {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/hd.png'
-        } else if (locationurl.indexOf('gd.huatu.com/sydw') !== -1 || locationurl.indexOf('gd.huatu.com/zt/gdsydw') !== -1) {
+        } else if (locationurl.indexOf('gd.huatu.com/sydw') != -1 || locationurl.indexOf('gd.huatu.com/zt/gdsydw') != -1) {
             code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/gd.png'
-        } else if (locationurl.indexOf('gd.huatu.com/') !== -1) {
+        } else if (locationurl.indexOf('gd.huatu.com/zt/jszg') != -1) {
+        } else if (locationurl.indexOf('gd.huatu.com/jsks') != -1) {
+        } else if (locationurl.indexOf('gd.huatu.com/') != -1) {
             //在广东域名下，对标题进行判断
-            if (window.location.href.indexOf('https://m.') !== -1) {
+            if (window.location.href.indexOf('https://m.') != -1) {
                 // 移动端
                 if (document.getElementsByClassName('detail-tit')) {
                     if (document.getElementsByClassName('detail-tit').length > 0) {
@@ -1491,14 +1498,17 @@ function wxtc(url) {
                     }
                 }
             }
+        } else {
         }
+
         //就在这里
         //以防万一客服满，先准备一个切换二维码的功能，根据时间来进行分流
         if (checkAuditTime('07:00', '09:30')) {
             //code= 'https://gd.huatu.com/zt/js/images/wzall.png';
         }
-        let dt = new Date()
+        var dt = new Date()
         if (0) {
+            //if(dt.getDay()==6||dt.getDay()==0){
             if (checkAuditTime('00:00', '10:00')) {
                 code = 'https://gd.huatu.com/zt/js/images/wzall.png'
             }
@@ -1521,76 +1531,78 @@ function wxtc(url) {
         if (0) {
             //if(url.indexOf("go/u3/") == -1 && (url.indexOf("https://u3.huatu.com/uploads/soft/") == -1)&&(locationurl.indexOf("wximg=") == -1)){
             //其他链接去服务号
-            if (locationurl.indexOf('gd.huatu.com') !== -1) {
-                let code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-wl/getQRCode/')
+
+            if (locationurl.indexOf('gd.huatu.com') != -1) {
+                //var code = getqrcode(url);
+                var code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-wl/getQRCode/')
             }
-            if (locationurl.indexOf('shenzhen.huatu.com') !== -1) {
-                let code = getqrcodesz(url)
+            if (locationurl.indexOf('shenzhen.huatu.com') != -1) {
+                var code = getqrcodesz(url)
             }
-            if (locationurl.indexOf('yunfu.huatu.com') !== -1) {
-                let code = getqrcodeyf(url)
+            if (locationurl.indexOf('yunfu.huatu.com') != -1) {
+                var code = getqrcodeyf(url)
             }
 
-            if (locationurl.indexOf('meizhou.huatu.com') !== -1) {
-                let code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-mz/getQRCode/')
+            if (locationurl.indexOf('meizhou.huatu.com') != -1) {
+                var code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-mz/getQRCode/')
             }
-            if (locationurl.indexOf('maoming.huatu.com') !== -1) {
-                let code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-mm/getQRCode/')
+            if (locationurl.indexOf('maoming.huatu.com') != -1) {
+                var code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-mm/getQRCode/')
             }
-            if (locationurl.indexOf('chaozhou.huatu.com') !== -1) {
-                let code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-cz/getQRCode/')
+            if (locationurl.indexOf('chaozhou.huatu.com') != -1) {
+                var code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-cz/getQRCode/')
             }
-            if (locationurl.indexOf('foshan.huatu.com') !== -1) {
-                let code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-fs/getQRCode/')
+            if (locationurl.indexOf('foshan.huatu.com') != -1) {
+                var code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-fs/getQRCode/')
             }
-            if (locationurl.indexOf('dongguan.huatu.com') !== -1) {
-                let code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-dg/getQRCode/')
+            if (locationurl.indexOf('dongguan.huatu.com') != -1) {
+                var code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-dg/getQRCode/')
             }
-            if (locationurl.indexOf('zhongshan.huatu.com') !== -1) {
-                let code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-zs/getQRCode/')
+            if (locationurl.indexOf('zhongshan.huatu.com') != -1) {
+                var code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-zs/getQRCode/')
             }
-            if (locationurl.indexOf('jieyang.huatu.com') !== -1) {
-                let code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-jy/getQRCode/')
+            if (locationurl.indexOf('jieyang.huatu.com') != -1) {
+                var code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-jy/getQRCode/')
             }
-            if (locationurl.indexOf('guangzhou.huatu.com') !== -1) {
-                let code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-gz/getQRCode/')
+            if (locationurl.indexOf('guangzhou.huatu.com') != -1) {
+                var code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-gz/getQRCode/')
             }
-            if (locationurl.indexOf('shantou.huatu.com') !== -1) {
-                let code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-st/getQRCode/')
+            if (locationurl.indexOf('shantou.huatu.com') != -1) {
+                var code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-st/getQRCode/')
             }
-            if (locationurl.indexOf('huizhou.huatu.com') !== -1) {
-                let code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-hz/getQRCode/')
+            if (locationurl.indexOf('huizhou.huatu.com') != -1) {
+                var code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-hz/getQRCode/')
             }
-            if (locationurl.indexOf('zhanjiang.huatu.com') !== -1) {
-                let code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-zj/getQRCode/')
+            if (locationurl.indexOf('zhanjiang.huatu.com') != -1) {
+                var code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-zj/getQRCode/')
             }
-            if (locationurl.indexOf('yangjiang.huatu.com') !== -1) {
-                let code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-yj/getQRCode/')
+            if (locationurl.indexOf('yangjiang.huatu.com') != -1) {
+                var code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-yj/getQRCode/')
             }
-            if (locationurl.indexOf('gd.huatu.com/jsks/') !== -1) {
-                //let code = getqrcodety(url,'https://gd.huatu.com/zt/wxfwh-xm-jsks/getQRCode/');
+            if (locationurl.indexOf('gd.huatu.com/jsks/') != -1) {
+                //var code = getqrcodety(url,'https://gd.huatu.com/zt/wxfwh-xm-jsks/getQRCode/');
             }
-            if (locationurl.indexOf('zhuhai.huatu.com') !== -1) {
-                let code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-zh/getQRCode/')
+            if (locationurl.indexOf('zhuhai.huatu.com') != -1) {
+                var code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-zh/getQRCode/')
             }
-            if (locationurl.indexOf('qingyuan.huatu.com') !== -1) {
-                let code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-qy/getQRCode/')
+            if (locationurl.indexOf('qingyuan.huatu.com') != -1) {
+                var code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-qy/getQRCode/')
             }
-            if (locationurl.indexOf('jiangmen.huatu.com') !== -1) {
-                let code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-jm/getQRCode/')
+            if (locationurl.indexOf('jiangmen.huatu.com') != -1) {
+                var code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-jm/getQRCode/')
             }
-            if (locationurl.indexOf('heyuan.huatu.com') !== -1) {
-                let code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-hy/getQRCode/')
+            if (locationurl.indexOf('heyuan.huatu.com') != -1) {
+                var code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-hy/getQRCode/')
             }
-            if (locationurl.indexOf('zhaoqing.huatu.com') !== -1) {
-                let code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-zq/getQRCode/')
+            if (locationurl.indexOf('zhaoqing.huatu.com') != -1) {
+                var code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-zq/getQRCode/')
             }
-            if (locationurl.indexOf('shanwei.huatu.com') !== -1) {
-                let code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-sw/getQRCode/')
+            if (locationurl.indexOf('shanwei.huatu.com') != -1) {
+                var code = getqrcodety(url, 'https://gd.huatu.com/zt/wxfwh-sw/getQRCode/')
             }
 
             //看看文章内容有没有设定的wxtcwzpic图片
-            if (document.getElementById('wzpoptype') && document.getElementById('wzwximg').value !== '') {
+            if (document.getElementById('wzpoptype') && document.getElementById('wzwximg').value != '') {
                 //文章中设定有这个隐藏的控件且值不为空
                 code = document.getElementById('wzwximg').value
             }
@@ -1600,8 +1612,8 @@ function wxtc(url) {
                 code = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/' + tg + '.png'
             }
 
-            if (locationurl.indexOf('wximg=') !== -1) {
-                if (getQueryString('wximg') !== '' || getQueryString('wximg') !== null) {
+            if (locationurl.indexOf('wximg=') != -1) {
+                if (getQueryString('wximg') != '' || getQueryString('wximg') != null) {
                     code = getQueryString('wximg')
                 }
             }
@@ -1625,8 +1637,8 @@ function wxtc(url) {
             document.getElementById('wx_tishi3').innerHTML = ''
         }
 
-        if (locationurl.indexOf('wximg=') !== -1) {
-            if (getQueryString('wximg') !== '' || getQueryString('wximg') !== null) {
+        if (locationurl.indexOf('wximg=') != -1) {
+            if (getQueryString('wximg') != '' || getQueryString('wximg') != null) {
                 code = getQueryString('wximg')
             }
         } else {
@@ -1644,9 +1656,10 @@ function wxtc(url) {
 
         document.getElementById('wx_gzcopy').style.fontSize = '12px'
 
+        //textcopy = "-1";
 
         //开始根据poptype来设置弹窗内容显示
-        if (poptype === 2) {
+        if (poptype == 2) {
             //关键词获取（群二维码、客服号、企业微信、订阅号二维码）
             document.getElementById('wx_thetitle').innerHTML = '口令获取'
             document.getElementById('wx_tishi2').innerHTML = '微信关注回复【' + popkey + '】获取'
@@ -1656,7 +1669,7 @@ function wxtc(url) {
                 '<img src="https://u3.huatu.com/guangdong/tupian/gdhtim05.png" style="position: absolute;right: 212px;bottom: 126px;">点击获取口令'
             textcopy = '口令已复制成功'
             $('.wxewm_next').attr('src', '')
-        } else if (poptype === 3) {
+        } else if (poptype == 3) {
             //扫码获取（资料包二维码、服务号带参二维码）
             document.getElementById('wx_thetitle').innerHTML = '微信扫码获取'
             document.getElementById('wx_tishi2').innerHTML = ''
@@ -1665,7 +1678,7 @@ function wxtc(url) {
             document.getElementById('wx_copyid').style.display = 'none'
             $('.wxewm_next').attr('src', '')
             textcopy = -1
-        } else if (poptype === 1) {
+        } else if (poptype == 1) {
             $('.wxewm_next').attr('src', 'https://gd.huatu.com/zt/js/images/gc.png')
         }
 
@@ -1677,7 +1690,7 @@ function wxtc(url) {
         if (text) {
             localStorage.setItem('showwindowurl', text)
         }
-        if (textcopy === '-1') {
+        if (textcopy == '-1') {
         } else {
             setTimeout(function () {
                 document.getElementById('wx_tishi3').innerHTML =
@@ -1697,18 +1710,18 @@ function wxtc(url) {
 // --选择老师显示对应二维码
 function selectcode() {
     // var select = document.getElementById('mySelect')  //获取页面选择框
-    let select = $('#mySelect')
-    // let wxewm = document.getElementById('wxewm')  //获取二维码展示的那个标签
-    let wxewm = $('#wxewm')
-    // let selectedValue = select.value
-    let selectedValue = select.val()
+    var select = $('#mySelect')
+    // var wxewm = document.getElementById('wxewm')  //获取二维码展示的那个标签
+    var wxewm = $('#wxewm')
+    // var selectedValue = select.value
+    var selectedValue = select.val()
 
     // console.log(selectedValue) // 在控制台打印选择框的值
     // console.log(city)
     // console.log(code)
     // wxewm.src = 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/' + select.value + '.png'
     wxewm.attr('src', 'https://gd.huatu.com/zt/gdhttg/dsggfjewm/' + selectedValue + '.png') //--设置src的值
-    let code = wxewm.attr('src') //--将src的值赋给code
+    var code = wxewm.attr('src') //--将src的值赋给code
     // console.log(code)
     $('.wxewm').attr('src', code) //--把页面中类名为wxewm的src的值设置为code的值！
 }
@@ -1718,30 +1731,30 @@ function close_x_wx_box() {
 }
 
 function copytheu3all() {
-    let re = /<a[^>]*href=['"]([^"]*)['"][^>]*>(.*?)<\/a>/g
-    let str = ''
+    var re = /<a[^>]*href=['"]([^"]*)['"][^>]*>(.*?)<\/a>/g
+    var str = ''
     if (document.getElementsByClassName('mainWords')[0] == undefined) {
         str = document.getElementsByClassName('art-wrap')[0].innerHTML
     } else {
         str = document.getElementsByClassName('mainWords')[0].innerHTML
     }
-    let arr = []
-    let arr1 = []
-    let htmlstr = '点击下方链接下载\r\n\r\n'
-    while (re.exec(str) !== null) {
-        if (RegExp.$1.indexOf('go/u3') !== -1 || RegExp.$1.indexOf('https://u3.huatu.com/uploads/soft/') !== -1 || RegExp.$1.indexOf('xls') !== -1 || RegExp.$1.indexOf('xlsx') !== -1 || RegExp.$1.indexOf('pdf') !== -1 || RegExp.$1.indexOf('doc') !== -1) {
+    var arr = []
+    var arr1 = []
+    var htmlstr = '点击下方链接下载\r\n\r\n'
+    while (re.exec(str) != null) {
+        if (RegExp.$1.indexOf('go/u3') != -1 || RegExp.$1.indexOf('https://u3.huatu.com/uploads/soft/') != -1 || RegExp.$1.indexOf('xls') != -1 || RegExp.$1.indexOf('xlsx') != -1 || RegExp.$1.indexOf('pdf') != -1 || RegExp.$1.indexOf('doc') != -1) {
             htmlstr +=
                 '>>>>' + RegExp.$2 + '\r\n' + RegExp.$1.replace('https://gd.huatu.com/z/go/u3/?u=', 'https://u3.huatu.com/uploads/soft/') + '\r\n\r\n'
         }
         //如果是RegExp.$1那么匹配的就是href里的属性了!
     }
 
-    let locationurl = window.location.href
-    if (locationurl.indexOf('?') !== -1) {
+    var locationurl = window.location.href
+    if (locationurl.indexOf('?') != -1) {
         locationurl = locationurl.substr(0, locationurl.indexOf('?')) //页面主地址（参数之前地址）
     }
 
-    if (typeof thecopyforhtmlgg == 'string' && thecopyforhtmlgg !== '') {
+    if (typeof thecopyforhtmlgg == 'string' && thecopyforhtmlgg != '') {
         htmlstr += thecopyforhtmlgg + '\r\n'
     }
 
@@ -1753,34 +1766,34 @@ function copytheu3all() {
 }
 
 function copythemessage1() {
-    let alink = localStorage.getItem('showwindowurl')
-    if (alink.indexOf('go/u3/') !== -1 || alink.indexOf('https://u3.huatu.com/uploads/soft/') !== -1 || alink.indexOf('xls') !== -1 || alink.indexOf('pdf') !== -1 || alink.indexOf('doc') !== -1 || alink.indexOf('xlsx') !== -1) {
+    var alink = localStorage.getItem('showwindowurl')
+    if (alink.indexOf('go/u3/') != -1 || alink.indexOf('https://u3.huatu.com/uploads/soft/') != -1 || alink.indexOf('xls') != -1 || alink.indexOf('pdf') != -1 || alink.indexOf('doc') != -1 || alink.indexOf('xlsx') != -1) {
         alink = copytheu3all()
     } else {
         alink = '点击下方链接进入:\r\n\r\n' + alink
 
-        if (typeof thecopyforhtmlgg == 'string' && thecopyforhtmlgg !== '') {
+        if (typeof thecopyforhtmlgg == 'string' && thecopyforhtmlgg != '') {
             alink += '\r\n\r\n' + thecopyforhtmlgg + '\r\n'
         }
     }
 
-    if (typeof thecopyforhtml == 'string' && thecopyforhtml !== '') {
+    if (typeof thecopyforhtml == 'string' && thecopyforhtml != '') {
         alink = thecopyforhtml
     }
 
     const textarea = document.createElement('textarea') // 直接构建textarea  「注意：这里为了实现换行，需要创建textarea，如果用input的话，实现不了换行。」
 
-    let locationurl = window.location.href
-    if (locationurl.indexOf('poptype=') !== -1) {
-        if (getQueryString('amp;poptype') !== '' || getQueryString('amp;poptype') !== null) {
+    var locationurl = window.location.href
+    if (locationurl.indexOf('poptype=') != -1) {
+        if (getQueryString('amp;poptype') != '' || getQueryString('amp;poptype') != null) {
             poptype = getQueryString('amp;poptype')
-            if (poptype === 2) {
+            if (poptype == 2) {
                 alink = decodeURI(getQueryString('amp;popkey'))
             }
         }
     } else {
-        if (document.getElementById('wzpoptype') && document.getElementById('wzpoptype').value === 2) {
-            if (document.getElementById('wzpopkey') && document.getElementById('wzpopkey').value !== '') {
+        if (document.getElementById('wzpoptype') && document.getElementById('wzpoptype').value == 2) {
+            if (document.getElementById('wzpopkey') && document.getElementById('wzpopkey').value != '') {
                 alink = document.getElementById('wzpopkey').value
             }
         }
@@ -1796,9 +1809,9 @@ function copythemessage1() {
 
 // 获取地址参数
 function getQueryString(name) {
-    let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
-    let r = window.location.search.substr(1).match(reg)
-    if (r !== null) {
+    var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
+    var r = window.location.search.substr(1).match(reg)
+    if (r != null) {
         return unescape(r[2])
     }
     return null
@@ -1810,9 +1823,10 @@ function getQueryString(name) {
 //获取
 function checkRedirect(url) {
     //alert('将为您前往微信操作');
+
     let alink = url
     let ifu3 = true
-    if (alink.indexOf('go/u3/') !== -1 || alink.indexOf('https://u3.huatu.com/uploads/soft/') !== -1 || alink.indexOf('xls') !== -1 || alink.indexOf('pdf') !== -1 || alink.indexOf('doc') !== -1 || alink.indexOf('xlsx') !== -1) {
+    if (alink.indexOf('go/u3/') != -1 || alink.indexOf('https://u3.huatu.com/uploads/soft/') != -1 || alink.indexOf('xls') != -1 || alink.indexOf('pdf') != -1 || alink.indexOf('doc') != -1 || alink.indexOf('xlsx') != -1) {
         alink = copytheu3all()
     } else {
         //非附件类的，统一默认为入口类
@@ -1828,31 +1842,31 @@ function checkRedirect(url) {
     // if (!scheme) {
     var timerid = Date.parse(new Date())
     //id = timerid;
-    if (onhref.indexOf('wximg=') !== -1) {
-        if (getQueryString('wximg') !== '' && getQueryString('wximg') !== null) {
+    if (onhref.indexOf('wximg=') != -1) {
+        if (getQueryString('wximg') != '' && getQueryString('wximg') != null) {
             phoneurl = getQueryString('wximg')
         }
     }
 
-    if (onhref.indexOf('?') !== -1) {
+    if (onhref.indexOf('?') != -1) {
         onhref = onhref.split('?')[0]
     }
     //alink =  alink + '<<<<<<' + document.title;
-    let thecopyforhtmlguanggao = ''
-    if (typeof thecopyforhtmlgg == 'string' && thecopyforhtmlgg !== '') {
+    var thecopyforhtmlguanggao = ''
+    if (typeof thecopyforhtmlgg == 'string' && thecopyforhtmlgg != '') {
         thecopyforhtmlguanggao = thecopyforhtmlgg + '\r\n\r\n'
     }
 
-    for (let i = 0; i < document.getElementsByTagName('a').length; i++) {
-        if (document.getElementsByTagName('a')[i].href === url) {
+    for (var i = 0; i < document.getElementsByTagName('a').length; i++) {
+        if (document.getElementsByTagName('a')[i].href == url) {
             //alert(document.getElementsByTagName("a")[i].innerHTML);
             if (!ifu3) {
                 //非附件类的，只有一个入口链接
-                let htitle1 = ''
+                var htitle1 = ''
                 if (document.getElementsByTagName('h1').length > 0) {
                     htitle1 = document.getElementsByTagName('h1')[0].innerHTML
                 }
-                if (document.getElementsByTagName('a')[i].innerHTML.indexOf('img') !== -1) {
+                if (document.getElementsByTagName('a')[i].innerHTML.indexOf('img') != -1) {
                     alink = '点击下方链接进入:\r\n\r\n' + htitle1 + '\r\n' + alink + '\r\n\r\n' + thecopyforhtmlguanggao + '>>>原文链接：' + onhref + '?wj=1'
                     alink = alink + '<<<<<<' + htitle1
                 } else {
@@ -1869,7 +1883,7 @@ function checkRedirect(url) {
                     alink = alink + '<<<<<<' + document.getElementsByTagName('a')[i].innerHTML.replace(/(<([^>]+)>)/gi, '')
                 }
 
-                if (typeof thecopyforhtml == 'string' && thecopyforhtml !== '') {
+                if (typeof thecopyforhtml == 'string' && thecopyforhtml != '') {
                     alink = thecopyforhtml + '<<<<<<' + htitle1
                 }
 
@@ -1882,8 +1896,8 @@ function checkRedirect(url) {
 
     //获取标题
     //对标题进行判断
-    let htitle = ''
-    if (window.location.href.indexOf('https://m.') !== -1) {
+    var htitle = ''
+    if (window.location.href.indexOf('https://m.') != -1) {
         //移动端
         if (document.getElementsByClassName('detail-tit')) {
             if (document.getElementsByClassName('detail-tit').length > 0) {
@@ -1893,14 +1907,14 @@ function checkRedirect(url) {
     }
 
     //判断地址是否带有tg参数
-    let tg = getQueryString('tg')
+    var tg = getQueryString('tg')
     if (!tg) {
-        if (document.getElementById('wzgypic') && document.getElementById('wzgypic').value !== '') {
+        if (document.getElementById('wzgypic') && document.getElementById('wzgypic').value != '') {
             tg = document.getElementById('wzgypic').value
         }
     }
 
-    let dt = new Date()
+    var dt = new Date()
     if (0) {
         //if(dt.getDay()==6||dt.getDay()==0){
         if (checkAuditTime('07:00', '10:00')) {
@@ -1912,14 +1926,15 @@ function checkRedirect(url) {
     }
 
     //判断是不是微信触发的
-    let wxstr = '-1'
-    let ua = navigator.userAgent.toLowerCase()
-    if (ua.match(/MicroMessenger/i) === 'micromessenger') {
+    var wxstr = '-1'
+    var ua = navigator.userAgent.toLowerCase()
+    if (ua.match(/MicroMessenger/i) == 'micromessenger') {
         //alert('122');
         wx.miniProgram.getEnv(res => {
             if (res.miniprogram) {
             } else {
                 wxstr = '1'
+                //alert('44');
             }
         })
     }
