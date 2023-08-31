@@ -1069,7 +1069,7 @@ if (1) {
 // console.log(province)
 var ua = navigator.userAgent.toLowerCase()
 var locationurl = window.location.href
-if (ua.match(/MicroMessenger/i) == 'micromessenger' && locationurl.indexOf('/zixun/') == -1) {
+if (ua.match(/MicroMessenger/i) == 'micromessenger' && locationurl.indexOf('/zt/') == -1) {
     wx.miniProgram.getEnv(res => {
         if (res.miniprogram) {
         } else if (province == '�㶫ʡ') {
